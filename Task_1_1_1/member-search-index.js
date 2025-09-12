@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"ru.nsu.romanenko","c":"Sample","l":"main(String[])","u":"main(java.lang.String[])"},{"p":"ru.nsu.romanenko","c":"Sample","l":"Sample()","u":"%3Cinit%3E()"}];updateSearchResults();
