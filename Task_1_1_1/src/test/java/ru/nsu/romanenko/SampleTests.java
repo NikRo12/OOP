@@ -10,7 +10,7 @@ public class SampleTests {
         int[] arr = {1, 2, 3, 4, 5};
         int[] expected = {1, 2, 3, 4, 5};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -20,7 +20,7 @@ public class SampleTests {
         int[] arr = {5, 4, 3, 2, 1};
         int[] expected = {1, 2, 3, 4, 5};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -30,7 +30,7 @@ public class SampleTests {
         int[] arr = {3, 1, 4, 2, 5};
         int[] expected = {1, 2, 3, 4, 5};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -40,7 +40,7 @@ public class SampleTests {
         int[] arr = {5, 2, 5, 1, 2};
         int[] expected = {1, 2, 2, 5, 5};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -50,7 +50,7 @@ public class SampleTests {
         int[] arr = {42};
         int[] expected = {42};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -60,7 +60,7 @@ public class SampleTests {
         int[] arr = {};
         int[] expected = {};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -70,7 +70,7 @@ public class SampleTests {
         int[] arr = {-3, -1, -4, -2, -5};
         int[] expected = {-5, -4, -3, -2, -1};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -80,7 +80,7 @@ public class SampleTests {
         int[] arr = {-2, 5, -1, 0, 3};
         int[] expected = {-2, -1, 0, 3, 5};
 
-        Sample.HeapSort(arr);
+        Sample.heapSort(arr);
 
         assertArrayEquals(expected, arr);
     }
@@ -99,7 +99,7 @@ public class SampleTests {
     public void testPrintArrayMethod() {
         int[] arr = {1, 2, 3};
 
-        Sample.print_array(arr);
+        Sample.printArray(arr);
 
         assertTrue(true);
     }

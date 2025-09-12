@@ -1,24 +1,36 @@
 package ru.nsu.romanenko;
 
-
+/**
+ * Класс для демонстрации сортировки кучей.
+ */
 public class Sample {
+
+    /**
+     * Основной метод программы.
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(String[] args) {
         int[] arr = {5, 4, 3, 2, 1};
 
-        HeapSort(arr);
+        heapSort(arr);
 
-        print_array(arr);
+        printArray(arr);
     }
 
-    static void HeapSort(int arr[])
-    {
+    /**
+     * Сортирует массив с помощью пирамидальной сортировки.
+     *
+     * @param arr массив для сортировки
+     */
+    static void heapSort(int[] arr) {
         int n = arr.length;
 
-        for (int i = n / 2 - 1; i >= 0; i--)
+        for (int i = n / 2 - 1; i >= 0; i--) {
             heapify(arr, n, i);
+        }
 
-        for (int i=n-1; i>=0; i--)
-        {
+        for (int i = n - 1; i >= 0; i--) {
             int temp = arr[0];
             arr[0] = arr[i];
             arr[i] = temp;
@@ -27,20 +39,27 @@ public class Sample {
         }
     }
 
-    static void heapify(int arr[], int n, int i)
-    {
+    /**
+     * Преобразует поддерево в кучу.
+     *
+     * @param arr массив
+     * @param n   размер кучи
+     * @param i   корневой узел
+     */
+    static void heapify(int[] arr, int n, int i) {
         int largest = i;
-        int l = 2*i + 1;
-        int r = 2*i + 2;
+        int l = 2 * i + 1;
+        int r = 2 * i + 2;
 
-
-        if (l < n && arr[l] > arr[largest])
+        if (l < n && arr[l] > arr[largest]) {
             largest = l;
+        }
 
-        if (r < n && arr[r] > arr[largest])
+        if (r < n && arr[r] > arr[largest]) {
             largest = r;
-        if (largest != i)
-        {
+        }
+
+        if (largest != i) {
             int swap = arr[i];
             arr[i] = arr[largest];
             arr[largest] = swap;
@@ -49,10 +68,14 @@ public class Sample {
         }
     }
 
-    static void print_array(int[] arr)
-    {
-        for (int j : arr) {
-            System.out.println(j);
+    /**
+     * Выводит массив на экран.
+     *
+     * @param arr массив для вывода
+     */
+    static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
         }
     }
 }
