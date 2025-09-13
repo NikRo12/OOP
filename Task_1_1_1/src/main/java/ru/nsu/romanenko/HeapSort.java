@@ -30,6 +30,8 @@ public class HeapSort {
      *
      * @param arr массив для сортировки
      */
+
+    /*
     static int[] saveHeapSort(int[] arr) {
         int n = arr.length;
 
@@ -51,6 +53,7 @@ public class HeapSort {
 
         return result_arr;
     }
+    */
 
     /**
      * Преобразует поддерево в кучу.
