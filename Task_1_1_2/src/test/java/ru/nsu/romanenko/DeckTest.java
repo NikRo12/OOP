@@ -1,7 +1,7 @@
 package ru.nsu.romanenko;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Тесты для класса Deck.

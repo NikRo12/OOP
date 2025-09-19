@@ -1,7 +1,7 @@
 package ru.nsu.romanenko;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Тесты для перечисления Suit.

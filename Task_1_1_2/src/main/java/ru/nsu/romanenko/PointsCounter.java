@@ -7,7 +7,9 @@ import java.util.ArrayList;
  */
 public class PointsCounter {
     private int points;
+
     private record StringCard(String value, String suit, int cardPoint) { }
+
     private final ArrayList<StringCard> cardPoints = new ArrayList<>();
     private final boolean isDealer;
 

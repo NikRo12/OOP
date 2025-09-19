@@ -1,7 +1,7 @@
 package ru.nsu.romanenko;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Тесты для класса Card.
@@ -17,10 +17,10 @@ class CardTest {
 
     @Test
     void testCardValues() {
-        Card heartTen = new Card(Suit.HEARTS, Value.TEN);
-        Card spadeKing = new Card(Suit.SPADES, Value.KING);
-        Card diamondAce = new Card(Suit.DIAMONDS, Value.ACE);
-        Card clubThree = new Card(Suit.CLUBS, Value.THREE);
+        final Card heartTen = new Card(Suit.HEARTS, Value.TEN);
+        final Card spadeKing = new Card(Suit.SPADES, Value.KING);
+        final Card diamondAce = new Card(Suit.DIAMONDS, Value.ACE);
+        final Card clubThree = new Card(Suit.CLUBS, Value.THREE);
 
         assertEquals("HEARTS", heartTen.getSuit());
         assertEquals("TEN", heartTen.getValue());

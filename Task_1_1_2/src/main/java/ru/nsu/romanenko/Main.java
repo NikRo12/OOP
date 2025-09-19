@@ -22,7 +22,7 @@ public class Main {
 
         for (int round = 1; round < 5; round++) {
             PointsCounter user = new PointsCounter(false);
-            PointsCounter dealer = new PointsCounter(true);
+            final PointsCounter dealer = new PointsCounter(true);
 
             System.out.println("Round " + round);
             System.out.println("Dealer puts cards");
