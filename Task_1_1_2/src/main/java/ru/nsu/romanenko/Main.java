@@ -3,87 +3,78 @@ package ru.nsu.romanenko;
 import java.util.Scanner;
 
 /**
- * Основной класс реализующий процесс игры BlackJack
+ * Основной класс реализующий процесс игры BlackJack.
  */
 public class Main {
+
+    /**
+     * Основной метод программы.
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Deck deck = new Deck();
 
         System.out.println("Welcome to BlackJack");
-        int user_score = 0;
-        int diller_score = 0;
+        int userScore = 0;
+        int dealerScore = 0;
 
-        for(int round = 1; round < 5; round++)
-        {
-            PointsCounter user = new PointsCounter(0);
-            PointsCounter diller = new PointsCounter(1);
+        for (int round = 1; round < 5; round++) {
+            PointsCounter user = new PointsCounter(false);
+            PointsCounter dealer = new PointsCounter(true);
 
             System.out.println("Round " + round);
-            System.out.println("Diller puts cards");
+            System.out.println("Dealer puts cards");
 
-            Card user_card1 = deck.getRandomCard();
-            Card user_card2 = deck.getRandomCard();
+            Card userCard1 = deck.getRandomCard();
+            Card userCard2 = deck.getRandomCard();
 
-            user.appendCard(user_card1);
-            user.appendCard(user_card2);
+            user.appendCard(userCard1);
+            user.appendCard(userCard2);
 
-            Card diller_card1 = deck.getRandomCard();
-            Card diller_card2 = deck.getRandomCard();
+            Card dealerCard1 = deck.getRandomCard();
+            Card dealerCard2 = deck.getRandomCard();
 
-            diller.appendCard(diller_card1);
+            dealer.appendCard(dealerCard1);
 
             System.out.println("\tYour cards " + user.getInform());
-            System.out.println("\tDiller's cards " + diller.getInform());
+            System.out.println("\tDealer's cards " + dealer.getInform());
             System.out.println("Your move");
             System.out.println("-----------");
 
-            GamePlay.Gaming(user, diller, deck, 1, scanner);
-            if(user.getPoints() == 21)
-            {
+            GamePlay.gaming(user, dealer, deck, true, scanner);
+            if (user.getPoints() == 21) {
                 System.out.println("You win");
-                user_score++;
-            }
-
-            else if(user.getPoints() > 21)
-            {
+                userScore++;
+            } else if (user.getPoints() > 21) {
                 System.out.println("More than 21, you lost");
-                diller_score++;
-            }
-
-            else
-            {
-                System.out.println("Diller's move");
+                dealerScore++;
+            } else {
+                System.out.println("Dealer's move");
                 System.out.println("-----------");
 
-                diller.appendCard(diller_card2);
-                System.out.println("Diller opened closed card");
+                dealer.appendCard(dealerCard2);
+                System.out.println("Dealer opened closed card");
                 System.out.println("\tYour cards " + user.getInform());
-                System.out.println("\tDiller's cards " + diller.getInform());
-                GamePlay.Gaming(user, diller, deck, 0, scanner);
+                System.out.println("\tDealer's cards " + dealer.getInform());
+                GamePlay.gaming(user, dealer, deck, false, scanner);
 
-                if(diller.getPoints() > 21)
-                {
-                    System.out.println("Diller's card out of 21, you win");
-                    user_score++;
-                }
-
-                else if(user.getPoints() > diller.getPoints())
-                {
+                if (dealer.getPoints() > 21) {
+                    System.out.println("Dealer's card out of 21, you win");
+                    userScore++;
+                } else if (user.getPoints() > dealer.getPoints()) {
                     System.out.println("You win");
-                    user_score++;
-                }
-
-                else
-                {
+                    userScore++;
+                } else {
                     System.out.println("You lost");
-                    diller_score++;
+                    dealerScore++;
                 }
             }
 
             System.out.println("Total score:");
-            System.out.println("Yours score is --- " + user_score);
-            System.out.println("Diller's score is --- " + diller_score);
+            System.out.println("Yours score is --- " + userScore);
+            System.out.println("Dealer's score is --- " + dealerScore);
         }
     }
 }
