@@ -1,10 +1,10 @@
 package ru.nsu.romanenko;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
-
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Тесты для класса GamePlay.

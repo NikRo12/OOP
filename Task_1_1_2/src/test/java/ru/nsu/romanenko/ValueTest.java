@@ -1,7 +1,8 @@
 package ru.nsu.romanenko;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Тесты для перечисления Value.
