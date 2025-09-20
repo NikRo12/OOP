@@ -7,5 +7,4 @@ javadoc -d docs -sourcepath src/main/java ru.nsu.romanenko
 echo "Main-Class: ru.nsu.romanenko.Sample" > manifest.txt
 jar cvfm app.jar manifest.txt -C build .
 
-# Запуск приложения
 java -jar app.jar

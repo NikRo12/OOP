@@ -1,6 +1,8 @@
-package ru.nsu.romanenko;
+package ru.nsu.test;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.romanenko.HeapSort;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HeapSortTests {
@@ -59,41 +61,5 @@ public class HeapSortTests {
         int[] expected = {-5, -4, -3, -2, -1};
         HeapSort.heapSort(arr);
         assertArrayEquals(expected, arr);
-    }
-
-    @Test
-    public void testHeapifyWithLeftChildLargest() {
-        int[] arr = {1, 3, 2};
-        int n = arr.length;
-        HeapSort.heapify(arr, n, 0);
-        assertEquals(3, arr[0]);
-    }
-
-    @Test
-    public void testHeapifyWithRightChildLargest() {
-        int[] arr = {1, 2, 3};
-        int n = arr.length;
-        HeapSort.heapify(arr, n, 0);
-        assertEquals(3, arr[0]);
-    }
-
-    @Test
-    public void testHeapifyWithNoSwapNeeded() {
-        int[] arr = {3, 1, 2};
-        int n = arr.length;
-        HeapSort.heapify(arr, n, 0);
-        assertEquals(3, arr[0]);
-    }
-
-    @Test
-    public void testPrintArrayMethod() {
-        int[] arr = {1, 2, 3};
-        HeapSort.printArray(arr);
-        assertTrue(true);
-    }
-
-    @Test
-    public void testMainMethod() {
-        assertDoesNotThrow(() -> Sample.main(new String[]{}));
     }
 }

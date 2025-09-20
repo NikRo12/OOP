@@ -4,12 +4,14 @@ package ru.nsu.romanenko;
  * Класс реализующий пирамидальную сортировку
  */
 public class HeapSort {
+    private HeapSort(){}
+
     /**
      * Сортирует массив с помощью пирамидальной сортировки.
      *
      * @param arr массив для сортировки
      */
-    static void heapSort(int[] arr) {
+    public static void heapSort(int[] arr) {
         int n = arr.length;
 
         for (int i = n / 2 - 1; i >= 0; i--) {
@@ -30,9 +32,7 @@ public class HeapSort {
      *
      * @param arr массив для сортировки
      */
-
-    /*
-    static int[] saveHeapSort(int[] arr) {
+    public static int[] saveHeapSort(int[] arr) {
         int n = arr.length;
 
         int[] result_arr = new int[n];
@@ -53,7 +53,6 @@ public class HeapSort {
 
         return result_arr;
     }
-    */
 
     /**
      * Преобразует поддерево в кучу.
@@ -62,7 +61,7 @@ public class HeapSort {
      * @param n   размер кучи
      * @param i   корневой узел
      */
-    static void heapify(int[] arr, int n, int i) {
+    private static void heapify(int[] arr, int n, int i) {
         int largest = i;
         int l = 2 * i + 1;
         int r = 2 * i + 2;
@@ -89,7 +88,7 @@ public class HeapSort {
      *
      * @param arr массив для вывода
      */
-    static void printArray(int[] arr) {
+    public static void printArray(int[] arr) {
         for (int j : arr) {
             System.out.println(j);
         }

@@ -16,10 +16,8 @@ public class Sample {
         HeapSort.heapSort(arr);
         HeapSort.printArray(arr);
 
-        /* Вызов функции, которая не изменяет исходный массив
         int[] result;
         result = HeapSort.saveHeapSort(arr);
         HeapSort.printArray(result);
-         */
     }
 }
