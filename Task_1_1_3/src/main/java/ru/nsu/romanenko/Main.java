@@ -1,6 +1,14 @@
 package ru.nsu.romanenko;
 
+/**
+ * Main class for expression evaluation demonstration.
+ */
 public class Main {
+    /**
+     * Main method.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         Expression e = ExpressionParser.getResult();
         e.print();

@@ -2,20 +2,26 @@ package ru.nsu.romanenko;
 
 import java.util.Map;
 
-public class Sub extends Expression{
-
+/**
+ * Represents a subtraction operation.
+ */
+public class Sub extends Expression {
     private final Expression exp1;
     private final Expression exp2;
 
-    public Sub(Expression exp1, Expression epx2)
-    {
+    /**
+     * Constructs a subtraction expression.
+     *
+     * @param exp1 left operand
+     * @param exp2 right operand
+     */
+    public Sub(Expression exp1, Expression exp2) {
         this.exp1 = exp1;
-        this.exp2 = epx2;
+        this.exp2 = exp2;
     }
 
     @Override
-    public void print()
-    {
+    public void print() {
         System.out.println(this.toString());
     }
 

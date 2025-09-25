@@ -2,22 +2,32 @@ package ru.nsu.romanenko;
 
 import java.util.Map;
 
-public class Variable extends Expression{
+/**
+ * Represents a variable in an expression.
+ */
+public class Variable extends Expression {
     private final String name;
 
-    public Variable(String name)
-    {
+    /**
+     * Constructs a variable with given name.
+     *
+     * @param name variable name
+     */
+    public Variable(String name) {
         this.name = name;
     }
 
-    public String getName()
-    {
+    /**
+     * Returns the variable name.
+     *
+     * @return variable name
+     */
+    public String getName() {
         return name;
     }
 
     @Override
-    public void print()
-    {
+    public void print() {
         System.out.println(this.toString());
     }
 
@@ -33,13 +43,9 @@ public class Variable extends Expression{
 
     @Override
     public Expression derivative(String variable) {
-        if(variable.equals(name))
-        {
+        if (variable.equals(name)) {
             return new Number(1);
-        }
-
-        else
-        {
+        } else {
             return new Number(0);
         }
     }

@@ -1,11 +1,16 @@
-import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
+
 import ru.nsu.romanenko.*;
+
+import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.Number;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for expression classes.
+ */
 class ExpressionTest {
 
     @Test
@@ -60,7 +65,7 @@ class ExpressionTest {
         Expression mulWithVar = new Mul(new Variable("x"), new Number(2));
         Expression deriv = mulWithVar.derivative("x");
         Map<String, Integer> vars = Map.of("x", 5);
-        assertEquals(2, deriv.evaluate(vars));
+        assertEquals(2, deriv.evaluate(vars)); // (1*2 + x*0) = 2
     }
 
     @Test
@@ -77,6 +82,7 @@ class ExpressionTest {
 
     @Test
     void testComplexExpression() {
+        // (x + 3) * (y - 2)
         Expression expr = new Mul(
                 new Add(new Variable("x"), new Number(3)),
                 new Sub(new Variable("y"), new Number(2))
@@ -86,7 +92,7 @@ class ExpressionTest {
         vars.put("x", 5);
         vars.put("y", 7);
 
-        assertEquals(40, expr.evaluate(vars));
+        assertEquals(40, expr.evaluate(vars)); // (5+3)*(7-2) = 8*5 = 40
     }
 
     @Test
@@ -96,7 +102,7 @@ class ExpressionTest {
         assertEquals("(x + (3 * y))", expr.toString());
 
         Map<String, Integer> vars = Map.of("x", 2, "y", 4);
-        assertEquals(14, expr.evaluate(vars));
+        assertEquals(14, expr.evaluate(vars)); // 2 + (3*4) = 14
     }
 
     @Test
@@ -112,6 +118,7 @@ class ExpressionTest {
 
     @Test
     void testDerivativeComplex() {
+        // Производная от (x*2 + 3) по x должна быть 2
         Expression expr = new Add(
                 new Mul(new Variable("x"), new Number(2)),
                 new Number(3)
@@ -120,6 +127,7 @@ class ExpressionTest {
         Expression deriv = expr.derivative("x");
         Map<String, Integer> vars = Map.of("x", 5);
 
+        // (1*2 + x*0) + 0 = 2
         assertEquals(2, deriv.evaluate(vars));
     }
 }

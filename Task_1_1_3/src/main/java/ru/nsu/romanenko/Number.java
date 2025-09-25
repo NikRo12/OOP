@@ -1,22 +1,33 @@
 package ru.nsu.romanenko;
+
 import java.util.Map;
 
-public class Number extends Expression{
+/**
+ * Represents a constant number in an expression.
+ */
+public class Number extends Expression {
     private final int value;
 
-    public Number(int value)
-    {
+    /**
+     * Constructs a number with given value.
+     *
+     * @param value integer value
+     */
+    public Number(int value) {
         this.value = value;
     }
 
-    public int getValue()
-    {
+    /**
+     * Returns the numeric value.
+     *
+     * @return the value
+     */
+    public int getValue() {
         return value;
     }
 
     @Override
-    public void print()
-    {
+    public void print() {
         System.out.println(this.toString());
     }
 
