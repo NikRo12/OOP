@@ -1,4 +1,6 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.model.game;
+
+import ru.nsu.romanenko.model.card.Card;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ public class PointsCounter {
      *
      * @param isDealer флаг, указывающий является ли игрок дилером
      */
-    PointsCounter(boolean isDealer) {
+    public PointsCounter(boolean isDealer) {
         points = 0;
         this.isDealer = isDealer;
     }

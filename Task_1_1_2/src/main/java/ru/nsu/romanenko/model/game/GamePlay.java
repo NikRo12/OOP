@@ -1,4 +1,8 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.model.game;
+
+import ru.nsu.romanenko.view.Output;
+import ru.nsu.romanenko.model.card.Card;
+import ru.nsu.romanenko.model.card.Deck;
 
 import java.util.Scanner;
 
@@ -18,16 +22,16 @@ public class GamePlay {
     private static void pressOne(PointsCounter user, PointsCounter dealer,
                                  Deck deck, boolean isPlayingUser) {
         Card randCard = deck.getRandomCard();
+        int point;
         if (isPlayingUser) {
-            System.out.println("You've opened card: " + randCard.getValue()
-                    + " " + randCard.getSuit() + " (" + user.appendCard(randCard) + ")");
+            point = user.appendCard(randCard);
         } else {
-            System.out.println("Dealer opened card: " + randCard.getValue()
-                    + " " + randCard.getSuit() + " (" + dealer.appendCard(randCard) + ")");
+            point = dealer.appendCard(randCard);
         }
 
-        System.out.println("\tYour cards " + user.getInform());
-        System.out.println("\tDealer's cards " + dealer.getInform());
+        Output.printOpenCard(randCard, point, isPlayingUser);
+
+        Output.printInfo(user.getInform(), dealer.getInform());
     }
 
     /**
@@ -43,18 +47,18 @@ public class GamePlay {
                               Deck deck, boolean isPlayingUser, Scanner scanner) {
         if (isPlayingUser) {
             while (user.getPoints() < 21) {
-                System.out.println("Press \"1\" to get card or \"0\" to pass...");
+                Output.printToGetCard();
                 try {
                     String input = scanner.nextLine().trim();
                     if (input.equals("0")) {
                         break;
                     } else if (input.equals("1")) {
-                        pressOne(user, dealer, deck, isPlayingUser);
+                        pressOne(user, dealer, deck, true);
                     } else {
-                        System.out.println("Please enter only 1 or 0");
+                        Output.printToGetCardError();
                     }
                 } catch (Exception e) {
-                    System.out.println("Input error, please try again");
+                    Output.printScannerException();
                     scanner.nextLine();
                 }
             }
@@ -66,7 +70,7 @@ public class GamePlay {
             }
 
             while (dealer.getPoints() < 17) {
-                pressOne(user, dealer, deck, isPlayingUser);
+                pressOne(user, dealer, deck, false);
             }
         }
     }

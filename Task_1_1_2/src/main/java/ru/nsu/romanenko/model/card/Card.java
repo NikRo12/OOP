@@ -1,4 +1,4 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.model.card;
 
 /**
  * Класс карты.

@@ -1,8 +1,9 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.modelTest.cardTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.romanenko.model.card.Suit;
 
 /**
  * Тесты для перечисления Suit.

@@ -1,4 +1,4 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.model.card;
 
 import java.util.ArrayList;
 import java.util.Collections;
