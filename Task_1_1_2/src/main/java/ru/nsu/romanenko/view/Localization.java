@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Localization class for multilingual support.
+ */
 public class Localization {
     private static Locale currentLocale = Locale.CHINA;
 
@@ -35,10 +38,21 @@ public class Localization {
         EN.put("tie", "It's a tie!");
     }
 
+    /**
+     * Sets the current locale.
+     *
+     * @param locale locale to set
+     */
     public static void setLocale(Locale locale) {
         currentLocale = locale;
     }
 
+    /**
+     * Gets localized string for the given key.
+     *
+     * @param key string key
+     * @return localized string
+     */
     public static String get(String key) {
         switch (currentLocale.getLanguage()) {
             default:

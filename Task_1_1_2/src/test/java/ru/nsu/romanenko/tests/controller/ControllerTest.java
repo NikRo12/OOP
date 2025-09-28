@@ -1,5 +1,8 @@
 package ru.nsu.romanenko.tests.controller;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
@@ -11,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.controller.Controller;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.game.PointsCounter;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ControllerTest {
 

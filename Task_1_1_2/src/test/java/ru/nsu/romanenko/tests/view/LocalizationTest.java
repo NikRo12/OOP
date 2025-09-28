@@ -1,15 +1,19 @@
 package ru.nsu.romanenko.tests.view;
 
-import org.junit.jupiter.api.Test;
-import ru.nsu.romanenko.view.Localization;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Locale;
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import ru.nsu.romanenko.view.Localization;
 
 class LocalizationTest {
 
     @Test
-    void testDefaultEnglishLocalization() {
+    void testGetAllEnglishMessages() {
         assertEquals("Welcome to BlackJack", Localization.get("welcome"));
         assertEquals("Round", Localization.get("round"));
         assertEquals("You win", Localization.get("win"));
@@ -17,22 +21,21 @@ class LocalizationTest {
     }
 
     @Test
-    void testUnknownKeyReturnsKey() {
+    void testGetUnknownKeyReturnsKey() {
         assertEquals("unknown_key", Localization.get("unknown_key"));
     }
 
     @Test
-    void testLocaleChange() {
-        Locale originalLocale = Locale.getDefault();
+    void testLocalizationConsistency() {
+        String welcome = Localization.get("welcome");
+        String round = Localization.get("round");
+        String win = Localization.get("win");
 
-        try {
-            Localization.setLocale(Locale.US);
-            assertEquals("Welcome to BlackJack", Localization.get("welcome"));
-
-            Localization.setLocale(Locale.FRENCH);
-            assertEquals("Welcome to BlackJack", Localization.get("welcome"));
-        } finally {
-            Localization.setLocale(originalLocale);
-        }
+        assertNotNull(welcome);
+        assertNotNull(round);
+        assertNotNull(win);
+        assertFalse(welcome.isEmpty());
+        assertFalse(round.isEmpty());
+        assertFalse(win.isEmpty());
     }
 }

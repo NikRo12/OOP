@@ -1,13 +1,13 @@
 package ru.nsu.romanenko.model.game;
 
-import ru.nsu.romanenko.view.Output;
-import ru.nsu.romanenko.model.card.Card;
-import ru.nsu.romanenko.model.card.Deck;
-
 import java.util.Scanner;
 
+import ru.nsu.romanenko.model.card.Card;
+import ru.nsu.romanenko.model.card.Deck;
+import ru.nsu.romanenko.view.Output;
+
 /**
- * Класс реализующий игровой процесс.
+ * Class implementing game process.
  */
 public class GamePlay {
 

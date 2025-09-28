@@ -1,11 +1,11 @@
 package ru.nsu.romanenko.model.game;
 
-import ru.nsu.romanenko.model.card.Card;
-
 import java.util.ArrayList;
 
+import ru.nsu.romanenko.model.card.Card;
+
 /**
- * Класс реализующий счетчик очков для пользователя и дилера.
+ * Class implementing points counter for user and dealer.
  */
 public class PointsCounter {
     private int points;

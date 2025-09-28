@@ -1,19 +1,16 @@
 package ru.nsu.romanenko;
 
 import ru.nsu.romanenko.controller.Controller;
-import ru.nsu.romanenko.view.Localization;
-
-import java.util.Locale;
 
 /**
- * Основной класс реализующий процесс игры BlackJack.
+ * Main class for BlackJack game.
  */
 public class Main {
 
     /**
-     * Основной метод программы.
+     * Main method of the program.
      *
-     * @param args аргументы командной строки
+     * @param args command line arguments
      */
     public static void main(String[] args) {
         Controller.blackJack(2);
