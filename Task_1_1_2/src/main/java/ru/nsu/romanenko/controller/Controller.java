@@ -26,18 +26,15 @@ public class Controller {
         int dealerScore = 0;
 
         for (int round = 1; round <= totalRounds; round++) {
-            // Create new players for each round
             PointsCounter user = new PointsCounter(false);
             PointsCounter dealer = new PointsCounter(true);
             Card hiddenCard;
 
-            // Initialize cards for current round
             hiddenCard = initRound(user, dealer);
 
             Output.printRound(round);
             Output.printStart(user.getInform(), dealer.getInform());
 
-            // User move
             GamePlay.gaming(user, dealer, DECK, true, SCANNER);
 
             if (user.getPoints() == 21) {
@@ -47,7 +44,6 @@ public class Controller {
                 Output.printLose();
                 dealerScore++;
             } else {
-                // Dealer move
                 dealer.appendCard(hiddenCard);
                 Output.printDealerMove(user.getInform(), dealer.getInform());
 
@@ -65,13 +61,11 @@ public class Controller {
                 }
             }
 
-            // If not last round, offer to continue
             if (round < totalRounds) {
                 Output.printResult(userScore, dealerScore);
             }
         }
 
-        // Print final result
         Output.printFinalResult(userScore, dealerScore);
         SCANNER.close();
     }
@@ -84,17 +78,14 @@ public class Controller {
      * @return hidden dealer card
      */
     private static Card initRound(PointsCounter user, PointsCounter dealer) {
-        // Deal cards to user
         Card userCard1 = DECK.getRandomCard();
         Card userCard2 = DECK.getRandomCard();
         user.appendCard(userCard1);
         user.appendCard(userCard2);
 
-        // Deal cards to dealer
         Card dealerCard1 = DECK.getRandomCard();
         Card dealerCard2 = DECK.getRandomCard();
-        dealer.appendCard(dealerCard1); // Open card
-        // dealerCard2 - hidden card, will be added later
+        dealer.appendCard(dealerCard1);
 
         return dealerCard2;
     }
