@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.romanenko"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.romanenko"},{"l":"ru.nsu.romanenko.controller"},{"l":"ru.nsu.romanenko.model.card"},{"l":"ru.nsu.romanenko.model.game"},{"l":"ru.nsu.romanenko.view"}];updateSearchResults();
