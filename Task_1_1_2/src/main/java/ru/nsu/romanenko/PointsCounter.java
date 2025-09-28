@@ -32,26 +32,11 @@ public class PointsCounter {
     public int appendCard(Card card) {
         String val = card.getValue();
         String suit = card.getSuit();
+        int cardPoint = card.getNumericalValue();
 
-        int cardPoint = switch (val) {
-            case "TWO" -> 2;
-            case "THREE" -> 3;
-            case "FOUR" -> 4;
-            case "FIVE" -> 5;
-            case "SIX" -> 6;
-            case "SEVEN" -> 7;
-            case "EIGHT" -> 8;
-            case "NINE" -> 9;
-            case "TEN", "JACK", "QUEEN", "KING" -> 10;
-            case "ACE" -> {
-                if (points + 11 <= 21) {
-                    yield 11;
-                } else {
-                    yield 1;
-                }
-            }
-            default -> throw new IllegalArgumentException("Unknown card: " + val);
-        };
+        if (val.equals("ACE") && points + cardPoint > 21) {
+            cardPoint = 1;
+        }
 
         cardPoints.add(new StringCard(val, suit, cardPoint));
         points += cardPoint;

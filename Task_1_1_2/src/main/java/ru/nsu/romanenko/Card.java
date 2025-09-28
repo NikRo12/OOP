@@ -25,4 +25,13 @@ public record Card(Suit suit, Value value) {
     public String getValue() {
         return value.name();
     }
+
+    /**
+     * Получение числового значения карты.
+     *
+     * @return числовое значение карты
+     */
+    public int getNumericalValue() {
+        return value.getNumericalValue();
+    }
 }
