@@ -1,4 +1,4 @@
-package ru.nsu.romanenko.viewTest;
+package ru.nsu.romanenko.tests.view;
 
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.view.Localization;

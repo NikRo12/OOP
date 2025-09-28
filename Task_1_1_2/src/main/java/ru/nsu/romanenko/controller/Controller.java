@@ -1,38 +1,44 @@
 package ru.nsu.romanenko.controller;
 
+import java.util.Scanner;
+
 import ru.nsu.romanenko.view.Output;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Deck;
 import ru.nsu.romanenko.model.game.GamePlay;
 import ru.nsu.romanenko.model.game.PointsCounter;
 
-import java.util.Scanner;
-
+/**
+ * Controller class for BlackJack game.
+ */
 public class Controller {
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final Deck deck = new Deck();
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private static final Deck DECK = new Deck();
 
     /**
-     * Основной метод игры в BlackJack.
+     * Main method for BlackJack game.
      *
-     * @param totalRounds количество раундов для игры
+     * @param totalRounds number of rounds to play
      */
-    public static void BlackJack(int totalRounds) {
+    public static void blackJack(int totalRounds) {
         Output.printHello();
         int userScore = 0;
         int dealerScore = 0;
 
         for (int round = 1; round <= totalRounds; round++) {
+            // Create new players for each round
             PointsCounter user = new PointsCounter(false);
             PointsCounter dealer = new PointsCounter(true);
             Card hiddenCard;
 
+            // Initialize cards for current round
             hiddenCard = initRound(user, dealer);
 
             Output.printRound(round);
             Output.printStart(user.getInform(), dealer.getInform());
 
-            GamePlay.gaming(user, dealer, deck, true, scanner);
+            // User move
+            GamePlay.gaming(user, dealer, DECK, true, SCANNER);
 
             if (user.getPoints() == 21) {
                 Output.printWin();
@@ -41,10 +47,11 @@ public class Controller {
                 Output.printLose();
                 dealerScore++;
             } else {
+                // Dealer move
                 dealer.appendCard(hiddenCard);
                 Output.printDealerMove(user.getInform(), dealer.getInform());
 
-                GamePlay.gaming(user, dealer, deck, false, scanner);
+                GamePlay.gaming(user, dealer, DECK, false, SCANNER);
 
                 if (dealer.getPoints() > 21) {
                     Output.printWin();
@@ -58,31 +65,36 @@ public class Controller {
                 }
             }
 
+            // If not last round, offer to continue
             if (round < totalRounds) {
                 Output.printResult(userScore, dealerScore);
             }
         }
 
+        // Print final result
         Output.printFinalResult(userScore, dealerScore);
-        scanner.close();
+        SCANNER.close();
     }
 
     /**
-     * Инициализация раунда - раздача начальных карт.
+     * Initialize round - deal initial cards.
      *
-     * @param user счетчик очков пользователя
-     * @param dealer счетчик очков дилера
-     * @return скрытая карта дилера
+     * @param user points counter for user
+     * @param dealer points counter for dealer
+     * @return hidden dealer card
      */
     private static Card initRound(PointsCounter user, PointsCounter dealer) {
-        Card userCard1 = deck.getRandomCard();
-        Card userCard2 = deck.getRandomCard();
+        // Deal cards to user
+        Card userCard1 = DECK.getRandomCard();
+        Card userCard2 = DECK.getRandomCard();
         user.appendCard(userCard1);
         user.appendCard(userCard2);
 
-        Card dealerCard1 = deck.getRandomCard();
-        Card dealerCard2 = deck.getRandomCard();
-        dealer.appendCard(dealerCard1);
+        // Deal cards to dealer
+        Card dealerCard1 = DECK.getRandomCard();
+        Card dealerCard2 = DECK.getRandomCard();
+        dealer.appendCard(dealerCard1); // Open card
+        // dealerCard2 - hidden card, will be added later
 
         return dealerCard2;
     }

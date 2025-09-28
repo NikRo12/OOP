@@ -1,4 +1,4 @@
-package ru.nsu.romanenko.modelTest.cardTest;
+package ru.nsu.romanenko.tests.model.card;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,4 +1,4 @@
-package ru.nsu.romanenko.modelTest.gameTest;
+package ru.nsu.romanenko.tests.model.game;
 
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Deck;

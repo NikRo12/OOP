@@ -16,6 +16,6 @@ public class Main {
      * @param args аргументы командной строки
      */
     public static void main(String[] args) {
-        Controller.BlackJack(2);
+        Controller.blackJack(2);
     }
 }
