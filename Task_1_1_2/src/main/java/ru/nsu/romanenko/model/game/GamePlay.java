@@ -1,7 +1,6 @@
 package ru.nsu.romanenko.model.game;
 
 import java.util.Scanner;
-
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Deck;
 import ru.nsu.romanenko.view.Output;

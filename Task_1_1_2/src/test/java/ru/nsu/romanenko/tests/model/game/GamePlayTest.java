@@ -3,9 +3,9 @@ package ru.nsu.romanenko.tests.model.game;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
+import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Deck;
 import ru.nsu.romanenko.model.game.GamePlay;
 import ru.nsu.romanenko.model.game.PointsCounter;

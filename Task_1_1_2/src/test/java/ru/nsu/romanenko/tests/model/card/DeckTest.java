@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Deck;
-
-import java.util.HashSet;
-import java.util.Set;
 
 class DeckTest {
 

@@ -1,7 +1,6 @@
 package ru.nsu.romanenko.model.game;
 
 import java.util.ArrayList;
-
 import ru.nsu.romanenko.model.card.Card;
 
 /**
