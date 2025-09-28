@@ -1,10 +1,12 @@
 package ru.nsu.romanenko.tests.model.card;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Deck;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;

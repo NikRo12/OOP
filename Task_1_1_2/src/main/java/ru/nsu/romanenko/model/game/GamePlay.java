@@ -63,12 +63,6 @@ public class GamePlay {
                 }
             }
         } else {
-            try {
-                Thread.sleep(2500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-
             while (dealer.getPoints() < 17) {
                 pressOne(user, dealer, deck, false);
             }

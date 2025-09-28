@@ -1,5 +1,7 @@
 package ru.nsu.romanenko.tests.model.game;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Deck;
 import ru.nsu.romanenko.model.game.GamePlay;
@@ -7,8 +9,6 @@ import ru.nsu.romanenko.model.game.PointsCounter;
 
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class GamePlayTest {
 

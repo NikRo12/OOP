@@ -1,11 +1,11 @@
 package ru.nsu.romanenko.tests.model.card;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Suit;
 import ru.nsu.romanenko.model.card.Value;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
 

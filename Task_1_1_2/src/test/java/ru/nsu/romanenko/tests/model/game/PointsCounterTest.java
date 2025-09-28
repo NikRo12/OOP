@@ -1,13 +1,15 @@
 package ru.nsu.romanenko.tests.model.game;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Suit;
 import ru.nsu.romanenko.model.card.Value;
 import ru.nsu.romanenko.model.game.PointsCounter;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PointsCounterTest {
 
