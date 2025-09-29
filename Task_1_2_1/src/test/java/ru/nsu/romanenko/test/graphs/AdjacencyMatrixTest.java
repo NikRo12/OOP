@@ -1,83 +1,203 @@
-// AdjacencyMatrixTest.java
 package ru.nsu.romanenko.test.graphs;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import ru.nsu.romanenko.graphs.AdjacencyList;
 import ru.nsu.romanenko.graphs.AdjacencyMatrix;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
+import java.util.Set;
 
-class AdjacencyMatrixTest {
+class ExtendedAdjacencyMatrixTest {
+
+    private AdjacencyMatrix graph;
+
+    @BeforeEach
+    void setUp() {
+        graph = new AdjacencyMatrix();
+    }
 
     @Test
-    void testAddVertex() {
-        AdjacencyMatrix graph = new AdjacencyMatrix();
+    void testAddDuplicateVertex() {
         assertTrue(graph.addVertex(1));
-        assertTrue(graph.hasVertex(1));
         assertFalse(graph.addVertex(1)); // Дубликат
+        assertEquals(1, graph.getVertexCount());
     }
 
     @Test
-    void testRemoveVertex() {
-        AdjacencyMatrix graph = new AdjacencyMatrix();
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addEdge(1, 2);
-
-        assertTrue(graph.removeVertex(1));
-        assertFalse(graph.hasVertex(1));
-        assertFalse(graph.hasEdge(1, 2));
-        assertEquals(0, graph.getEdgeCount());
+    void testAddMultipleVertices() {
+        for (int i = 1; i <= 5; i++) {
+            assertTrue(graph.addVertex(i));
+        }
+        assertEquals(5, graph.getVertexCount());
+        for (int i = 1; i <= 5; i++) {
+            assertTrue(graph.hasVertex(i));
+        }
     }
 
     @Test
-    void testAddEdge() {
-        AdjacencyMatrix graph = new AdjacencyMatrix();
-        graph.addVertex(1);
-        graph.addVertex(2);
-
-        assertTrue(graph.addEdge(1, 2));
-        assertTrue(graph.hasEdge(1, 2));
-        assertFalse(graph.addEdge(1, 2)); // Дубликат
-        assertFalse(graph.addEdge(1, 3)); // Несуществующая вершина
+    void testRemoveNonExistentVertex() {
+        assertFalse(graph.removeVertex(999));
+        assertEquals(0, graph.getVertexCount());
     }
 
     @Test
-    void testRemoveEdge() {
-        AdjacencyMatrix graph = new AdjacencyMatrix();
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addEdge(1, 2);
-
-        assertTrue(graph.removeEdge(1, 2));
-        assertFalse(graph.hasEdge(1, 2));
-        assertFalse(graph.removeEdge(1, 2)); // Уже удалено
-    }
-
-    @Test
-    void testGetNeighbors() {
-        AdjacencyMatrix graph = new AdjacencyMatrix();
+    void testRemoveVertexWithMultipleEdges() {
         graph.addVertex(1);
         graph.addVertex(2);
         graph.addVertex(3);
         graph.addEdge(1, 2);
+        graph.addEdge(2, 1);
         graph.addEdge(1, 3);
+        graph.addEdge(3, 1);
 
-        List<Integer> neighbors = graph.getNeighbors(1);
-        assertEquals(2, neighbors.size());
-        assertTrue(neighbors.contains(2));
-        assertTrue(neighbors.contains(3));
-
-        List<Integer> emptyNeighbors = graph.getNeighbors(2);
-        assertTrue(emptyNeighbors.isEmpty());
+        assertEquals(4, graph.getEdgeCount());
+        assertTrue(graph.removeVertex(1));
+        assertEquals(2, graph.getVertexCount());
+        assertEquals(0, graph.getEdgeCount());
+        assertFalse(graph.hasEdge(1, 2));
+        assertFalse(graph.hasEdge(2, 1));
+        assertFalse(graph.hasEdge(1, 3));
+        assertFalse(graph.hasEdge(3, 1));
     }
 
     @Test
-    void testReadFromFile() {
-        AdjacencyMatrix graph = new AdjacencyMatrix();
-        // Предполагается, что файл существует и содержит валидную матрицу
-        // boolean result = graph.readFromFile("valid_graph.txt");
-        // assertTrue(result);
-        // Добавьте конкретные проверки в зависимости от содержимого файла
+    void testAddEdgeToNonExistentVertices() {
+        assertFalse(graph.addEdge(1, 2)); // Обе вершины не существуют
+
+        graph.addVertex(1);
+        assertFalse(graph.addEdge(1, 2)); // Вершина 2 не существует
+
+        graph.addVertex(2);
+        assertTrue(graph.addEdge(1, 2)); // Теперь обе вершины существуют
+    }
+
+    @Test
+    void testAddDuplicateEdge() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+
+        assertTrue(graph.addEdge(1, 2));
+        assertFalse(graph.addEdge(1, 2)); // Дубликат
+        assertEquals(1, graph.getEdgeCount());
+    }
+
+    @Test
+    void testRemoveNonExistentEdge() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+
+        assertFalse(graph.removeEdge(1, 2)); // Ребро не существует
+        assertFalse(graph.removeEdge(1, 999)); // Вершина не существует
+        assertFalse(graph.removeEdge(999, 1)); // Вершина не существует
+    }
+
+    @Test
+    void testGetNeighborsOfNonExistentVertex() {
+        List<Integer> neighbors = graph.getNeighbors(999);
+        assertTrue(neighbors.isEmpty());
+    }
+
+    @Test
+    void testHasEdgeWithNonExistentVertices() {
+        assertFalse(graph.hasEdge(1, 2)); // Обе вершины не существуют
+
+        graph.addVertex(1);
+        assertFalse(graph.hasEdge(1, 2)); // Вершина 2 не существует
+        assertFalse(graph.hasEdge(2, 1)); // Вершина 2 не существует
+    }
+
+    @Test
+    void testSelfLoop() {
+        graph.addVertex(1);
+        assertTrue(graph.addEdge(1, 1)); // Петля
+        assertTrue(graph.hasEdge(1, 1));
+        assertEquals(1, graph.getEdgeCount());
+
+        List<Integer> neighbors = graph.getNeighbors(1);
+        assertEquals(1, neighbors.size());
+        assertTrue(neighbors.contains(1));
+    }
+
+    @Test
+    void testPrintEmptyGraph() {
+        assertDoesNotThrow(() -> graph.printGraph());
+    }
+
+    @Test
+    void testPrintNonEmptyGraph() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addEdge(1, 2);
+
+        assertDoesNotThrow(() -> graph.printGraph());
+    }
+
+    @Test
+    void testGraphEquality() {
+        AdjacencyMatrix graph1 = new AdjacencyMatrix();
+        AdjacencyMatrix graph2 = new AdjacencyMatrix();
+
+        // Идентичные графы
+        graph1.addVertex(1);
+        graph1.addVertex(2);
+        graph1.addEdge(1, 2);
+
+        graph2.addVertex(1);
+        graph2.addVertex(2);
+        graph2.addEdge(1, 2);
+
+        assertTrue(graph1.equals(graph2));
+        assertTrue(graph2.equals(graph1));
+
+        // Разные графы
+        graph2.addEdge(2, 1);
+        assertFalse(graph1.equals(graph2));
+    }
+
+    @Test
+    void testGraphEqualsWithDifferentTypes() {
+        AdjacencyMatrix matrixGraph = new AdjacencyMatrix();
+        AdjacencyList listGraph = new AdjacencyList();
+
+        matrixGraph.addVertex(1);
+        listGraph.addVertex(1);
+
+        // Графы с одинаковой структурой но разными типами
+        assertEquals(matrixGraph, listGraph);
+    }
+
+    @Test
+    void testGraphEqualsWithNull() {
+        assertNotEquals(null, graph);
+    }
+
+    @Test
+    void testGraphEqualsWithSameObject() {
+        assertEquals(graph, graph);
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addEdge(1, 2);
+
+        int hashCode1 = graph.hashCode();
+        int hashCode2 = graph.hashCode();
+
+        assertEquals(hashCode1, hashCode2);
+    }
+
+    @Test
+    void testToStringMethods() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addEdge(1, 2);
+
+        assertNotNull(graph.toString());
+
+        assertFalse(graph.toString().isEmpty());
     }
 }
