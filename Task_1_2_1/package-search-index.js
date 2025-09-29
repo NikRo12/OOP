@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.romanenko"},{"l":"ru.nsu.romanenko.graphs"},{"l":"ru.nsu.romanenko.system"}];updateSearchResults();
