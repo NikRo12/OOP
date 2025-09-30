@@ -7,9 +7,8 @@ import ru.nsu.romanenko.graphs.AdjacencyMatrix;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
-import java.util.Set;
 
-class ExtendedAdjacencyMatrixTest {
+class AdjacencyMatrixTest {
 
     private AdjacencyMatrix graph;
 
@@ -148,12 +147,12 @@ class ExtendedAdjacencyMatrixTest {
         graph2.addVertex(2);
         graph2.addEdge(1, 2);
 
-        assertTrue(graph1.equals(graph2));
-        assertTrue(graph2.equals(graph1));
+        assertEquals(graph1, graph2);
+        assertEquals(graph2, graph1);
 
         // Разные графы
         graph2.addEdge(2, 1);
-        assertFalse(graph1.equals(graph2));
+        assertNotEquals(graph1, graph2);
     }
 
     @Test

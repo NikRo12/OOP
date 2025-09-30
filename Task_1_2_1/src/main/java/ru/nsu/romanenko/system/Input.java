@@ -12,6 +12,7 @@ public final class Input {
             String line;
             int expectedSize = -1;
             int lineNumber = 0;
+            boolean hasNonEmptyLines = false;
 
             while ((line = buffer.readLine()) != null) {
                 lineNumber++;
@@ -20,6 +21,8 @@ public final class Input {
                 if (cleanedLine.isEmpty()) {
                     continue;
                 }
+
+                hasNonEmptyLines = true;
 
                 if (!cleanedLine.matches("[01]+")) {
                     throw new IllegalArgumentException(
@@ -33,12 +36,17 @@ public final class Input {
 
                 if (cleanedLine.length() != expectedSize) {
                     throw new IllegalArgumentException(
-                            "Line " + lineNumber + " has length " + cleanedLine.length() +
-                                    ", but expected " + expectedSize + ". Matrix must be square."
+                            "Matrix is not square. Line " + lineNumber + " has length " + cleanedLine.length() +
+                                    ", but expected " + expectedSize + "."
                     );
                 }
 
                 lines.add(cleanedLine);
+            }
+
+            // Если нет ни одной непустой строки, возвращаем пустой список (матрица 0x0)
+            if (!hasNonEmptyLines) {
+                return new ArrayList<>();
             }
 
             if (lines.size() != expectedSize) {

@@ -143,12 +143,8 @@ public class IncidenceMatrix extends AbstractGraph {
             int incidenceType = entry.getValue();
 
             Edge edge = edges.get(edgeId);
-            if (edge != null) {
-                if (incidenceType == 1) { // Исходящее ребро
-                    neighbours.add(edge.to);
-                } else if (incidenceType == -1) { // Входящее ребро
-                    neighbours.add(edge.from);
-                }
+            if (edge != null && incidenceType == 1) { // Только исходящие ребра
+                neighbours.add(edge.to);
             }
         }
 

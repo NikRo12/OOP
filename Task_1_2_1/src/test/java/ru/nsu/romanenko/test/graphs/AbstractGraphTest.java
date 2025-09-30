@@ -1,4 +1,3 @@
-// ExtendedAbstractGraphTest.java
 package ru.nsu.romanenko.test.graphs;
 
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Set;
 
-class ExtendedAbstractGraphTest {
+class AbstractGraphTest {
 
     private AbstractGraph graph;
 
@@ -77,7 +76,7 @@ class ExtendedAbstractGraphTest {
 
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(1, sorted.size());
-        assertEquals(1, sorted.get(0));
+        assertEquals(1, sorted.getFirst());
     }
 
     @Test
@@ -113,8 +112,8 @@ class ExtendedAbstractGraphTest {
 
         graph2.addVertex(1);
 
-        assertFalse(graph1.equals(graph2));
-        assertFalse(graph2.equals(graph1));
+        assertNotEquals(graph1, graph2);
+        assertNotEquals(graph2, graph1);
     }
 
     @Test
@@ -130,7 +129,7 @@ class ExtendedAbstractGraphTest {
         graph2.addVertex(2);
         // Нет ребра
 
-        assertFalse(graph1.equals(graph2));
+        assertNotEquals(graph1, graph2);
     }
 
     @Test
@@ -238,5 +237,103 @@ class ExtendedAbstractGraphTest {
 
         List<Integer> starSorted = star.topologicalSort();
         assertEquals(0, starSorted.indexOf(0));
+    }
+
+    @Test
+    void testTopologicalSortComplexDependencies() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addVertex(5);
+
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(3, 4);
+        graph.addEdge(4, 5);
+
+        List<Integer> sorted = graph.topologicalSort();
+        assertEquals(5, sorted.size());
+
+        // Проверяем порядок зависимостей
+        assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
+        assertTrue(sorted.indexOf(1) < sorted.indexOf(3));
+        assertTrue(sorted.indexOf(2) < sorted.indexOf(4));
+        assertTrue(sorted.indexOf(3) < sorted.indexOf(4));
+        assertTrue(sorted.indexOf(4) < sorted.indexOf(5));
+    }
+
+    @Test
+    void testTopologicalSortWithIsolatedVertices() {
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addEdge(1, 2);
+        // Вершина 3 изолирована
+
+        List<Integer> sorted = graph.topologicalSort();
+        assertEquals(3, sorted.size());
+        assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
+        // Вершина 3 может быть в любой позиции относительно 1 и 2
+    }
+
+    @Test
+    void testGraphEqualsWithDifferentVertexOrder() {
+        AbstractGraph graph1 = new AdjacencyMatrix();
+        AbstractGraph graph2 = new AdjacencyMatrix();
+
+        // Добавляем вершины в разном порядке
+        graph1.addVertex(1);
+        graph1.addVertex(2);
+        graph1.addEdge(1, 2);
+
+        graph2.addVertex(2);
+        graph2.addVertex(1);
+        graph2.addEdge(1, 2);
+
+        // Графы должны быть равны независимо от порядка добавления вершин
+        assertEquals(graph1, graph2);
+    }
+
+    @Test
+    void testGraphEqualsReflexivity() {
+        assertEquals(graph, graph);
+    }
+
+    @Test
+    void testGraphEqualsSymmetry() {
+        AbstractGraph graph1 = new AdjacencyMatrix();
+        AbstractGraph graph2 = new AdjacencyMatrix();
+
+        graph1.addVertex(1);
+        graph2.addVertex(1);
+
+        assertEquals(graph1.equals(graph2), graph2.equals(graph1));
+    }
+
+    @Test
+    void testGraphEqualsTransitivity() {
+        AbstractGraph graph1 = new AdjacencyMatrix();
+        AbstractGraph graph2 = new AdjacencyMatrix();
+        AbstractGraph graph3 = new AdjacencyMatrix();
+
+        graph1.addVertex(1);
+        graph2.addVertex(1);
+        graph3.addVertex(1);
+
+        assertEquals(graph1, graph2);
+        assertEquals(graph2, graph3);
+        assertEquals(graph1, graph3);
+    }
+
+    @Test
+    void testGraphEqualsWithNull() {
+        assertNotEquals(null, graph);
+    }
+
+    @Test
+    void testGraphEqualsWithDifferentClass() {
+        assertNotEquals("Not a graph", graph);
     }
 }

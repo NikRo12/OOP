@@ -40,22 +40,26 @@ public abstract class AbstractGraph implements Graph {
         Map<Integer, Integer> inDegree = new HashMap<>();
         Queue<Integer> queue = new LinkedList<>();
 
+        // Инициализация входящих степеней
         for (int vertex : vertices) {
             inDegree.put(vertex, 0);
         }
 
+        // Подсчет входящих степеней
         for (int vertex : vertices) {
             for (int neighbor : getNeighbors(vertex)) {
                 inDegree.put(neighbor, inDegree.get(neighbor) + 1);
             }
         }
 
+        // Добавление вершин с нулевой входящей степенью
         for (int vertex : vertices) {
             if (inDegree.get(vertex) == 0) {
                 queue.offer(vertex);
             }
         }
 
+        // Обработка очереди
         while (!queue.isEmpty()) {
             int current = queue.poll();
             result.add(current);
