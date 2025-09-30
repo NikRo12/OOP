@@ -1,4 +1,3 @@
-// AdjacencyListTest.java
 package ru.nsu.romanenko.test.graphs;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ class AdjacencyListTest {
         AdjacencyList graph = new AdjacencyList();
         assertTrue(graph.addVertex(1));
         assertTrue(graph.hasVertex(1));
-        assertFalse(graph.addVertex(1)); // Дубликат
+        assertFalse(graph.addVertex(1));
     }
 
     @Test
@@ -38,8 +37,8 @@ class AdjacencyListTest {
 
         assertTrue(graph.addEdge(1, 2));
         assertTrue(graph.hasEdge(1, 2));
-        assertFalse(graph.addEdge(1, 2)); // Дубликат
-        assertFalse(graph.addEdge(1, 3)); // Несуществующая вершина
+        assertFalse(graph.addEdge(1, 2));
+        assertFalse(graph.addEdge(1, 3));
     }
 
     @Test
@@ -51,7 +50,7 @@ class AdjacencyListTest {
 
         assertTrue(graph.removeEdge(1, 2));
         assertFalse(graph.hasEdge(1, 2));
-        assertFalse(graph.removeEdge(1, 2)); // Уже удалено
+        assertFalse(graph.removeEdge(1, 2));
     }
 
     @Test
@@ -79,7 +78,6 @@ class AdjacencyListTest {
         graph.addVertex(2);
         graph.addEdge(1, 2);
 
-        // Проверяем, что метод не выбрасывает исключений
         assertDoesNotThrow(() -> graph.printGraph());
     }
 }

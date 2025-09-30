@@ -1,4 +1,3 @@
-// GraphTest.java
 package ru.nsu.romanenko.test.graphs;
 
 import org.junit.jupiter.api.Test;

@@ -63,13 +63,13 @@ class AdjacencyMatrixTest {
 
     @Test
     void testAddEdgeToNonExistentVertices() {
-        assertFalse(graph.addEdge(1, 2)); // Обе вершины не существуют
+        assertFalse(graph.addEdge(1, 2));
 
         graph.addVertex(1);
-        assertFalse(graph.addEdge(1, 2)); // Вершина 2 не существует
+        assertFalse(graph.addEdge(1, 2));
 
         graph.addVertex(2);
-        assertTrue(graph.addEdge(1, 2)); // Теперь обе вершины существуют
+        assertTrue(graph.addEdge(1, 2));
     }
 
     @Test
@@ -78,7 +78,7 @@ class AdjacencyMatrixTest {
         graph.addVertex(2);
 
         assertTrue(graph.addEdge(1, 2));
-        assertFalse(graph.addEdge(1, 2)); // Дубликат
+        assertFalse(graph.addEdge(1, 2));
         assertEquals(1, graph.getEdgeCount());
     }
 
@@ -87,9 +87,9 @@ class AdjacencyMatrixTest {
         graph.addVertex(1);
         graph.addVertex(2);
 
-        assertFalse(graph.removeEdge(1, 2)); // Ребро не существует
-        assertFalse(graph.removeEdge(1, 999)); // Вершина не существует
-        assertFalse(graph.removeEdge(999, 1)); // Вершина не существует
+        assertFalse(graph.removeEdge(1, 2));
+        assertFalse(graph.removeEdge(1, 999));
+        assertFalse(graph.removeEdge(999, 1));
     }
 
     @Test
@@ -100,17 +100,17 @@ class AdjacencyMatrixTest {
 
     @Test
     void testHasEdgeWithNonExistentVertices() {
-        assertFalse(graph.hasEdge(1, 2)); // Обе вершины не существуют
+        assertFalse(graph.hasEdge(1, 2));
 
         graph.addVertex(1);
-        assertFalse(graph.hasEdge(1, 2)); // Вершина 2 не существует
-        assertFalse(graph.hasEdge(2, 1)); // Вершина 2 не существует
+        assertFalse(graph.hasEdge(1, 2));
+        assertFalse(graph.hasEdge(2, 1));
     }
 
     @Test
     void testSelfLoop() {
         graph.addVertex(1);
-        assertTrue(graph.addEdge(1, 1)); // Петля
+        assertTrue(graph.addEdge(1, 1));
         assertTrue(graph.hasEdge(1, 1));
         assertEquals(1, graph.getEdgeCount());
 
@@ -138,7 +138,6 @@ class AdjacencyMatrixTest {
         AdjacencyMatrix graph1 = new AdjacencyMatrix();
         AdjacencyMatrix graph2 = new AdjacencyMatrix();
 
-        // Идентичные графы
         graph1.addVertex(1);
         graph1.addVertex(2);
         graph1.addEdge(1, 2);
@@ -163,7 +162,6 @@ class AdjacencyMatrixTest {
         matrixGraph.addVertex(1);
         listGraph.addVertex(1);
 
-        // Графы с одинаковой структурой но разными типами
         assertEquals(matrixGraph, listGraph);
     }
 

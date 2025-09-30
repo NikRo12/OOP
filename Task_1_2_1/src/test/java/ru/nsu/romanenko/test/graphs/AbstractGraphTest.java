@@ -1,4 +1,3 @@
-// ExtendedAbstractGraphTest.java
 package ru.nsu.romanenko.test.graphs;
 
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Set;
 
-class ExtendedAbstractGraphTest {
+class AbstractGraphTest {
 
     private AbstractGraph graph;
 
@@ -37,13 +36,13 @@ class ExtendedAbstractGraphTest {
 
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(1, sorted.size());
-        assertEquals(1, sorted.get(0)); // Исправлено: get(0) вместо getFirst()
+        assertEquals(1, sorted.get(0));
     }
 
     @Test
     void testTopologicalSortWithSelfLoop() {
         graph.addVertex(1);
-        graph.addEdge(1, 1); // Петля создает цикл
+        graph.addEdge(1, 1);
 
         assertThrows(IllegalStateException.class, () -> {
             graph.topologicalSort();
@@ -54,7 +53,6 @@ class ExtendedAbstractGraphTest {
     void testReadFromFileOnNonEmptyGraph() {
         graph.addVertex(1);
 
-        // Попытка прочитать файл в непустой граф должна вернуть false
         assertFalse(graph.readFromFile("test.txt"));
     }
 
@@ -88,7 +86,6 @@ class ExtendedAbstractGraphTest {
 
         graph2.addVertex(1);
         graph2.addVertex(2);
-        // Нет ребра
 
         assertFalse(graph1.equals(graph2));
     }
@@ -101,7 +98,6 @@ class ExtendedAbstractGraphTest {
         Set<Integer> vertices = graph.getVertices();
         assertEquals(2, vertices.size());
 
-        // Изменение возвращенного множества не должно влиять на граф
         vertices.clear();
         assertEquals(2, graph.getVertexCount());
     }
@@ -122,7 +118,6 @@ class ExtendedAbstractGraphTest {
 
     @Test
     void testStressTestAddRemoveVertices() {
-        // Тест на производительность и корректность при множественных операциях
         for (int i = 0; i < 100; i++) {
             assertTrue(graph.addVertex(i));
         }
@@ -140,12 +135,10 @@ class ExtendedAbstractGraphTest {
 
     @Test
     void testStressTestAddRemoveEdges() {
-        // Добавляем вершины
         for (int i = 1; i <= 10; i++) {
             graph.addVertex(i);
         }
 
-        // Добавляем рёбра
         int edgeCount = 0;
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
@@ -157,7 +150,6 @@ class ExtendedAbstractGraphTest {
 
         assertEquals(edgeCount, graph.getEdgeCount());
 
-        // Удаляем половину рёбер
         int removedCount = 0;
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
@@ -172,9 +164,7 @@ class ExtendedAbstractGraphTest {
 
     @Test
     void testComplexTopologicalSortScenarios() {
-        // Тест различных сценариев топологической сортировки
 
-        // Сценарий 1: Длинная цепочка
         AbstractGraph chain = new AdjacencyMatrix();
         for (int i = 1; i <= 5; i++) {
             chain.addVertex(i);
@@ -188,7 +178,6 @@ class ExtendedAbstractGraphTest {
             assertTrue(chainSorted.indexOf(i + 1) < chainSorted.indexOf(i + 2));
         }
 
-        // Сценарий 2: Звезда
         AbstractGraph star = new AdjacencyMatrix();
         star.addVertex(0);
         for (int i = 1; i <= 4; i++) {
@@ -197,12 +186,11 @@ class ExtendedAbstractGraphTest {
         }
 
         List<Integer> starSorted = star.topologicalSort();
-        assertEquals(0, starSorted.indexOf(0)); // Исправлено: get(0) вместо getFirst()
+        assertEquals(0, starSorted.indexOf(0));
     }
 
     @Test
     void testTopologicalSortMultipleValidOrders() {
-        // Граф с несколькими валидными топологическими порядками
         graph.addVertex(1);
         graph.addVertex(2);
         graph.addVertex(3);
@@ -215,7 +203,6 @@ class ExtendedAbstractGraphTest {
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(4, sorted.size());
 
-        // Проверяем обязательные условия
         assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
         assertTrue(sorted.indexOf(1) < sorted.indexOf(3));
         assertTrue(sorted.indexOf(2) < sorted.indexOf(4));
@@ -224,7 +211,6 @@ class ExtendedAbstractGraphTest {
 
     @Test
     void testTopologicalSortDisconnectedGraph() {
-        // Несвязный граф без циклов
         graph.addVertex(1);
         graph.addVertex(2);
         graph.addVertex(3);
@@ -235,7 +221,6 @@ class ExtendedAbstractGraphTest {
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(4, sorted.size());
 
-        // Проверяем порядок для компонент связности
         assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
         assertTrue(sorted.indexOf(3) < sorted.indexOf(4));
     }
@@ -257,7 +242,6 @@ class ExtendedAbstractGraphTest {
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(5, sorted.size());
 
-        // Проверяем порядок зависимостей
         assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
         assertTrue(sorted.indexOf(1) < sorted.indexOf(3));
         assertTrue(sorted.indexOf(2) < sorted.indexOf(4));
@@ -271,12 +255,10 @@ class ExtendedAbstractGraphTest {
         graph.addVertex(2);
         graph.addVertex(3);
         graph.addEdge(1, 2);
-        // Вершина 3 изолирована
 
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(3, sorted.size());
         assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
-        // Вершина 3 может быть в любой позиции относительно 1 и 2
     }
 
     @Test
@@ -284,7 +266,6 @@ class ExtendedAbstractGraphTest {
         AbstractGraph graph1 = new AdjacencyMatrix();
         AbstractGraph graph2 = new AdjacencyMatrix();
 
-        // Добавляем вершины в разном порядке
         graph1.addVertex(1);
         graph1.addVertex(2);
         graph1.addEdge(1, 2);
@@ -293,7 +274,6 @@ class ExtendedAbstractGraphTest {
         graph2.addVertex(1);
         graph2.addEdge(1, 2);
 
-        // Графы должны быть равны независимо от порядка добавления вершин
         assertTrue(graph1.equals(graph2));
     }
 
