@@ -1,9 +1,11 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.math.*;
 import ru.nsu.romanenko.math.Number;
 import ru.nsu.romanenko.parse.EvaluateStringParser;
@@ -101,7 +103,7 @@ class ExpressionTests {
         Expression divWithVar = new Div(new Variable("x"), new Number(2));
         Expression deriv = divWithVar.derivative("x");
         assertEquals("(((1 * 2) - (x * 0)) / (2 * 2))", deriv.toString());
-        assertEquals(0, deriv.evaluate(Map.of("x", 5))); // Actually should be 0.5 but integer division
+        assertEquals(0, deriv.evaluate(Map.of("x", 5)));
 
         Expression divVars = new Div(new Variable("x"), new Variable("y"));
         assertEquals(2, divVars.evaluate(Map.of("x", 6, "y", 3)));
@@ -118,7 +120,7 @@ class ExpressionTests {
         assertEquals(40, expr.evaluate(vars));
 
         Expression deriv = expr.derivative("x");
-        assertEquals(5, deriv.evaluate(Map.of("x", 2, "y", 7))); // derivative should be (y-2)
+        assertEquals(5, deriv.evaluate(Map.of("x", 2, "y", 7)));
     }
 
     @Test
@@ -133,7 +135,8 @@ class ExpressionTests {
         assertEquals(15, new ExpressionParser("(5 * 3)").parse().evaluate(new HashMap<>()));
         assertEquals(2, new ExpressionParser("(6 / 3)").parse().evaluate(new HashMap<>()));
 
-        assertEquals(105, new ExpressionParser("(100 + 5)").parse().evaluate(new HashMap<>()));
+        assertEquals(105, new ExpressionParser("(100 + 5)").parse().evaluate(
+                new HashMap<>()));
     }
 
     @Test
