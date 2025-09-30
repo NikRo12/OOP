@@ -1,14 +1,20 @@
 package ru.nsu.romanenko.test.graphs;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.graphs.AbstractGraph;
 import ru.nsu.romanenko.graphs.AdjacencyMatrix;
-
-import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Test class for AbstractGraph.
+ */
 class AbstractGraphTest {
 
     private AbstractGraph graph;
@@ -164,7 +170,6 @@ class AbstractGraphTest {
 
     @Test
     void testComplexTopologicalSortScenarios() {
-
         AbstractGraph chain = new AdjacencyMatrix();
         for (int i = 1; i <= 5; i++) {
             chain.addVertex(i);

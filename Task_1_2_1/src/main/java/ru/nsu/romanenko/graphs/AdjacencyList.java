@@ -1,19 +1,26 @@
 package ru.nsu.romanenko.graphs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class AdjacencyList extends AbstractGraph{
+/**
+ * Adjacency list graph implementation.
+ */
+public class AdjacencyList extends AbstractGraph {
     private final Map<Integer, Set<Integer>> list;
 
-    public AdjacencyList()
-    {
+    public AdjacencyList() {
         this.list = new HashMap<>();
     }
 
     @Override
     public boolean addVertex(int vertex) {
-        if(hasVertex(vertex))
-        {
+        if (hasVertex(vertex)) {
             return false;
         }
 
@@ -24,35 +31,30 @@ public class AdjacencyList extends AbstractGraph{
 
     @Override
     public boolean removeVertex(int vertex) {
-        if(!hasVertex(vertex))
-        {
+        if (!hasVertex(vertex)) {
             return false;
         }
 
-        int delete_edges = list.get(vertex).size();
+        int deleteEdges = list.get(vertex).size();
         list.remove(vertex);
 
-        for(Set<Integer> row: list.values())
-        {
-            if(row.remove(vertex))
-            {
-                delete_edges++;
+        for (Set<Integer> row : list.values()) {
+            if (row.remove(vertex)) {
+                deleteEdges++;
             }
         }
 
-        edgeCount -= delete_edges;
+        edgeCount -= deleteEdges;
         return deleteVertex(vertex);
     }
 
     @Override
     public boolean addEdge(int from, int to) {
-        if(!hasVertex(from) || !hasVertex(to))
-        {
+        if (!hasVertex(from) || !hasVertex(to)) {
             return false;
         }
 
-        if(list.get(from).add(to))
-        {
+        if (list.get(from).add(to)) {
             edgeCount++;
             return true;
         }
@@ -62,13 +64,11 @@ public class AdjacencyList extends AbstractGraph{
 
     @Override
     public boolean removeEdge(int from, int to) {
-        if(!hasVertex(from) || !hasVertex(to))
-        {
+        if (!hasVertex(from) || !hasVertex(to)) {
             return false;
         }
 
-        if(list.get(from).remove(to))
-        {
+        if (list.get(from).remove(to)) {
             edgeCount--;
             return true;
         }
@@ -78,8 +78,7 @@ public class AdjacencyList extends AbstractGraph{
 
     @Override
     public List<Integer> getNeighbors(int vertex) {
-        if(!hasVertex(vertex))
-        {
+        if (!hasVertex(vertex)) {
             return new ArrayList<>();
         }
 
@@ -88,8 +87,7 @@ public class AdjacencyList extends AbstractGraph{
 
     @Override
     public boolean hasEdge(int from, int to) {
-        if(!hasVertex(from) || !hasVertex(to))
-        {
+        if (!hasVertex(from) || !hasVertex(to)) {
             return false;
         }
 

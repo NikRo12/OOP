@@ -1,10 +1,16 @@
 package ru.nsu.romanenko.test.graphs;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.graphs.IncidenceMatrix;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Test class for IncidenceMatrix.
+ */
 class IncidenceMatrixTest {
 
     @Test
@@ -12,7 +18,7 @@ class IncidenceMatrixTest {
         IncidenceMatrix graph = new IncidenceMatrix();
         assertTrue(graph.addVertex(1));
         assertTrue(graph.hasVertex(1));
-        assertFalse(graph.addVertex(1)); // Дубликат
+        assertFalse(graph.addVertex(1));
     }
 
     @Test

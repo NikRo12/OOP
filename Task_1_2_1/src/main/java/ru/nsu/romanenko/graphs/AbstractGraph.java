@@ -1,9 +1,18 @@
 package ru.nsu.romanenko.graphs;
 
 import ru.nsu.romanenko.system.Input;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
-import java.util.*;
-
+/**
+ * Abstract graph implementation.
+ */
 public abstract class AbstractGraph implements Graph {
     protected Set<Integer> vertices = new HashSet<>();
     protected int edgeCount = 0;
@@ -29,8 +38,7 @@ public abstract class AbstractGraph implements Graph {
     }
 
     @Override
-    public boolean deleteVertex(int vertex)
-    {
+    public boolean deleteVertex(int vertex) {
         return vertices.remove(vertex);
     }
 
@@ -40,26 +48,22 @@ public abstract class AbstractGraph implements Graph {
         Map<Integer, Integer> inDegree = new HashMap<>();
         Queue<Integer> queue = new LinkedList<>();
 
-        // Инициализация входящих степеней
         for (int vertex : vertices) {
             inDegree.put(vertex, 0);
         }
 
-        // Подсчет входящих степеней
         for (int vertex : vertices) {
             for (int neighbor : getNeighbors(vertex)) {
                 inDegree.put(neighbor, inDegree.get(neighbor) + 1);
             }
         }
 
-        // Добавление вершин с нулевой входящей степенью
         for (int vertex : vertices) {
             if (inDegree.get(vertex) == 0) {
                 queue.offer(vertex);
             }
         }
 
-        // Обработка очереди
         while (!queue.isEmpty()) {
             int current = queue.poll();
             result.add(current);
@@ -72,7 +76,6 @@ public abstract class AbstractGraph implements Graph {
             }
         }
 
-        // Проверка на циклы
         if (result.size() != vertices.size()) {
             throw new IllegalStateException("Graph has a cycle, topological sort not possible");
         }
@@ -119,10 +122,16 @@ public abstract class AbstractGraph implements Graph {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Graph other)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Graph other)) {
+            return false;
+        }
 
-        if (!this.getVertices().equals(other.getVertices())) return false;
+        if (!this.getVertices().equals(other.getVertices())) {
+            return false;
+        }
 
         for (int from : this.getVertices()) {
             for (int to : this.getVertices()) {

@@ -1,9 +1,16 @@
 package ru.nsu.romanenko.graphs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * Adjacency matrix graph implementation.
+ */
 public class AdjacencyMatrix extends AbstractGraph {
-    private final Map<Integer, Map<Integer, Boolean>> matrix; //
+    private final Map<Integer, Map<Integer, Boolean>> matrix;
 
     public AdjacencyMatrix() {
         this.matrix = new HashMap<>();
@@ -40,7 +47,9 @@ public class AdjacencyMatrix extends AbstractGraph {
         int edgesRemoved = 0;
         Map<Integer, Boolean> row = matrix.get(vertex);
         for (boolean hasEdge : row.values()) {
-            if (hasEdge) edgesRemoved++;
+            if (hasEdge) {
+                edgesRemoved++;
+            }
         }
 
         for (Map<Integer, Boolean> otherRow : matrix.values()) {

@@ -1,11 +1,17 @@
 package ru.nsu.romanenko.test.graphs;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.graphs.AdjacencyList;
-
-import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
+/**
+ * Test class for AdjacencyList.
+ */
 class AdjacencyListTest {
 
     @Test

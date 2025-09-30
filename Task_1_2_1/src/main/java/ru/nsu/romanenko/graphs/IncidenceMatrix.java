@@ -1,7 +1,16 @@
 package ru.nsu.romanenko.graphs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+/**
+ * Incidence matrix graph implementation.
+ */
 public class IncidenceMatrix extends AbstractGraph {
     private final Map<Integer, Map<Integer, Integer>> matrix;
     private final Map<Integer, Edge> edges;
@@ -24,7 +33,6 @@ public class IncidenceMatrix extends AbstractGraph {
         this.edges = new HashMap<>();
     }
 
-
     @Override
     public boolean addVertex(int vertex) {
         if (hasVertex(vertex)) {
@@ -33,8 +41,7 @@ public class IncidenceMatrix extends AbstractGraph {
         vertices.add(vertex);
 
         Map<Integer, Integer> newRow = new HashMap<>();
-        for(int i : edges.keySet())
-        {
+        for (int i : edges.keySet()) {
             newRow.put(i, 0);
         }
 
@@ -143,7 +150,7 @@ public class IncidenceMatrix extends AbstractGraph {
             int incidenceType = entry.getValue();
 
             Edge edge = edges.get(edgeId);
-            if (edge != null && incidenceType == 1) { // Только исходящие ребра
+            if (edge != null && incidenceType == 1) {
                 neighbours.add(edge.to);
             }
         }

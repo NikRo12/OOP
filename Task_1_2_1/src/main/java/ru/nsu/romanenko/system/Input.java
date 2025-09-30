@@ -5,7 +5,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Utility class for file input operations.
+ */
 public final class Input {
+    /**
+     * Reads matrix from file.
+     * @param path file path
+     * @return list of matrix lines
+     */
     public static ArrayList<String> read(String path) {
         try (BufferedReader buffer = new BufferedReader(new FileReader(path))) {
             ArrayList<String> lines = new ArrayList<>();
@@ -36,15 +44,14 @@ public final class Input {
 
                 if (cleanedLine.length() != expectedSize) {
                     throw new IllegalArgumentException(
-                            "Matrix is not square. Line " + lineNumber + " has length " + cleanedLine.length() +
-                                    ", but expected " + expectedSize + "."
+                            "Matrix is not square. Line " + lineNumber + " has length " + cleanedLine.length()
+                                    + ", but expected " + expectedSize + "."
                     );
                 }
 
                 lines.add(cleanedLine);
             }
 
-            // Если нет ни одной непустой строки, возвращаем пустой список (матрица 0x0)
             if (!hasNonEmptyLines) {
                 return new ArrayList<>();
             }

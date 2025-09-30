@@ -1,13 +1,21 @@
 package ru.nsu.romanenko.test.graphs;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.graphs.AdjacencyList;
 import ru.nsu.romanenko.graphs.AdjacencyMatrix;
-
-import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
+/**
+ * Test class for AdjacencyMatrix.
+ */
 class AdjacencyMatrixTest {
 
     private AdjacencyMatrix graph;
@@ -20,7 +28,7 @@ class AdjacencyMatrixTest {
     @Test
     void testAddDuplicateVertex() {
         assertTrue(graph.addVertex(1));
-        assertFalse(graph.addVertex(1)); // Дубликат
+        assertFalse(graph.addVertex(1));
         assertEquals(1, graph.getVertexCount());
     }
 
@@ -149,7 +157,6 @@ class AdjacencyMatrixTest {
         assertEquals(graph1, graph2);
         assertEquals(graph2, graph1);
 
-        // Разные графы
         graph2.addEdge(2, 1);
         assertNotEquals(graph1, graph2);
     }
@@ -194,7 +201,6 @@ class AdjacencyMatrixTest {
         graph.addEdge(1, 2);
 
         assertNotNull(graph.toString());
-
         assertFalse(graph.toString().isEmpty());
     }
 }
