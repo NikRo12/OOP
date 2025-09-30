@@ -9,7 +9,6 @@ import ru.nsu.romanenko.graphs.IncidenceMatrix;
 public class Main {
     /**
      * Main method.
-     * @param
      */
     public static void main(String[] args) {
         Graph graph = new IncidenceMatrix();
