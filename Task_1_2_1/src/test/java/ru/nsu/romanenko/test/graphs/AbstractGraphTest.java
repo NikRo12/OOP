@@ -1,3 +1,4 @@
+// ExtendedAbstractGraphTest.java
 package ru.nsu.romanenko.test.graphs;
 
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Set;
 
-class AbstractGraphTest {
+class ExtendedAbstractGraphTest {
 
     private AbstractGraph graph;
 
@@ -31,52 +32,12 @@ class AbstractGraphTest {
     }
 
     @Test
-    void testTopologicalSortMultipleValidOrders() {
-        // Граф с несколькими валидными топологическими порядками
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addEdge(1, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 4);
-
-        List<Integer> sorted = graph.topologicalSort();
-        assertEquals(4, sorted.size());
-
-        // Проверяем обязательные условия
-        assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
-        assertTrue(sorted.indexOf(1) < sorted.indexOf(3));
-        assertTrue(sorted.indexOf(2) < sorted.indexOf(4));
-        assertTrue(sorted.indexOf(3) < sorted.indexOf(4));
-    }
-
-    @Test
-    void testTopologicalSortDisconnectedGraph() {
-        // Несвязный граф без циклов
-        graph.addVertex(1);
-        graph.addVertex(2);
-        graph.addVertex(3);
-        graph.addVertex(4);
-        graph.addEdge(1, 2);
-        graph.addEdge(3, 4);
-
-        List<Integer> sorted = graph.topologicalSort();
-        assertEquals(4, sorted.size());
-
-        // Проверяем порядок для компонент связности
-        assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
-        assertTrue(sorted.indexOf(3) < sorted.indexOf(4));
-    }
-
-    @Test
     void testTopologicalSortSingleComponent() {
         graph.addVertex(1);
 
         List<Integer> sorted = graph.topologicalSort();
         assertEquals(1, sorted.size());
-        assertEquals(1, sorted.getFirst());
+        assertEquals(1, sorted.get(0)); // Исправлено: get(0) вместо getFirst()
     }
 
     @Test
@@ -112,8 +73,8 @@ class AbstractGraphTest {
 
         graph2.addVertex(1);
 
-        assertNotEquals(graph1, graph2);
-        assertNotEquals(graph2, graph1);
+        assertFalse(graph1.equals(graph2));
+        assertFalse(graph2.equals(graph1));
     }
 
     @Test
@@ -129,7 +90,7 @@ class AbstractGraphTest {
         graph2.addVertex(2);
         // Нет ребра
 
-        assertNotEquals(graph1, graph2);
+        assertFalse(graph1.equals(graph2));
     }
 
     @Test
@@ -236,7 +197,47 @@ class AbstractGraphTest {
         }
 
         List<Integer> starSorted = star.topologicalSort();
-        assertEquals(0, starSorted.indexOf(0));
+        assertEquals(0, starSorted.indexOf(0)); // Исправлено: get(0) вместо getFirst()
+    }
+
+    @Test
+    void testTopologicalSortMultipleValidOrders() {
+        // Граф с несколькими валидными топологическими порядками
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(3, 4);
+
+        List<Integer> sorted = graph.topologicalSort();
+        assertEquals(4, sorted.size());
+
+        // Проверяем обязательные условия
+        assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
+        assertTrue(sorted.indexOf(1) < sorted.indexOf(3));
+        assertTrue(sorted.indexOf(2) < sorted.indexOf(4));
+        assertTrue(sorted.indexOf(3) < sorted.indexOf(4));
+    }
+
+    @Test
+    void testTopologicalSortDisconnectedGraph() {
+        // Несвязный граф без циклов
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 2);
+        graph.addEdge(3, 4);
+
+        List<Integer> sorted = graph.topologicalSort();
+        assertEquals(4, sorted.size());
+
+        // Проверяем порядок для компонент связности
+        assertTrue(sorted.indexOf(1) < sorted.indexOf(2));
+        assertTrue(sorted.indexOf(3) < sorted.indexOf(4));
     }
 
     @Test
@@ -293,12 +294,12 @@ class AbstractGraphTest {
         graph2.addEdge(1, 2);
 
         // Графы должны быть равны независимо от порядка добавления вершин
-        assertEquals(graph1, graph2);
+        assertTrue(graph1.equals(graph2));
     }
 
     @Test
     void testGraphEqualsReflexivity() {
-        assertEquals(graph, graph);
+        assertTrue(graph.equals(graph));
     }
 
     @Test
@@ -322,18 +323,18 @@ class AbstractGraphTest {
         graph2.addVertex(1);
         graph3.addVertex(1);
 
-        assertEquals(graph1, graph2);
-        assertEquals(graph2, graph3);
-        assertEquals(graph1, graph3);
+        assertTrue(graph1.equals(graph2));
+        assertTrue(graph2.equals(graph3));
+        assertTrue(graph1.equals(graph3));
     }
 
     @Test
     void testGraphEqualsWithNull() {
-        assertNotEquals(null, graph);
+        assertFalse(graph.equals(null));
     }
 
     @Test
     void testGraphEqualsWithDifferentClass() {
-        assertNotEquals("Not a graph", graph);
+        assertFalse(graph.equals("Not a graph"));
     }
 }
