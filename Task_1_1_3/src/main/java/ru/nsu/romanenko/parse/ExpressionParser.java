@@ -1,4 +1,7 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.parse;
+
+import ru.nsu.romanenko.math.*;
+import ru.nsu.romanenko.math.Number;
 
 import java.util.Scanner;
 
@@ -80,7 +83,7 @@ public class ExpressionParser {
         }
     }
 
-    private Number parseNumber() {
+    private ru.nsu.romanenko.math.Number parseNumber() {
         StringBuilder sb = new StringBuilder();
         while (Character.isDigit(peek())) {
             sb.append(peek());

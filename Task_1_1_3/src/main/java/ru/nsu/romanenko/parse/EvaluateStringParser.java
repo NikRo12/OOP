@@ -1,4 +1,4 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.parse;
 
 import java.util.HashMap;
 import java.util.Map;

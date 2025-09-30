@@ -1,5 +1,9 @@
 package ru.nsu.romanenko;
 
+import ru.nsu.romanenko.math.Expression;
+import ru.nsu.romanenko.parse.EvaluateStringParser;
+import ru.nsu.romanenko.parse.ExpressionParser;
+
 /**
  * Main class for expression evaluation demonstration.
  */

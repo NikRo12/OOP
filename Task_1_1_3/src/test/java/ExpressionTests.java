@@ -3,13 +3,16 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import ru.nsu.romanenko.*;
-import ru.nsu.romanenko.Number;
+
+import ru.nsu.romanenko.math.*;
+import ru.nsu.romanenko.math.Number;
+import ru.nsu.romanenko.parse.EvaluateStringParser;
+import ru.nsu.romanenko.parse.ExpressionParser;
 
 /**
  * Unit tests for expression classes.
  */
-class ExpressionTest {
+class ExpressionTests {
 
     @Test
     void testNumber() {

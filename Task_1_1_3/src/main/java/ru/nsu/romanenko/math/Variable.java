@@ -1,4 +1,4 @@
-package ru.nsu.romanenko;
+package ru.nsu.romanenko.math;
 
 import java.util.Map;
 
