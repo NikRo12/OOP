@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import ru.nsu.romanenko.graphs.AdjacencyList;
 import ru.nsu.romanenko.graphs.AdjacencyMatrix;
-import java.util.List;
 
 /**
  * Test class for AdjacencyMatrix.

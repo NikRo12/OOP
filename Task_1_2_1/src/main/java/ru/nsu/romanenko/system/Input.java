@@ -44,7 +44,8 @@ public final class Input {
 
                 if (cleanedLine.length() != expectedSize) {
                     throw new IllegalArgumentException(
-                            "Matrix is not square. Line " + lineNumber + " has length " + cleanedLine.length()
+                            "Matrix is not square. Line " + lineNumber +
+                                    " has length " + cleanedLine.length()
                                     + ", but expected " + expectedSize + "."
                     );
                 }

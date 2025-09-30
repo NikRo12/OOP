@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.nsu.romanenko.graphs.AbstractGraph;
-import ru.nsu.romanenko.graphs.AdjacencyMatrix;
 import java.util.List;
 import java.util.Set;
+import ru.nsu.romanenko.graphs.AbstractGraph;
+import ru.nsu.romanenko.graphs.AdjacencyMatrix;
 
 /**
  * Test class for AbstractGraph.
