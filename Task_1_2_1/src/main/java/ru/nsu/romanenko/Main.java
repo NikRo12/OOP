@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
         Graph graph = new IncidenceMatrix();
 
-        if (graph.readFromFile("D:\\Progs\\Develope\\OOP\\OOP\\Task_1_2_1\\src" +
-                "\\main\\resources\\text.txt")) {
+        if (graph.readFromFile("D:\\Progs\\Develope\\OOP\\OOP\\Task_1_2_1\\src"
+                + "\\main\\resources\\text.txt")) {
             graph.printGraph();
         }
     }

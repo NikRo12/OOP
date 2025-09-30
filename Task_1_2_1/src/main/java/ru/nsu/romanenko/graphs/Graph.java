@@ -9,6 +9,7 @@ import java.util.Set;
 public interface Graph {
     /**
      * Adds a vertex to the graph.
+     *
      * @param vertex vertex to add
      * @return true if vertex was added, false if it already exists
      */
@@ -16,6 +17,7 @@ public interface Graph {
 
     /**
      * Removes a vertex from the graph.
+     *
      * @param vertex vertex to remove
      * @return true if vertex was removed, false if it doesn't exist
      */
@@ -23,6 +25,7 @@ public interface Graph {
 
     /**
      * Adds an edge between two vertices.
+     *
      * @param from source vertex
      * @param to target vertex
      * @return true if edge was added, false if it already exists or vertices don't exist
@@ -31,6 +34,7 @@ public interface Graph {
 
     /**
      * Removes an edge between two vertices.
+     *
      * @param from source vertex
      * @param to target vertex
      * @return true if edge was removed, false if it doesn't exist
@@ -39,6 +43,7 @@ public interface Graph {
 
     /**
      * Gets neighbors of a vertex.
+     *
      * @param vertex vertex to get neighbors for
      * @return list of neighbor vertices
      */
@@ -46,24 +51,28 @@ public interface Graph {
 
     /**
      * Gets the number of vertices in the graph.
+     *
      * @return vertex count
      */
     int getVertexCount();
 
     /**
      * Gets the number of edges in the graph.
+     *
      * @return edge count
      */
     int getEdgeCount();
 
     /**
      * Gets all vertices in the graph.
+     *
      * @return set of vertices
      */
     Set<Integer> getVertices();
 
     /**
      * Checks if vertex exists in the graph.
+     *
      * @param vertex vertex to check
      * @return true if vertex exists
      */
@@ -71,6 +80,7 @@ public interface Graph {
 
     /**
      * Checks if edge exists between two vertices.
+     *
      * @param from source vertex
      * @param to target vertex
      * @return true if edge exists
@@ -79,6 +89,7 @@ public interface Graph {
 
     /**
      * Deletes a vertex from internal storage.
+     *
      * @param vertex vertex to delete
      * @return true if vertex was deleted
      */
@@ -86,6 +97,7 @@ public interface Graph {
 
     /**
      * Reads graph from file.
+     *
      * @param filename file to read from
      * @return true if read successfully
      */
@@ -98,6 +110,7 @@ public interface Graph {
 
     /**
      * Checks equality with another graph.
+     *
      * @param obj object to compare with
      * @return true if graphs are equal
      */
@@ -105,6 +118,7 @@ public interface Graph {
 
     /**
      * Performs topological sort of the graph.
+     *
      * @return topologically sorted list of vertices
      * @throws IllegalStateException if graph has cycles
      */
