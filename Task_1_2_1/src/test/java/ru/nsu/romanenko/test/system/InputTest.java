@@ -95,6 +95,6 @@ class InputTest {
 
         ArrayList<String> result = Input.read(testFile.toString());
         assertEquals(1, result.size());
-        assertEquals("1", result.getFirst());
+        assertEquals("1", result.get(0));
     }
 }
