@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.graphs.AdjacencyMatrix;
 import ru.nsu.romanenko.graphs.Graph;
 
