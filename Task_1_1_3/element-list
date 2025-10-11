@@ -1,3 +1,6 @@
 ru.nsu.romanenko
+ru.nsu.romanenko.exceptions
+ru.nsu.romanenko.input_output
 ru.nsu.romanenko.math
+ru.nsu.romanenko.operators
 ru.nsu.romanenko.parse

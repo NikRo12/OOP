@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.romanenko"},{"l":"ru.nsu.romanenko.math"},{"l":"ru.nsu.romanenko.parse"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.romanenko"},{"l":"ru.nsu.romanenko.exceptions"},{"l":"ru.nsu.romanenko.input_output"},{"l":"ru.nsu.romanenko.math"},{"l":"ru.nsu.romanenko.operators"},{"l":"ru.nsu.romanenko.parse"}];updateSearchResults();

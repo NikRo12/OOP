@@ -44,13 +44,13 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -81,6 +81,21 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Character.html" title="class or interface in java.lang" class="external-link">Character</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#operators" class="member-name-link">operators</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -108,7 +123,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getResult()" class="member-name-link">getResult</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getExpressionObjectFromInput()" class="member-name-link">getExpressionObjectFromInput</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reads expression from standard input and parses it.</div>
 </div>
@@ -129,6 +144,20 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="operators">
+<h3>operators</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Character.html" title="class or interface in java.lang" class="external-link">Character</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a>&gt;&gt;</span>&nbsp;<span class="element-name">operators</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -154,24 +183,30 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="parse()">
-<h3>parse</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a></span>&nbsp;<span class="element-name">parse</span>()</div>
-<div class="block">Parses the expression.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>parsed expression</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getResult()">
-<h3>getResult</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a></span>&nbsp;<span class="element-name">getResult</span>()</div>
+<section class="detail" id="getExpressionObjectFromInput()">
+<h3>getExpressionObjectFromInput</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a></span>&nbsp;<span class="element-name">getExpressionObjectFromInput</span>()
+                                               throws <span class="exceptions"><a href="../exceptions/ExpressionParserException.html" title="class in ru.nsu.romanenko.exceptions">ExpressionParserException</a></span></div>
 <div class="block">Reads expression from standard input and parses it.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>parsed expression</dd>
+<dt>Throws:</dt>
+<dd><code><a href="../exceptions/ExpressionParserException.html" title="class in ru.nsu.romanenko.exceptions">ExpressionParserException</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="parse()">
+<h3>parse</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../math/Expression.html" title="class in ru.nsu.romanenko.math">Expression</a></span>&nbsp;<span class="element-name">parse</span>()
+                 throws <span class="exceptions"><a href="../exceptions/ExpressionParserException.html" title="class in ru.nsu.romanenko.exceptions">ExpressionParserException</a></span></div>
+<div class="block">Parses the expression.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>parsed expression</dd>
+<dt>Throws:</dt>
+<dd><code><a href="../exceptions/ExpressionParserException.html" title="class in ru.nsu.romanenko.exceptions">ExpressionParserException</a></code></dd>
 </dl>
 </section>
 </li>
