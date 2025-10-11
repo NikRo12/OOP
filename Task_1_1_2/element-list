@@ -1,5 +1,6 @@
 ru.nsu.romanenko
 ru.nsu.romanenko.controller
+ru.nsu.romanenko.local
 ru.nsu.romanenko.model.card
 ru.nsu.romanenko.model.game
 ru.nsu.romanenko.view
