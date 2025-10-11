@@ -3,6 +3,7 @@ package ru.nsu.romanenko.model.game;
 import java.util.Scanner;
 import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Deck;
+import ru.nsu.romanenko.view.Input;
 import ru.nsu.romanenko.view.Output;
 
 /**
@@ -10,14 +11,23 @@ import ru.nsu.romanenko.view.Output;
  */
 public class GamePlay {
 
-    /**
-     * Функция реализующая логику нового хода игрока.
-     *
-     * @param user счетчик очков пользователя
-     * @param dealer счетчик очков дилера
-     * @param deck текущая колода
-     * @param isPlayingUser в данный момент играет пользователь или дилер
-     */
+    public static void gaming(PointsCounter user, PointsCounter dealer,
+                              Deck deck, boolean isPlayingUser) {
+        if (isPlayingUser) {
+            while (user.getPoints() < 21) {
+                boolean wantsCard = Input.getUserCardChoice();
+                if (!wantsCard) {
+                    break;
+                }
+                pressOne(user, dealer, deck, true);
+            }
+        } else {
+            while (dealer.getPoints() < 17) {
+                pressOne(user, dealer, deck, false);
+            }
+        }
+    }
+
     private static void pressOne(PointsCounter user, PointsCounter dealer,
                                  Deck deck, boolean isPlayingUser) {
         Card randCard = deck.getRandomCard();
@@ -31,40 +41,5 @@ public class GamePlay {
         Output.printOpenCard(randCard, point, isPlayingUser);
 
         Output.printInfo(user.getInform(), dealer.getInform());
-    }
-
-    /**
-     * Функция реализующая непосредственно процесс игры.
-     *
-     * @param user счетчик очков пользователя
-     * @param dealer счетчик очков дилера
-     * @param deck текущая колода
-     * @param isPlayingUser в данный момент играет пользователь или дилер
-     * @param scanner объект сканера для считывания ввода из консоли
-     */
-    public static void gaming(PointsCounter user, PointsCounter dealer,
-                              Deck deck, boolean isPlayingUser, Scanner scanner) {
-        if (isPlayingUser) {
-            while (user.getPoints() < 21) {
-                Output.printToGetCard();
-                try {
-                    String input = scanner.nextLine().trim();
-                    if (input.equals("0")) {
-                        break;
-                    } else if (input.equals("1")) {
-                        pressOne(user, dealer, deck, true);
-                    } else {
-                        Output.printToGetCardError();
-                    }
-                } catch (Exception e) {
-                    Output.printScannerException();
-                    scanner.nextLine();
-                }
-            }
-        } else {
-            while (dealer.getPoints() < 17) {
-                pressOne(user, dealer, deck, false);
-            }
-        }
     }
 }

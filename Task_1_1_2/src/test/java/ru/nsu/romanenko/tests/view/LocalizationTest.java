@@ -1,13 +1,19 @@
 package ru.nsu.romanenko.tests.view;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import java.util.Locale;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.nsu.romanenko.view.Localization;
+import ru.nsu.romanenko.local.Localization;
+import ru.nsu.romanenko.model.game.PointsCounter;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class LocalizationTest {
+
+    @BeforeEach
+    void setUp() {
+        Localization.setLocale(new Locale("en"));
+    }
 
     @Test
     void testGetAllEnglishMessages() {
