@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.romanenko.exceptions.ExpressionParserException;
 import ru.nsu.romanenko.math.*;
 import ru.nsu.romanenko.math.Number;
 import ru.nsu.romanenko.parse.EvaluateStringParser;
@@ -124,7 +125,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testExpressionParser() {
+    void testExpressionParser() throws ExpressionParserException{
         ExpressionParser parser = new ExpressionParser("(x + (3 * y))");
         Expression expr = parser.parse();
         assertEquals("(x + (3 * y))", expr.toString());
@@ -140,22 +141,22 @@ class ExpressionTests {
     }
 
     @Test
-    void testExpressionParserNested() {
+    void testExpressionParserNested() throws ExpressionParserException{
         Expression expr = new ExpressionParser("((x + 2) * (y - 1))").parse();
         assertEquals(20, expr.evaluate(Map.of("x", 3, "y", 5)));
     }
 
     @Test
-    void testExpressionParserEdgeCases() {
+    void testExpressionParserEdgeCases() throws ExpressionParserException{
         Expression expr1 = new ExpressionParser("( x +  y )").parse();
         assertEquals(5, expr1.evaluate(Map.of("x", 2, "y", 3)));
     }
 
     @Test
     void testExpressionParserErrorCases() {
-        assertThrows(RuntimeException.class, () -> new ExpressionParser("").parse());
-        assertThrows(RuntimeException.class, () -> new ExpressionParser("x + y").parse());
-        assertThrows(RuntimeException.class, () -> new ExpressionParser("(x & y)").parse());
+        assertThrows(ExpressionParserException.class, () -> new ExpressionParser("").parse());
+        assertThrows(ExpressionParserException.class, () -> new ExpressionParser("x + y").parse());
+        assertThrows(ExpressionParserException.class, () -> new ExpressionParser("(x & y)").parse());
     }
 
     @Test
@@ -210,7 +211,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testIntegration() {
+    void testIntegration() throws ExpressionParserException{
         Expression expr = new ExpressionParser("((x * y) + z)").parse();
         Map<String, Integer> vars = EvaluateStringParser.parseEvalStr("x=2;y=3;z=4");
         assertEquals(10, expr.evaluate(vars));

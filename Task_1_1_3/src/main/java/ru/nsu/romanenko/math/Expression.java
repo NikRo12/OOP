@@ -7,13 +7,6 @@ import java.util.Map;
  */
 public abstract class Expression {
     /**
-     * Returns string representation of the expression.
-     *
-     * @return string representation
-     */
-    public abstract String toString();
-
-    /**
      * Prints the expression to standard output.
      */
     public abstract void print();

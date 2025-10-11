@@ -1,9 +1,16 @@
 package ru.nsu.romanenko.parse;
 
+import ru.nsu.romanenko.exceptions.ExpressionParserException;
+import ru.nsu.romanenko.exceptions.CountOperatorsException;
+import ru.nsu.romanenko.exceptions.UnexpectedCharacterException;
+import ru.nsu.romanenko.exceptions.UnexpectedTokenException;
+import ru.nsu.romanenko.exceptions.NoSuchFunctionsException;
+import ru.nsu.romanenko.input_output.Input;
 import ru.nsu.romanenko.math.*;
 import ru.nsu.romanenko.math.Number;
+import ru.nsu.romanenko.operators.Generate;
 
-import java.util.Scanner;
+import java.util.Map;
 
 /**
  * Parser for mathematical expressions.
@@ -11,6 +18,17 @@ import java.util.Scanner;
 public class ExpressionParser {
     private final String input;
     private int position;
+    public Map<Character, Class<? extends Expression>> operators;
+
+    /**
+     * Reads expression from standard input and parses it.
+     *
+     * @return parsed expression
+     */
+    public static Expression getExpressionObjectFromInput() throws ExpressionParserException{
+        String input = Input.get_parsing_line();
+        return new ExpressionParser(input).parse();
+    }
 
     /**
      * Constructs a parser with given input string.
@@ -20,7 +38,39 @@ public class ExpressionParser {
     public ExpressionParser(String input) {
         this.input = input.replaceAll("\\s+", "");
         this.position = 0;
+        this.operators = Generate.generate_operators();
     }
+
+    /**
+     * Parses the expression.
+     *
+     * @return parsed expression
+     */
+    public Expression parse() throws ExpressionParserException{
+        expect('(');
+
+        Expression left = parseOperand();
+
+        char operator = peek();
+        if (operators.get(operator) == null) {
+            throw new CountOperatorsException();
+        }
+
+        consume();
+
+        Expression right = parseOperand();
+
+        expect(')');
+
+        try {
+            return operators.get(operator).getConstructor(Expression.class, Expression.class).newInstance(left, right);
+        }
+        catch (Exception e)
+        {
+            throw new NoSuchFunctionsException(e.getMessage());
+        }
+    }
+
 
     private char peek() {
         return position < input.length() ? input.charAt(position) : '\0';
@@ -30,56 +80,23 @@ public class ExpressionParser {
         position++;
     }
 
-    private void expect(char expected) {
+    private void expect(char expected) throws ExpressionParserException {
         if (peek() != expected) {
-            throw new RuntimeException("Expected '" + expected + "' but found '" + peek() + "'");
+            throw new UnexpectedTokenException(expected, peek());
         }
         consume();
     }
 
-    /**
-     * Parses the expression.
-     *
-     * @return parsed expression
-     */
-    public Expression parse() {
-        return parseExpression();
-    }
-
-    private Expression parseExpression() {
-        expect('(');
-
-        Expression left = parseOperand();
-
-        char operator = peek();
-        if ("+-*/".indexOf(operator) == -1) {
-            throw new RuntimeException("Expected operator but found: " + operator);
-        }
-
-        consume();
-
-        Expression right = parseOperand();
-
-        expect(')');
-
-        return switch (operator) {
-            case '+' -> new Add(left, right);
-            case '-' -> new Sub(left, right);
-            case '*' -> new Mul(left, right);
-            case '/' -> new Div(left, right);
-            default -> throw new RuntimeException("Unknown operator: " + operator);
-        };
-    }
-
-    private Expression parseOperand() {
-        if (peek() == '(') {
-            return parseExpression();
-        } else if (Character.isDigit(peek())) {
+    private Expression parseOperand() throws ExpressionParserException{
+        char symbol = peek();
+        if (symbol == '(') {
+            return parse();
+        } else if (Character.isDigit(symbol)) {
             return parseNumber();
-        } else if (Character.isLetter(peek())) {
+        } else if (Character.isLetter(symbol)) {
             return parseVariable();
         } else {
-            throw new RuntimeException("Unexpected character: " + peek());
+            throw new UnexpectedCharacterException(symbol);
         }
     }
 
@@ -101,17 +118,5 @@ public class ExpressionParser {
         }
 
         return new Variable(sb.toString());
-    }
-
-    /**
-     * Reads expression from standard input and parses it.
-     *
-     * @return parsed expression
-     */
-    public static Expression getResult() {
-        Scanner in = new Scanner(System.in);
-        String input = in.nextLine();
-        in.close();
-        return new ExpressionParser(input).parse();
     }
 }

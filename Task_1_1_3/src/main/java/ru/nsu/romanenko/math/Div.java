@@ -1,5 +1,7 @@
 package ru.nsu.romanenko.math;
 
+import ru.nsu.romanenko.input_output.Output;
+
 import java.util.Map;
 
 /**
@@ -22,7 +24,7 @@ public class Div extends Expression {
 
     @Override
     public void print() {
-        System.out.println(this.toString());
+        Output.print_Expression(this.toString());
     }
 
     @Override
@@ -32,7 +34,11 @@ public class Div extends Expression {
 
     @Override
     public int evaluate(Map<String, Integer> variables) {
-        return exp1.evaluate(variables) / exp2.evaluate(variables);
+        int denominator = exp2.evaluate(variables);
+        if (denominator == 0) {
+            throw new ArithmeticException("Division by zero in expression: " + this.toString());
+        }
+        return exp1.evaluate(variables) / denominator;
     }
 
     @Override

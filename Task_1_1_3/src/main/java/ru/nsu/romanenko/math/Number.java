@@ -1,5 +1,7 @@
 package ru.nsu.romanenko.math;
 
+import ru.nsu.romanenko.input_output.Output;
+
 import java.util.Map;
 
 /**
@@ -28,7 +30,7 @@ public class Number extends Expression {
 
     @Override
     public void print() {
-        System.out.println(this.toString());
+        Output.print_Expression(this.toString());
     }
 
     @Override
