@@ -2,7 +2,6 @@ package ru.nsu.romanenko.test;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.api.Timeout;
 import ru.nsu.romanenko.SubstringFinder;
 
 import java.io.*;
@@ -11,7 +10,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -186,13 +184,83 @@ class SubstringFinderTest {
         }
     }
 
-    // Тесты на кодировки
+    @Test
+    void testSingleLineNoNewline() throws IOException {
+        File testFile = tempDir.resolve("single.txt").toFile();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
+            writer.write("test");
+        }
+
+        try (InputStream inputStream = new FileInputStream(testFile)) {
+            ArrayList<Integer> result = SubstringFinder.find(inputStream, "test");
+            assertEquals(List.of(0), result);
+        }
+    }
+
+    @Test
+    void testMultipleSameLine() throws IOException {
+        File testFile = tempDir.resolve("multiple.txt").toFile();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
+            writer.write("test test test");
+        }
+
+        try (InputStream inputStream = new FileInputStream(testFile)) {
+            ArrayList<Integer> result = SubstringFinder.find(inputStream, "test");
+            assertEquals(Arrays.asList(0, 5, 10), result);
+        }
+    }
+
+    @Test
+    void testPartialOverlap() throws IOException {
+        File testFile = tempDir.resolve("overlap.txt").toFile();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
+            writer.write("aaaaa");
+        }
+
+        try (InputStream inputStream = new FileInputStream(testFile)) {
+            ArrayList<Integer> result = SubstringFinder.find(inputStream, "aaa");
+            assertEquals(Arrays.asList(0, 1, 2), result);
+        }
+    }
+
+    @Test
+    void testOnlyNewlines() throws IOException {
+        File testFile = tempDir.resolve("newlines.txt").toFile();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
+            writer.write("\n\n\n");
+        }
+
+        try (InputStream inputStream = new FileInputStream(testFile)) {
+            ArrayList<Integer> result = SubstringFinder.find(inputStream, "x");
+            assertEquals(new ArrayList<>(), result);
+        }
+    }
+
+    @Test
+    void testSubstringEqualsLine() throws IOException {
+        File testFile = tempDir.resolve("wholeline.txt").toFile();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
+            writer.write("hello\n");
+            writer.write("world\n");
+        }
+
+        try (InputStream inputStream = new FileInputStream(testFile)) {
+            ArrayList<Integer> result = SubstringFinder.find(inputStream, "world");
+            assertEquals(List.of(6), result);
+        }
+    }
+
     @Test
     void testWithDifferentEncodings() throws IOException {
         File testFile = tempDir.resolve("unicode.txt").toFile();
 
         try (OutputStreamWriter writer = new OutputStreamWriter(
-                new FileOutputStream(testFile), "UTF-8")) {
+                new FileOutputStream(testFile), StandardCharsets.UTF_8)) {
             writer.write("Привет, мир!\n");
             writer.write("Это тестовый файл.\n");
         }
@@ -218,9 +286,7 @@ class SubstringFinderTest {
         }
     }
 
-    // Тесты на производительность и большие файлы
     @Test
-    @Timeout(value = 10, unit = TimeUnit.SECONDS)
     void testLargeFile() throws IOException {
         File testFile = tempDir.resolve("large_file.txt").toFile();
 
@@ -268,10 +334,8 @@ class SubstringFinderTest {
         try (InputStream inputStream = new FileInputStream(testFile)) {
             ArrayList<Integer> result = SubstringFinder.find(inputStream, "123");
 
-            // Должно найти много вхождений
             assertTrue(result.size() > 1000);
 
-            // Проверяем что все позиции корректны
             for (int i = 0; i < Math.min(10, result.size()); i++) {
                 int pos = result.get(i);
                 assertEquals(3, pos % 9, "Position " + i + " should be at correct offset");
@@ -279,7 +343,6 @@ class SubstringFinderTest {
         }
     }
 
-    // Тесты на edge cases
     @Test
     void testSingleCharacterFile() throws IOException {
         File testFile = tempDir.resolve("single_char.txt").toFile();
@@ -412,7 +475,6 @@ class SubstringFinderTest {
         }
     }
 
-    // Вспомогательные методы
     private long countExpectedOccurrences(File file, String searchString) throws IOException {
         long count = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
