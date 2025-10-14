@@ -40,7 +40,7 @@ public class SubstringFinder {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                line += "\n";
+                line += System.lineSeparator();
                 int index = 0;
                 while ((index = line.indexOf(substring, index)) != -1) {
                     result.add(globalPosition + index);
