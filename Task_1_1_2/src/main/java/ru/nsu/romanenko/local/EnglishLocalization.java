@@ -33,7 +33,7 @@ public class EnglishLocalization extends Localization {
     }
 
     @Override
-    protected String getString(String key) {
+    public String getString(String key) {
         return strings.getOrDefault(key, key);
     }
 }
