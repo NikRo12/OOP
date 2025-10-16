@@ -2,6 +2,8 @@ package ru.nsu.romanenko.tests.model.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.nsu.romanenko.model.game.Handler.pressOne;
+
 import java.lang.reflect.Method;
 import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,11 +30,7 @@ public class GamePlayReflectionTest {
         Deck deck = new Deck();
 
         int initialPoints = user.getPoints();
-
-        Method pressOne = GamePlay.class.getDeclaredMethod("pressOne",
-                PointsCounter.class, PointsCounter.class, Deck.class, boolean.class);
-        pressOne.setAccessible(true);
-        pressOne.invoke(null, user, dealer, deck, true);
+        pressOne(user, dealer, deck, true);
 
         assertTrue(user.getPoints() > initialPoints);
     }
@@ -44,11 +42,7 @@ public class GamePlayReflectionTest {
         Deck deck = new Deck();
 
         int initialPoints = dealer.getPoints();
-
-        Method pressOne = GamePlay.class.getDeclaredMethod("pressOne",
-                PointsCounter.class, PointsCounter.class, Deck.class, boolean.class);
-        pressOne.setAccessible(true);
-        pressOne.invoke(null, user, dealer, deck, false);
+        pressOne(user, dealer, deck, false);
 
         assertTrue(dealer.getPoints() > initialPoints);
     }
@@ -64,11 +58,7 @@ public class GamePlayReflectionTest {
                 return new Card(Suit.HEARTS, Value.ACE);
             }
         };
-
-        Method pressOne = GamePlay.class.getDeclaredMethod("pressOne",
-                PointsCounter.class, PointsCounter.class, Deck.class, boolean.class);
-        pressOne.setAccessible(true);
-        pressOne.invoke(null, user, dealer, deck, true);
+        pressOne(user, dealer, deck, true);
 
         assertEquals(11, user.getPoints());
     }
@@ -84,11 +74,7 @@ public class GamePlayReflectionTest {
                 return new Card(Suit.SPADES, Value.KING);
             }
         };
-
-        Method pressOne = GamePlay.class.getDeclaredMethod("pressOne",
-                PointsCounter.class, PointsCounter.class, Deck.class, boolean.class);
-        pressOne.setAccessible(true);
-        pressOne.invoke(null, user, dealer, deck, false);
+        pressOne(user, dealer, deck, false);
 
         assertEquals(10, dealer.getPoints());
     }
@@ -99,17 +85,13 @@ public class GamePlayReflectionTest {
         PointsCounter dealer = new PointsCounter(true);
         Deck deck = new Deck();
 
-        Method pressOne = GamePlay.class.getDeclaredMethod("pressOne",
-                PointsCounter.class, PointsCounter.class, Deck.class, boolean.class);
-        pressOne.setAccessible(true);
-
         int pointsAfterFirst = 0;
         int pointsAfterSecond = 0;
 
-        pressOne.invoke(null, user, dealer, deck, true);
+        pressOne(user, dealer, deck, true);
         pointsAfterFirst = user.getPoints();
 
-        pressOne.invoke(null, user, dealer, deck, true);
+        pressOne(user, dealer, deck, true);
         pointsAfterSecond = user.getPoints();
 
         assertTrue(pointsAfterSecond > pointsAfterFirst);

@@ -5,8 +5,8 @@ import ru.nsu.romanenko.model.card.Deck;
 import ru.nsu.romanenko.view.Output;
 
 public class Handler {
-    static void pressOne(PointsCounter user, PointsCounter dealer,
-                         Deck deck, boolean isPlayingUser) {
+    public static void pressOne(PointsCounter user, PointsCounter dealer,
+                                Deck deck, boolean isPlayingUser) {
         Card randCard = deck.getRandomCard();
         int point;
         if (isPlayingUser) {
