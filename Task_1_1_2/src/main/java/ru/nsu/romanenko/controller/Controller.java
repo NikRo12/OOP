@@ -33,7 +33,6 @@ public class    Controller {
         }
 
         Output.printFinalResult(scores.userScore, scores.dealerScore);
-        Input.closeScanner();
     }
 
     private static void roundPlay(int round, ScoreHolder scores) {
