@@ -63,8 +63,7 @@ public class GamePlayTest
         player.appendCard(ace2);
         player.appendCard(ace3);
 
-        assertEquals(13, player.getPoints(),
-                "Player should have 13 points with three aces (11 + 1 + 1)");
+        assertEquals(13, player.getPoints());
     }
 
     @Test

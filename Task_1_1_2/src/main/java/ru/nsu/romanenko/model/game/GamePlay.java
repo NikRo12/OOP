@@ -1,10 +1,9 @@
 package ru.nsu.romanenko.model.game;
 
-import java.util.Scanner;
-import ru.nsu.romanenko.model.card.Card;
 import ru.nsu.romanenko.model.card.Deck;
 import ru.nsu.romanenko.view.Input;
-import ru.nsu.romanenko.view.Output;
+
+import static ru.nsu.romanenko.model.game.Handler.pressOne;
 
 /**
  * Class implementing game process.
@@ -26,20 +25,5 @@ public class GamePlay {
                 pressOne(user, dealer, deck, false);
             }
         }
-    }
-
-    private static void pressOne(PointsCounter user, PointsCounter dealer,
-                                 Deck deck, boolean isPlayingUser) {
-        Card randCard = deck.getRandomCard();
-        int point;
-        if (isPlayingUser) {
-            point = user.appendCard(randCard);
-        } else {
-            point = dealer.appendCard(randCard);
-        }
-
-        Output.printOpenCard(randCard, point, isPlayingUser);
-
-        Output.printInfo(user.getInform(), dealer.getInform());
     }
 }

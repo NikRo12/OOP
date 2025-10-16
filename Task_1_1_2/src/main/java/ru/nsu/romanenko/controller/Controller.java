@@ -7,7 +7,7 @@ import ru.nsu.romanenko.model.game.PointsCounter;
 import ru.nsu.romanenko.view.Input;
 import ru.nsu.romanenko.view.Output;
 
-public class Controller {
+public class    Controller {
     private static final Deck DECK = new Deck();
 
     private static class ScoreHolder {
