@@ -4,12 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import ru.nsu.romanenko.exceptions.ContentPresentException;
+import ru.nsu.romanenko.exceptions.ContentValueException;
+import ru.nsu.romanenko.exceptions.InputExceptions;
 import ru.nsu.romanenko.system.Input;
 
 /**
@@ -61,9 +68,18 @@ class InputTest {
         Path testFile = tempDir.resolve("invalid_chars.txt");
         Files.write(testFile, "101\n02a\n101".getBytes());
 
-        RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> Input.read(testFile.toString()));
-        assertTrue(exception.getMessage().contains("invalid characters"));
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        try {
+            Input.read(testFile.toString());
+
+            String output = outputStream.toString();
+            assertTrue(output.contains("contains invalid characters"));
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test
@@ -71,9 +87,18 @@ class InputTest {
         Path testFile = tempDir.resolve("non_square.txt");
         Files.write(testFile, "101\n01\n101".getBytes());
 
-        RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> Input.read(testFile.toString()));
-        assertTrue(exception.getMessage().contains("not square"));
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        try {
+            Input.read(testFile.toString());
+
+            String output = outputStream.toString();
+            assertTrue(output.contains("not square"));
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test
@@ -82,6 +107,7 @@ class InputTest {
         Files.write(testFile, "".getBytes());
 
         ArrayList<String> result = Input.read(testFile.toString());
+        Assertions.assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 
@@ -89,7 +115,7 @@ class InputTest {
     void testReadNonExistentFile() {
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> Input.read("non_existent_file.txt"));
-        assertTrue(exception.getMessage().contains("Error reading file"));
+        assertTrue(exception.getMessage().contains("error reading file"));
     }
 
     @Test

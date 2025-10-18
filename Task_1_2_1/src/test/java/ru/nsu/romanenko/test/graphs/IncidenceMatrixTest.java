@@ -79,6 +79,6 @@ class IncidenceMatrixTest {
         graph.addVertex(2);
         graph.addEdge(1, 2);
 
-        assertDoesNotThrow(() -> graph.printGraph());
+        assertDoesNotThrow(() -> System.out.println(graph));
     }
 }

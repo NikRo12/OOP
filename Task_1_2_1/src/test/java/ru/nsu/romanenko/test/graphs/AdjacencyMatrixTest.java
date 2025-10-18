@@ -129,7 +129,7 @@ class AdjacencyMatrixTest {
 
     @Test
     void testPrintEmptyGraph() {
-        assertDoesNotThrow(() -> graph.printGraph());
+        assertDoesNotThrow(() -> System.out.println(graph));
     }
 
     @Test
@@ -138,7 +138,7 @@ class AdjacencyMatrixTest {
         graph.addVertex(2);
         graph.addEdge(1, 2);
 
-        assertDoesNotThrow(() -> graph.printGraph());
+        assertDoesNotThrow(() -> System.out.println(graph));
     }
 
     @Test
