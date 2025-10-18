@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.tests.model.game.GamePlayReflectionTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-10-16T03:08:06.316Z" hostname="NRNOTEBOOK" time="0.059">
+  <properties/>
+  <testcase name="testPressOneDealerIncrementsPoints()" classname="ru.nsu.romanenko.tests.model.game.GamePlayReflectionTest" time="0.037"/>
+  <testcase name="testPressOneMultipleCallsUser()" classname="ru.nsu.romanenko.tests.model.game.GamePlayReflectionTest" time="0.006"/>
+  <testcase name="testPressOneUserIncrementsPoints()" classname="ru.nsu.romanenko.tests.model.game.GamePlayReflectionTest" time="0.002"/>
+  <testcase name="testPressOneWithKingDealer()" classname="ru.nsu.romanenko.tests.model.game.GamePlayReflectionTest" time="0.004"/>
+  <testcase name="testPressOneWithAceUser()" classname="ru.nsu.romanenko.tests.model.game.GamePlayReflectionTest" time="0.003"/>
+  <system-out><![CDATA[Dealer opened card: KING DIAMONDS (10)
+	Your cards [] => 0
+	Dealer's cards [KING DIAMONDS (10), <closed card>] => 10
+You've opened card: TWO CLUBS (2)
+	Your cards [TWO CLUBS (2)] => 2
+	Dealer's cards [] => 0
+You've opened card: TWO HEARTS (2)
+	Your cards [TWO CLUBS (2), TWO HEARTS (2)] => 4
+	Dealer's cards [] => 0
+You've opened card: TEN CLUBS (10)
+	Your cards [TEN CLUBS (10)] => 10
+	Dealer's cards [] => 0
+Dealer opened card: KING SPADES (10)
+	Your cards [] => 0
+	Dealer's cards [KING SPADES (10), <closed card>] => 10
+You've opened card: ACE HEARTS (11)
+	Your cards [ACE HEARTS (11)] => 11
+	Dealer's cards [] => 0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

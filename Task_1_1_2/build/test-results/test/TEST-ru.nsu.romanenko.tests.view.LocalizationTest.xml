@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.tests.view.LocalizationTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2025-10-16T03:08:06.427Z" hostname="NRNOTEBOOK" time="0.017">
+  <properties/>
+  <testcase name="testDefaultToEnglishForUnknownLocale()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testEnglishLocalization()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testMultipleLocaleSwitches()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testLocaleCaseInsensitivity()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.002"/>
+  <testcase name="testDirectRussianLocalizationInstance()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testDirectEnglishLocalizationInstance()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testRussianLocalization()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testUnknownKeyReturnsKey()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.001"/>
+  <testcase name="testAllKeysExistInBothLocalizations()" classname="ru.nsu.romanenko.tests.view.LocalizationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

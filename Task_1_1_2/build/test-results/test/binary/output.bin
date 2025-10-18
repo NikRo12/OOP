@@ -1,0 +1,36 @@
+(Dealer opened card: KING DIAMONDS (10)
+	Your cards [] => 0
+;	Dealer's cards [KING DIAMONDS (10), <closed card>] => 10
+#You've opened card: TWO CLUBS (2)
+"	Your cards [TWO CLUBS (2)] => 2
+	Dealer's cards [] => 0
+$You've opened card: TWO HEARTS (2)
+2	Your cards [TWO CLUBS (2), TWO HEARTS (2)] => 4
+	Dealer's cards [] => 0
+$You've opened card: TEN CLUBS (10)
+$	Your cards [TEN CLUBS (10)] => 10
+	Dealer's cards [] => 0
+&Dealer opened card: KING SPADES (10)
+	Your cards [] => 0
+9	Dealer's cards [KING SPADES (10), <closed card>] => 10
+%You've opened card: ACE HEARTS (11)
+%	Your cards [ACE HEARTS (11)] => 11
+	Dealer's cards [] => 0
+%Dealer opened card: SEVEN CLUBS (7)
+	Your cards [] => 0
+L	Dealer's cards [ACE SPADES (11), ACE DIAMONDS (1), SEVEN CLUBS (7)] => 19
+$Dealer opened card: TWO SPADES (2)
+	Your cards [] => 0
+6	Dealer's cards [TWO SPADES (2), <closed card>] => 2
+&Dealer opened card: EIGHT SPADES (8)
+	Your cards [] => 0
+:	Dealer's cards [TWO SPADES (2), EIGHT SPADES (8)] => 10
+%Dealer opened card: FOUR HEARTS (4)
+	Your cards [] => 0
+K	Dealer's cards [TWO SPADES (2), EIGHT SPADES (8), FOUR HEARTS (4)] => 14
+#Dealer opened card: TWO CLUBS (2)
+	Your cards [] => 0
+Z	Dealer's cards [TWO SPADES (2), EIGHT SPADES (8), FOUR HEARTS (4), TWO CLUBS (2)] => 16
+$Dealer opened card: TEN CLUBS (10)
+	Your cards [] => 0
+j	Dealer's cards [TWO SPADES (2), EIGHT SPADES (8), FOUR HEARTS (4), TWO CLUBS (2), TEN CLUBS (10)] => 26

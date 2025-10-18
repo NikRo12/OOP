@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.tests.view.OutputTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2025-10-16T03:08:06.448Z" hostname="NRNOTEBOOK" time="0.043">
+  <properties/>
+  <testcase name="testPrintToGetCard()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <testcase name="testPrintScannerException()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintOpenCardForDealer()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <testcase name="testPrintInfo()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <testcase name="testPrintLose()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <testcase name="testPrintResult()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.005"/>
+  <testcase name="testPrintFinalResultUserWins()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintHello()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintRound()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintStart()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintWin()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <testcase name="testPrintDealerMove()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <testcase name="testPrintFinalResultTie()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintToGetCardError()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintFinalResultDealerWins()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.001"/>
+  <testcase name="testPrintOpenCardForUser()" classname="ru.nsu.romanenko.tests.view.OutputTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
