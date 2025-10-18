@@ -173,10 +173,9 @@ public class IncidenceMatrix extends AbstractGraph {
     }
 
     @Override
-    public void printGraph() {
+    public String toString() {
         if (vertices.isEmpty()) {
-            System.out.println("Graph is empty");
-            return;
+            return "";
         }
 
         List<Integer> sortedVertices = new ArrayList<>(vertices);
@@ -185,30 +184,30 @@ public class IncidenceMatrix extends AbstractGraph {
         List<Integer> sortedEdgeIds = new ArrayList<>(edges.keySet());
         Collections.sort(sortedEdgeIds);
 
-        StringBuilder graphBuilder = new StringBuilder();
+        StringBuilder graphString = new StringBuilder();
 
-        graphBuilder.append("    ");
+        graphString.append("    ");
         for (int edgeId : sortedEdgeIds) {
-            graphBuilder.append("e").append(edgeId).append("   ");
+            graphString.append("e").append(edgeId).append("   ");
         }
-        graphBuilder.append("\n");
+        graphString.append("\n");
 
         for (int vertex : sortedVertices) {
-            graphBuilder.append(vertex).append(" | ");
+            graphString.append(vertex).append(" | ");
             Map<Integer, Integer> vertexRow = matrix.get(vertex);
             for (int edgeId : sortedEdgeIds) {
                 int value = vertexRow.getOrDefault(edgeId, 0);
                 if (value == 1) {
-                    graphBuilder.append(" 1   ");
+                    graphString.append(" 1   ");
                 } else if (value == -1) {
-                    graphBuilder.append("-1   ");
+                    graphString.append("-1   ");
                 } else {
-                    graphBuilder.append(" 0   ");
+                    graphString.append(" 0   ");
                 }
             }
-            graphBuilder.append("\n");
+            graphString.append("\n");
         }
 
-        System.out.print(graphBuilder.toString());
+        return graphString.toString();
     }
 }

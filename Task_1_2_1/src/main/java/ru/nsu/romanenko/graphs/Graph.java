@@ -100,10 +100,6 @@ public interface Graph {
      */
     boolean readFromFile(String filename);
 
-    /**
-     * Prints the graph representation.
-     */
-    void printGraph();
 
     /**
      * Checks equality with another graph.

@@ -92,10 +92,9 @@ public class AdjacencyList extends AbstractGraph {
     }
 
     @Override
-    public void printGraph() {
+    public String toString() {
         if (vertices.isEmpty()) {
-            System.out.println("Graph is empty");
-            return;
+            return "";
         }
 
         List<Integer> sortedVertices = new ArrayList<>(vertices);
@@ -110,6 +109,6 @@ public class AdjacencyList extends AbstractGraph {
             graphString.append(vertex).append(" -> ").append(neighbors).append("\n");
         }
 
-        System.out.print(graphString.toString());
+        return graphString.toString();
     }
 }

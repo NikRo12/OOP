@@ -53,9 +53,11 @@ public final class Input {
             return lines;
 
         } catch (IOException e) {
-            throw new RuntimeException("Error reading file: " + e.getMessage(), e);
+            throw new RuntimeException("System error reading file: " + e.getMessage(), e);
         } catch (ContentValueException | ContentPresentException e) {
-            throw new RuntimeException(e.getMessage());
+            System.out.println(e.getMessage());
         }
+
+        return null;
     }
 }

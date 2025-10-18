@@ -49,6 +49,8 @@ public class AdjacencyMatrix extends AbstractGraph {
             }
         }
 
+        matrix.remove(vertex);
+
         for (Map<Integer, Boolean> otherRow : matrix.values()) {
             if (otherRow.containsKey(vertex) && otherRow.get(vertex)) {
                 edgesRemoved++;
@@ -115,31 +117,30 @@ public class AdjacencyMatrix extends AbstractGraph {
     }
 
     @Override
-    public void printGraph() {
+    public String toString() {
         if (vertices.isEmpty()) {
-            System.out.println("Graph is empty");
-            return;
+            return "";
         }
 
         List<Integer> sortedVertices = new ArrayList<>(vertices);
         Collections.sort(sortedVertices);
 
-        StringBuilder graphBuilder = new StringBuilder();
+        StringBuilder graphString = new StringBuilder();
 
-        graphBuilder.append("    ");
+        graphString.append("    ");
         for (int vertex : sortedVertices) {
-            graphBuilder.append(vertex).append("  ");
+            graphString.append(vertex).append("  ");
         }
-        graphBuilder.append("\n");
+        graphString.append("\n");
 
         for (int from : sortedVertices) {
-            graphBuilder.append(from).append(" | ");
+            graphString.append(from).append(" | ");
             for (int to : sortedVertices) {
-                graphBuilder.append(hasEdge(from, to) ? "1" : "0").append("  ");
+                graphString.append(hasEdge(from, to) ? "1" : "0").append("  ");
             }
-            graphBuilder.append("\n");
+            graphString.append("\n");
         }
 
-        System.out.print(graphBuilder.toString());
+        return graphString.toString();
     }
 }
