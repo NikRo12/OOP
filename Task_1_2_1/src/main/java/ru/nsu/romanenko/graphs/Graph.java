@@ -3,9 +3,6 @@ package ru.nsu.romanenko.graphs;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Graph interface.
- */
 public interface Graph {
     /**
      * Adds a vertex to the graph.

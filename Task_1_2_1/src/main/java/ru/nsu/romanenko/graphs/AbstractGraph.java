@@ -10,10 +10,6 @@ import java.util.Queue;
 import java.util.Set;
 import ru.nsu.romanenko.system.Input;
 
-
-/**
- * Abstract graph implementation.
- */
 public abstract class AbstractGraph implements Graph {
     protected Set<Integer> vertices = new HashSet<>();
     protected int edgeCount = 0;

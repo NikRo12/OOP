@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Adjacency matrix graph implementation.
- */
 public class AdjacencyMatrix extends AbstractGraph {
     private final Map<Integer, Map<Integer, Boolean>> matrix;
 
@@ -127,18 +124,22 @@ public class AdjacencyMatrix extends AbstractGraph {
         List<Integer> sortedVertices = new ArrayList<>(vertices);
         Collections.sort(sortedVertices);
 
-        System.out.print("    ");
+        StringBuilder graphBuilder = new StringBuilder();
+
+        graphBuilder.append("    ");
         for (int vertex : sortedVertices) {
-            System.out.print(vertex + "  ");
+            graphBuilder.append(vertex).append("  ");
         }
-        System.out.println();
+        graphBuilder.append("\n");
 
         for (int from : sortedVertices) {
-            System.out.print(from + " | ");
+            graphBuilder.append(from).append(" | ");
             for (int to : sortedVertices) {
-                System.out.print((hasEdge(from, to) ? "1" : "0") + "  ");
+                graphBuilder.append(hasEdge(from, to) ? "1" : "0").append("  ");
             }
-            System.out.println();
+            graphBuilder.append("\n");
         }
+
+        System.out.print(graphBuilder.toString());
     }
 }

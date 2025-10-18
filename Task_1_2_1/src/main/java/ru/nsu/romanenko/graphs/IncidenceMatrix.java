@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Incidence matrix graph implementation.
- */
 public class IncidenceMatrix extends AbstractGraph {
     private final Map<Integer, Map<Integer, Integer>> matrix;
     private final Map<Integer, Edge> edges;
     private int nextEdgeId = 0;
 
+    /**
+     * A class that represents an abstraction over a directed connection between nodes
+     */
     private static class Edge {
         final int from;
         final int to;
@@ -185,27 +185,30 @@ public class IncidenceMatrix extends AbstractGraph {
         List<Integer> sortedEdgeIds = new ArrayList<>(edges.keySet());
         Collections.sort(sortedEdgeIds);
 
-        System.out.print("    ");
+        StringBuilder graphBuilder = new StringBuilder();
+
+        graphBuilder.append("    ");
         for (int edgeId : sortedEdgeIds) {
-            Edge edge = edges.get(edgeId);
-            System.out.print("e" + edgeId + "   ");
+            graphBuilder.append("e").append(edgeId).append("   ");
         }
-        System.out.println();
+        graphBuilder.append("\n");
 
         for (int vertex : sortedVertices) {
-            System.out.print(vertex + " | ");
+            graphBuilder.append(vertex).append(" | ");
             Map<Integer, Integer> vertexRow = matrix.get(vertex);
             for (int edgeId : sortedEdgeIds) {
                 int value = vertexRow.getOrDefault(edgeId, 0);
                 if (value == 1) {
-                    System.out.print(" 1   ");
+                    graphBuilder.append(" 1   ");
                 } else if (value == -1) {
-                    System.out.print("-1   ");
+                    graphBuilder.append("-1   ");
                 } else {
-                    System.out.print(" 0   ");
+                    graphBuilder.append(" 0   ");
                 }
             }
-            System.out.println();
+            graphBuilder.append("\n");
         }
+
+        System.out.print(graphBuilder.toString());
     }
 }

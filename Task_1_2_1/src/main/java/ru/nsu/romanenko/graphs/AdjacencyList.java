@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Adjacency list graph implementation.
- */
 public class AdjacencyList extends AbstractGraph {
     private final Map<Integer, Set<Integer>> list;
 
@@ -104,11 +101,15 @@ public class AdjacencyList extends AbstractGraph {
         List<Integer> sortedVertices = new ArrayList<>(vertices);
         Collections.sort(sortedVertices);
 
-        System.out.println("Adjacency List:");
+        StringBuilder graphString = new StringBuilder();
+        graphString.append("Adjacency List:\n");
+
         for (int vertex : sortedVertices) {
             List<Integer> neighbors = new ArrayList<>(list.get(vertex));
             Collections.sort(neighbors);
-            System.out.println(vertex + " -> " + neighbors);
+            graphString.append(vertex).append(" -> ").append(neighbors).append("\n");
         }
+
+        System.out.print(graphString.toString());
     }
 }
