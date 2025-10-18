@@ -1,8 +1,10 @@
 package ru.nsu.romanenko.math;
 
+import ru.nsu.romanenko.exceptions.DivisionByZeroException;
 import ru.nsu.romanenko.input_output.Output;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents a division operation.
@@ -33,10 +35,10 @@ public class Div extends Expression {
     }
 
     @Override
-    public int evaluate(Map<String, Integer> variables) {
+    public int evaluate(Map<String, Integer> variables) throws DivisionByZeroException {
         int denominator = exp2.evaluate(variables);
         if (denominator == 0) {
-            throw new ArithmeticException("Division by zero in expression: " + this.toString());
+            throw new DivisionByZeroException(this.toString());
         }
         return exp1.evaluate(variables) / denominator;
     }

@@ -4,26 +4,12 @@ import ru.nsu.romanenko.input_output.Output;
 
 import java.util.Map;
 
-/**
- * Represents a constant number in an expression.
- */
 public class Number extends Expression {
     private final int value;
-
-    /**
-     * Constructs a number with given value.
-     *
-     * @param value integer value
-     */
     public Number(int value) {
         this.value = value;
     }
 
-    /**
-     * Returns the numeric value.
-     *
-     * @return the value
-     */
     public int getValue() {
         return value;
     }

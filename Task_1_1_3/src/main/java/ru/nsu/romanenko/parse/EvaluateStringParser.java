@@ -3,16 +3,7 @@ package ru.nsu.romanenko.parse;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Parser for variable assignment strings.
- */
 public class EvaluateStringParser {
-    /**
-     * Parses a string of variable assignments.
-     *
-     * @param input assignment string (e.g., "x=10;y=20")
-     * @return map of variable names to values
-     */
     public static Map<String, Integer> parseEvalStr(String input) {
         String str = input.replaceAll("\\s+", "");
         Map<String, Integer> result = new HashMap<>();

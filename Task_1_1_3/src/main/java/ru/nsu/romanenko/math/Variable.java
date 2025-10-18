@@ -4,26 +4,13 @@ import ru.nsu.romanenko.input_output.Output;
 
 import java.util.Map;
 
-/**
- * Represents a variable in an expression.
- */
 public class Variable extends Expression {
     private final String name;
 
-    /**
-     * Constructs a variable with given name.
-     *
-     * @param name variable name
-     */
     public Variable(String name) {
         this.name = name;
     }
 
-    /**
-     * Returns the variable name.
-     *
-     * @return variable name
-     */
     public String getName() {
         return name;
     }

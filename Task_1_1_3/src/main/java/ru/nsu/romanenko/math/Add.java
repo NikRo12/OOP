@@ -1,5 +1,6 @@
 package ru.nsu.romanenko.math;
 
+import ru.nsu.romanenko.exceptions.DivisionByZeroException;
 import ru.nsu.romanenko.input_output.Output;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ public class Add extends Expression {
     }
 
     @Override
-    public int evaluate(Map<String, Integer> variables) {
+    public int evaluate(Map<String, Integer> variables) throws DivisionByZeroException {
         return exp1.evaluate(variables) + exp2.evaluate(variables);
     }
 

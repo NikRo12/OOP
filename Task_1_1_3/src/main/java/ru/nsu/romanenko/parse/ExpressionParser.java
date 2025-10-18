@@ -12,40 +12,22 @@ import ru.nsu.romanenko.operators.Generate;
 
 import java.util.Map;
 
-/**
- * Parser for mathematical expressions.
- */
 public class ExpressionParser {
     private final String input;
     private int position;
     public Map<Character, Class<? extends Expression>> operators;
 
-    /**
-     * Reads expression from standard input and parses it.
-     *
-     * @return parsed expression
-     */
-    public static Expression getExpressionObjectFromInput() throws ExpressionParserException{
-        String input = Input.get_parsing_line();
-        return new ExpressionParser(input).parse();
-    }
-
-    /**
-     * Constructs a parser with given input string.
-     *
-     * @param input expression string
-     */
     public ExpressionParser(String input) {
         this.input = input.replaceAll("\\s+", "");
         this.position = 0;
         this.operators = Generate.generate_operators();
     }
 
-    /**
-     * Parses the expression.
-     *
-     * @return parsed expression
-     */
+    public static Expression getExpressionObjectFromInput() throws ExpressionParserException{
+        String input = Input.get_parsing_line();
+        return new ExpressionParser(input).parse();
+    }
+
     public Expression parse() throws ExpressionParserException{
         expect('(');
 
@@ -56,14 +38,17 @@ public class ExpressionParser {
             throw new CountOperatorsException();
         }
 
-        consume();
+        movePointInInputLine();
 
         Expression right = parseOperand();
 
         expect(')');
 
         try {
-            return operators.get(operator).getConstructor(Expression.class, Expression.class).newInstance(left, right);
+            return operators
+                    .get(operator)
+                    .getConstructor(Expression.class, Expression.class)
+                    .newInstance(left, right);
         }
         catch (Exception e)
         {
@@ -76,7 +61,7 @@ public class ExpressionParser {
         return position < input.length() ? input.charAt(position) : '\0';
     }
 
-    private void consume() {
+    private void movePointInInputLine() {
         position++;
     }
 
@@ -84,7 +69,7 @@ public class ExpressionParser {
         if (peek() != expected) {
             throw new UnexpectedTokenException(expected, peek());
         }
-        consume();
+        movePointInInputLine();
     }
 
     private Expression parseOperand() throws ExpressionParserException{
@@ -104,7 +89,7 @@ public class ExpressionParser {
         StringBuilder sb = new StringBuilder();
         while (Character.isDigit(peek())) {
             sb.append(peek());
-            consume();
+            movePointInInputLine();
         }
 
         return new Number(Integer.parseInt(sb.toString()));
@@ -114,7 +99,7 @@ public class ExpressionParser {
         StringBuilder sb = new StringBuilder();
         while (Character.isLetter(peek())) {
             sb.append(peek());
-            consume();
+            movePointInInputLine();
         }
 
         return new Variable(sb.toString());

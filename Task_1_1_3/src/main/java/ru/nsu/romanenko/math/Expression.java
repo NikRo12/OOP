@@ -1,29 +1,14 @@
 package ru.nsu.romanenko.math;
 
+import ru.nsu.romanenko.exceptions.DivisionByZeroException;
+
 import java.util.Map;
 
-/**
- * Abstract class representing a mathematical expression.
- */
+
 public abstract class Expression {
-    /**
-     * Prints the expression to standard output.
-     */
     public abstract void print();
 
-    /**
-     * Evaluates the expression with given variables.
-     *
-     * @param variables map of variable names to values
-     * @return result of evaluation
-     */
-    public abstract int evaluate(Map<String, Integer> variables);
+    public abstract int evaluate(Map<String, Integer> variables) throws DivisionByZeroException;
 
-    /**
-     * Computes derivative of the expression with respect to a variable.
-     *
-     * @param variable variable to differentiate by
-     * @return derivative expression
-     */
     public abstract Expression derivative(String variable);
 }
