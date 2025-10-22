@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.romanenko.exceptions.DivisionByZeroException;
 import ru.nsu.romanenko.exceptions.ExpressionParserException;
 import ru.nsu.romanenko.math.*;
 import ru.nsu.romanenko.math.Number;
@@ -18,7 +19,7 @@ import ru.nsu.romanenko.parse.ExpressionParser;
 class ExpressionTests {
 
     @Test
-    void testNumber() {
+    void testNumber() throws DivisionByZeroException {
         Number num = new Number(5);
         assertEquals("5", num.toString());
         assertEquals(5, num.evaluate(new HashMap<>()));
@@ -35,7 +36,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testVariable() {
+    void testVariable() throws DivisionByZeroException {
         Variable var = new Variable("x");
         assertEquals("x", var.toString());
 
@@ -52,7 +53,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testAdd() {
+    void testAdd() throws DivisionByZeroException {
         Expression add = new Add(new Number(2), new Number(3));
         assertEquals("(2 + 3)", add.toString());
         assertEquals(5, add.evaluate(new HashMap<>()));
@@ -66,7 +67,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testSub() {
+    void testSub() throws DivisionByZeroException {
         Expression sub = new Sub(new Number(5), new Number(2));
         assertEquals("(5 - 2)", sub.toString());
         assertEquals(3, sub.evaluate(new HashMap<>()));
@@ -80,7 +81,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testMul() {
+    void testMul() throws DivisionByZeroException {
         Expression mul = new Mul(new Number(4), new Number(3));
         assertEquals("(4 * 3)", mul.toString());
         assertEquals(12, mul.evaluate(new HashMap<>()));
@@ -96,7 +97,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testDiv() {
+    void testDiv() throws DivisionByZeroException {
         Expression div = new Div(new Number(6), new Number(2));
         assertEquals("(6 / 2)", div.toString());
         assertEquals(3, div.evaluate(new HashMap<>()));
@@ -111,7 +112,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testComplexExpression() {
+    void testComplexExpression() throws DivisionByZeroException {
         Expression expr = new Mul(
                 new Add(new Variable("x"), new Number(3)),
                 new Sub(new Variable("y"), new Number(2))
@@ -125,7 +126,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testExpressionParser() throws ExpressionParserException{
+    void testExpressionParser() throws ExpressionParserException, DivisionByZeroException {
         ExpressionParser parser = new ExpressionParser("(x + (3 * y))");
         Expression expr = parser.parse();
         assertEquals("(x + (3 * y))", expr.toString());
@@ -141,13 +142,13 @@ class ExpressionTests {
     }
 
     @Test
-    void testExpressionParserNested() throws ExpressionParserException{
+    void testExpressionParserNested() throws ExpressionParserException, DivisionByZeroException {
         Expression expr = new ExpressionParser("((x + 2) * (y - 1))").parse();
         assertEquals(20, expr.evaluate(Map.of("x", 3, "y", 5)));
     }
 
     @Test
-    void testExpressionParserEdgeCases() throws ExpressionParserException{
+    void testExpressionParserEdgeCases() throws ExpressionParserException, DivisionByZeroException {
         Expression expr1 = new ExpressionParser("( x +  y )").parse();
         assertEquals(5, expr1.evaluate(Map.of("x", 2, "y", 3)));
     }
@@ -211,7 +212,7 @@ class ExpressionTests {
     }
 
     @Test
-    void testIntegration() throws ExpressionParserException{
+    void testIntegration() throws ExpressionParserException, DivisionByZeroException {
         Expression expr = new ExpressionParser("((x * y) + z)").parse();
         Map<String, Integer> vars = EvaluateStringParser.parseEvalStr("x=2;y=3;z=4");
         assertEquals(10, expr.evaluate(vars));
