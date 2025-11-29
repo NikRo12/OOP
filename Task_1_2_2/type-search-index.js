@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.romanenko","l":"HashTable.Entry"},{"p":"ru.nsu.romanenko","l":"HashTable"},{"p":"ru.nsu.romanenko","l":"Main"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.romanenko","l":"Entry"},{"p":"ru.nsu.romanenko","l":"HashTable"},{"p":"ru.nsu.romanenko","l":"Main"}];updateSearchResults();
