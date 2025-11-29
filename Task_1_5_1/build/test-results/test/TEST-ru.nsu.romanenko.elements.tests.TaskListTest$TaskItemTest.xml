@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TaskItem Tests" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.477Z" hostname="NRNOTEBOOK" time="0.005">
+  <properties/>
+  <testcase name="Should render completed task correctly" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.001"/>
+  <testcase name="Should create task item with string content" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.0"/>
+  <testcase name="Should update completion status" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.001"/>
+  <testcase name="Should create task item with MarkdownElement" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.0"/>
+  <testcase name="Should not be equal to null or different class" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.0"/>
+  <testcase name="Should render incomplete task correctly" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.0"/>
+  <testcase name="Should render indented task correctly" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.001"/>
+  <testcase name="Should implement equals and hashCode correctly" classname="ru.nsu.romanenko.elements.tests.TaskListTest$TaskItemTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

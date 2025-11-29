@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Heading Constructor Tests" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.319Z" hostname="NRNOTEBOOK" time="0.002">
+  <properties/>
+  <testcase name="Should create heading with Text element and level" classname="ru.nsu.romanenko.elements.tests.HeadingTest$ConstructorTest" time="0.0"/>
+  <testcase name="Should handle null content in constructor" classname="ru.nsu.romanenko.elements.tests.HeadingTest$ConstructorTest" time="0.0"/>
+  <testcase name="Should create heading with string content and level" classname="ru.nsu.romanenko.elements.tests.HeadingTest$ConstructorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

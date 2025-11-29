@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.tests.CreditBookTest" tests="22" skipped="0" failures="0" errors="0" timestamp="2025-10-16T13:45:07.180Z" hostname="NRNOTEBOOK" time="0.093">
+  <properties/>
+  <testcase name="testCanGetRedDiplomaNotFinalSemester()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.045"/>
+  <testcase name="testCanTransferToBudgetForBudgetStudent()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.002"/>
+  <testcase name="testGetAverageScoreEmpty()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.004"/>
+  <testcase name="testCanTransferToBudgetForPaidStudentWithGoodMarks()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.0"/>
+  <testcase name="testAddMark()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.003"/>
+  <testcase name="testGetAverageScoreOnlyExamDisciplines()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.003"/>
+  <testcase name="testEvaluateSemester()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.0"/>
+  <testcase name="testCanTransferToBudgetForPaidStudentFirstSemester()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testCanTransferToBudgetWithUnsatisfactoryCredit()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testCanGetRedDiplomaWithBadCourse()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testCanGetRedDiplomaInsufficientExcellentPercentage()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testGetAverageScoreWithMarks()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testEvaluateSemesterMax()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testCanGetRedDiplomaWithSatisfactoryMarks()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testCanGetIncreasedScholarshipPaidStudent()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.002"/>
+  <testcase name="testCanGetRedDiplomaEighthSemesterExcellent()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.0"/>
+  <testcase name="testCanGetIncreasedScholarshipWithUnsatisfactoryCredit()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <testcase name="testCanGetIncreasedScholarshipWithGoodMarks()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.002"/>
+  <testcase name="testCanTransferToBudgetForPaidStudentWithBadMarks()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.0"/>
+  <testcase name="testCanGetIncreasedScholarshipWithExcellentMarks()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.0"/>
+  <testcase name="testCanGetIncreasedScholarshipFirstSemester()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.0"/>
+  <testcase name="testConstructor()" classname="ru.nsu.romanenko.tests.CreditBookTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

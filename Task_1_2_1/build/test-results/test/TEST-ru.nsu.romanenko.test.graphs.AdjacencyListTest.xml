@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.test.graphs.AdjacencyListTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2025-10-22T17:12:10.671Z" hostname="NRNOTEBOOK" time="0.008">
+  <properties/>
+  <testcase name="testAddEdge()" classname="ru.nsu.romanenko.test.graphs.AdjacencyListTest" time="0.001"/>
+  <testcase name="testPrintGraph()" classname="ru.nsu.romanenko.test.graphs.AdjacencyListTest" time="0.004"/>
+  <testcase name="testRemoveVertex()" classname="ru.nsu.romanenko.test.graphs.AdjacencyListTest" time="0.001"/>
+  <testcase name="testRemoveEdge()" classname="ru.nsu.romanenko.test.graphs.AdjacencyListTest" time="0.001"/>
+  <testcase name="testAddVertex()" classname="ru.nsu.romanenko.test.graphs.AdjacencyListTest" time="0.0"/>
+  <testcase name="testGetNeighbors()" classname="ru.nsu.romanenko.test.graphs.AdjacencyListTest" time="0.0"/>
+  <system-out><![CDATA[Adjacency List:
+1 -> [2]
+2 -> []
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

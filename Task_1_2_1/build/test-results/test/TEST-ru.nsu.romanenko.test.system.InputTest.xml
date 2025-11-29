@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.test.system.InputTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-10-22T17:12:10.717Z" hostname="NRNOTEBOOK" time="0.081">
+  <properties/>
+  <testcase name="testReadNonExistentFile()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.019"/>
+  <testcase name="testReadEmptyFile()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.006"/>
+  <testcase name="testReadValidFile()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.004"/>
+  <testcase name="testReadNonSquareMatrix()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.02"/>
+  <testcase name="testReadFileWithInvalidCharacters()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.011"/>
+  <testcase name="testReadFileWithSpaces()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.005"/>
+  <testcase name="testReadFileWithEmptyLines()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.006"/>
+  <testcase name="testReadSingleLineMatrix()" classname="ru.nsu.romanenko.test.system.InputTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

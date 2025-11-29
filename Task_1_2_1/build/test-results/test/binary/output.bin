@@ -1,0 +1,18 @@
+�Error reading graph from file: System error reading file: non_existent_file.txt (Не удается найти указанный файл)
+ You already created this graph
+Adjacency List:
+	1 -> [2]
+2 -> []
+
+!%
+!.    1  2  
+!.1 | 0  1  
+!.2 | 0  0  
+!.
+9:
+    e0   
+9:
+1 |  1   
+9:
+2 | -1   
+9:

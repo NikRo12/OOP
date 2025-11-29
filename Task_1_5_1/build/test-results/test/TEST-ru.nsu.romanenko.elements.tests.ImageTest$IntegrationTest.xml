@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Image Integration Tests" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.322Z" hostname="NRNOTEBOOK" time="0.004">
+  <properties/>
+  <testcase name="Should work with complex formatted alt text" classname="ru.nsu.romanenko.elements.tests.ImageTest$IntegrationTest" time="0.002"/>
+  <testcase name="Should handle different image formats" classname="ru.nsu.romanenko.elements.tests.ImageTest$IntegrationTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ExpressionTests" tests="15" skipped="0" failures="0" errors="0" timestamp="2025-10-22T17:06:34.047Z" hostname="NRNOTEBOOK" time="0.099">
+  <properties/>
+  <testcase name="testExpressionParserNested()" classname="ExpressionTests" time="0.047"/>
+  <testcase name="testAdd()" classname="ExpressionTests" time="0.009"/>
+  <testcase name="testDiv()" classname="ExpressionTests" time="0.002"/>
+  <testcase name="testMul()" classname="ExpressionTests" time="0.002"/>
+  <testcase name="testSub()" classname="ExpressionTests" time="0.001"/>
+  <testcase name="testExpressionParser()" classname="ExpressionTests" time="0.001"/>
+  <testcase name="testExpressionParserEdgeCases()" classname="ExpressionTests" time="0.0"/>
+  <testcase name="testVariable()" classname="ExpressionTests" time="0.004"/>
+  <testcase name="testEvaluateStringParser()" classname="ExpressionTests" time="0.002"/>
+  <testcase name="testExpressionParserErrorCases()" classname="ExpressionTests" time="0.004"/>
+  <testcase name="testComplexExpression()" classname="ExpressionTests" time="0.001"/>
+  <testcase name="testDerivativeComplex()" classname="ExpressionTests" time="0.0"/>
+  <testcase name="testIntegration()" classname="ExpressionTests" time="0.001"/>
+  <testcase name="testNumber()" classname="ExpressionTests" time="0.001"/>
+  <testcase name="testPrintMethods()" classname="ExpressionTests" time="0.013"/>
+  <system-out><![CDATA[5
+x
+(1 + 2)
+(5 - 3)
+(2 * 3)
+(6 / 2)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

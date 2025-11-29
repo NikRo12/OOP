@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.test.graphs.AbstractGraphTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2025-10-22T17:12:10.561Z" hostname="NRNOTEBOOK" time="0.104">
+  <properties/>
+  <testcase name="testTopologicalSortSingleComponent()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.046"/>
+  <testcase name="testTopologicalSortWithSelfLoop()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.005"/>
+  <testcase name="testEmptyGraph()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.002"/>
+  <testcase name="testGraphEqualsWithDifferentVertexOrder()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testDeleteNonExistentVertex()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.002"/>
+  <testcase name="testTopologicalSortComplexDependencies()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testReadFromFileWithInvalidPath()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.013"/>
+  <testcase name="testGraphEqualsSymmetry()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testGraphEqualsTransitivity()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testTopologicalSortMultipleValidOrders()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testEdgeCasesForHasVertex()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testComplexTopologicalSortScenarios()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testGraphEqualsReflexivity()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testGraphEqualsWithDifferentClass()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testGraphEqualsWithDifferentEdges()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testGraphEqualsWithDifferentSizes()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testReadFromFileOnNonEmptyGraph()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testGraphEqualsWithNull()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.001"/>
+  <testcase name="testTopologicalSortDisconnectedGraph()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testStressTestAddRemoveEdges()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testGetVerticesImmutability()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testTopologicalSortWithIsolatedVertices()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.0"/>
+  <testcase name="testStressTestAddRemoveVertices()" classname="ru.nsu.romanenko.test.graphs.AbstractGraphTest" time="0.003"/>
+  <system-out><![CDATA[Error reading graph from file: System error reading file: non_existent_file.txt (Не удается найти указанный файл)
+You already created this graph
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

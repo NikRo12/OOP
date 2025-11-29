@@ -1,0 +1,46 @@
+Index: ../Task_1_2_1/src/main/resources/text.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>0 1 0 0 1\r\n0 0 1 0 1\r\n1 1 0 1 0\r\n0 1 0 0\r\n0 0 1 0 0
+===================================================================
+diff --git a/../Task_1_2_1/src/main/resources/text.txt b/../Task_1_2_1/src/main/resources/text.txt
+--- a/../Task_1_2_1/src/main/resources/text.txt	(revision e23ba43a5d6ea6c58821da8501c5846b0d6ccc97)
++++ b/../Task_1_2_1/src/main/resources/text.txt	(date 1761355100047)
+@@ -1,5 +1,5 @@
+ 0 1 0 0 1
+ 0 0 1 0 1
+ 1 1 0 1 0
+-0 1 0 0
++0 1 0 0 1
+ 0 0 1 0 0
+\ No newline at end of file
+Index: ../Task_1_2_1/src/main/java/ru/nsu/romanenko/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.nsu.romanenko;\r\n\r\nimport ru.nsu.romanenko.graphs.AdjacencyList;\r\nimport ru.nsu.romanenko.graphs.AdjacencyMatrix;\r\nimport ru.nsu.romanenko.graphs.Graph;\r\nimport ru.nsu.romanenko.graphs.IncidenceMatrix;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        Graph graph = new AdjacencyMatrix();\r\n        graph.addVertex(1);\r\n        graph.addEdge(1, 1);\r\n        graph.removeVertex(1);\r\n\r\n        System.out.println(graph);\r\n    }\r\n}
+===================================================================
+diff --git a/../Task_1_2_1/src/main/java/ru/nsu/romanenko/Main.java b/../Task_1_2_1/src/main/java/ru/nsu/romanenko/Main.java
+--- a/../Task_1_2_1/src/main/java/ru/nsu/romanenko/Main.java	(revision e23ba43a5d6ea6c58821da8501c5846b0d6ccc97)
++++ b/../Task_1_2_1/src/main/java/ru/nsu/romanenko/Main.java	(date 1761355288251)
+@@ -1,17 +1,10 @@
+ package ru.nsu.romanenko;
+ 
+-import ru.nsu.romanenko.graphs.AdjacencyList;
+-import ru.nsu.romanenko.graphs.AdjacencyMatrix;
+-import ru.nsu.romanenko.graphs.Graph;
+-import ru.nsu.romanenko.graphs.IncidenceMatrix;
++import ru.nsu.romanenko.graphs.*;
+ 
+ public class Main {
+     public static void main(String[] args) {
+-        Graph graph = new AdjacencyMatrix();
+-        graph.addVertex(1);
+-        graph.addEdge(1, 1);
+-        graph.removeVertex(1);
+-
+-        System.out.println(graph);
++        Graph graph = new IncidenceMatrix();
++        System.out.println(graph.getEdgeCount());
+     }
+ }
+\ No newline at end of file

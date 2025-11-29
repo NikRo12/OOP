@@ -1,0 +1,33 @@
+Index: ../Task_1_2_2/src/test/java/ru/nsu/romanenko/tests/HashTableTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.nsu.romanenko.tests;\r\n\r\nimport org.junit.jupiter.api.BeforeEach;\r\nimport org.junit.jupiter.api.Test;\r\nimport ru.nsu.romanenko.HashTable;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\nimport java.util.*;\r\n\r\nclass HashTableTest {\r\n\r\n    private HashTable<String, Integer> hashTable;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        hashTable = new HashTable<>();\r\n    }\r\n\r\n    @Test\r\n    void testPutAndGet() {\r\n        assertNull(hashTable.put(\"key1\", 1));\r\n        assertEquals(1, hashTable.get(\"key1\"));\r\n        assertEquals(1, hashTable.getSize());\r\n\r\n        assertEquals(1, hashTable.put(\"key1\", 2));\r\n        assertEquals(2, hashTable.get(\"key1\"));\r\n        assertEquals(1, hashTable.getSize());\r\n    }\r\n\r\n    @Test\r\n    void testPutNullKey() {\r\n        assertThrows(NullPointerException.class, () -> hashTable.put(null, 1));\r\n    }\r\n\r\n    @Test\r\n    void testGetNonExistingAndNullKey() {\r\n        assertNull(hashTable.get(\"nonexistent\"));\r\n        assertNull(hashTable.get(null));\r\n    }\r\n\r\n    @Test\r\n    void testRemove() {\r\n        hashTable.put(\"key1\", 1);\r\n        hashTable.put(\"key2\", 2);\r\n\r\n        assertEquals(1, hashTable.remove(\"key1\"));\r\n        assertNull(hashTable.get(\"key1\"));\r\n        assertEquals(2, hashTable.get(\"key2\"));\r\n        assertEquals(1, hashTable.getSize());\r\n\r\n        assertNull(hashTable.remove(\"nonexistent\"));\r\n    }\r\n\r\n    @Test\r\n    void testContainsKey() {\r\n        hashTable.put(\"key1\", 1);\r\n        assertTrue(hashTable.containsKey(\"key1\"));\r\n        assertFalse(hashTable.containsKey(\"nonexistent\"));\r\n    }\r\n\r\n    @Test\r\n    void testUpdate() {\r\n        hashTable.put(\"key1\", 1);\r\n        assertEquals(1, hashTable.update(\"key1\", 2));\r\n        assertEquals(2, hashTable.get(\"key1\"));\r\n    }\r\n\r\n    @Test\r\n    void testIterator() {\r\n        hashTable.put(\"key1\", 1);\r\n        hashTable.put(\"key2\", 2);\r\n\r\n        Set<String> keys = new HashSet<>();\r\n        for (HashTable.Entry<String, Integer> entry : hashTable) {\r\n            keys.add(entry.getKey());\r\n        }\r\n\r\n        assertEquals(2, keys.size());\r\n        assertTrue(keys.contains(\"key1\"));\r\n        assertTrue(keys.contains(\"key2\"));\r\n    }\r\n\r\n    @Test\r\n    void testIteratorConcurrentModification() {\r\n        hashTable.put(\"key1\", 1);\r\n        Iterator<HashTable.Entry<String, Integer>> iterator = hashTable.iterator();\r\n        hashTable.put(\"key2\", 2);\r\n        assertThrows(ConcurrentModificationException.class, iterator::next);\r\n    }\r\n\r\n    @Test\r\n    void testEqualsAndHashCode() {\r\n        hashTable.put(\"key1\", 1);\r\n        hashTable.put(\"key2\", 2);\r\n\r\n        HashTable<String, Integer> other = new HashTable<>();\r\n        other.put(\"key1\", 1);\r\n        other.put(\"key2\", 2);\r\n\r\n        assertTrue(hashTable.equals(other));\r\n        assertEquals(hashTable.hashCode(), other.hashCode());\r\n\r\n        other.put(\"key3\", 3);\r\n        assertFalse(hashTable.equals(other));\r\n    }\r\n\r\n    @Test\r\n    void testToString() {\r\n        assertEquals(\"{}\", hashTable.toString());\r\n\r\n        hashTable.put(\"key1\", 1);\r\n        String result = hashTable.toString();\r\n        assertTrue(result.contains(\"key1=1\"));\r\n    }\r\n\r\n    @Test\r\n    void testEntrySet() {\r\n        hashTable.put(\"key1\", 1);\r\n        hashTable.put(\"key2\", 2);\r\n\r\n        Set<HashTable.Entry<String, Integer>> entrySet = hashTable.entrySet();\r\n        assertEquals(2, entrySet.size());\r\n    }\r\n\r\n    @Test\r\n    void testEmptyTable() {\r\n        assertEquals(0, hashTable.getSize());\r\n        assertFalse(hashTable.iterator().hasNext());\r\n        assertEquals(\"{}\", hashTable.toString());\r\n    }\r\n\r\n    @Test\r\n    void testMultipleOperations() {\r\n        // Комплексный тест\r\n        hashTable.put(\"a\", 1);\r\n        hashTable.put(\"b\", 2);\r\n        hashTable.put(\"c\", 3);\r\n        assertEquals(3, hashTable.getSize());\r\n\r\n        hashTable.remove(\"b\");\r\n        assertEquals(2, hashTable.getSize());\r\n        assertNull(hashTable.get(\"b\"));\r\n\r\n        hashTable.put(\"a\", 10);\r\n        assertEquals(10, hashTable.get(\"a\"));\r\n        assertEquals(2, hashTable.getSize());\r\n    }\r\n}
+===================================================================
+diff --git a/../Task_1_2_2/src/test/java/ru/nsu/romanenko/tests/HashTableTest.java b/../Task_1_2_2/src/test/java/ru/nsu/romanenko/tests/HashTableTest.java
+--- a/../Task_1_2_2/src/test/java/ru/nsu/romanenko/tests/HashTableTest.java	(revision 1ce9942e491a08213217346c98ba9ca6d2b1234d)
++++ b/../Task_1_2_2/src/test/java/ru/nsu/romanenko/tests/HashTableTest.java	(date 1759922321428)
+@@ -1,13 +1,20 @@
+ package ru.nsu.romanenko.tests;
+ 
++import static org.junit.jupiter.api.Assertions.assertEquals;
++import static org.junit.jupiter.api.Assertions.assertNull;
++import static org.junit.jupiter.api.Assertions.assertThrows;
++import static org.junit.jupiter.api.Assertions.assertFalse;
++import static org.junit.jupiter.api.Assertions.assertTrue;
++
++
++import java.util.ConcurrentModificationException;
++import java.util.HashSet;
++import java.util.Iterator;
++import java.util.Set;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+ import ru.nsu.romanenko.HashTable;
+ 
+-import static org.junit.jupiter.api.Assertions.*;
+-
+-import java.util.*;
+-
+ class HashTableTest {
+ 
+     private HashTable<String, Integer> hashTable;

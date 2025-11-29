@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.tests.SubjectsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-16T13:45:07.294Z" hostname="NRNOTEBOOK" time="0.007">
+  <properties/>
+  <testcase name="testEnumValues()" classname="ru.nsu.romanenko.tests.SubjectsTest" time="0.003"/>
+  <testcase name="testValueOf()" classname="ru.nsu.romanenko.tests.SubjectsTest" time="0.001"/>
+  <testcase name="testGetStringName()" classname="ru.nsu.romanenko.tests.SubjectsTest" time="0.0"/>
+  <testcase name="testIsExamDiscipline()" classname="ru.nsu.romanenko.tests.SubjectsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

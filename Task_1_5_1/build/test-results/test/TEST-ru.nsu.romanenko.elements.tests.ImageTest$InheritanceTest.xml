@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Image Inheritance Tests" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.327Z" hostname="NRNOTEBOOK" time="0.003">
+  <properties/>
+  <testcase name="Should use Link methods correctly" classname="ru.nsu.romanenko.elements.tests.ImageTest$InheritanceTest" time="0.001"/>
+  <testcase name="Should override render method differently from Link" classname="ru.nsu.romanenko.elements.tests.ImageTest$InheritanceTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Code Class Tests" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.490Z" hostname="NRNOTEBOOK" time="0.004">
+  <properties/>
+  <testcase name="Should create Code from Text and apply code style" classname="ru.nsu.romanenko.elements.tests.TextElementsTest$CodeTest" time="0.002"/>
+  <testcase name="Should create Code from string and apply code style" classname="ru.nsu.romanenko.elements.tests.TextElementsTest$CodeTest" time="0.001"/>
+  <testcase name="Should prevent other styles when CODE is applied" classname="ru.nsu.romanenko.elements.tests.TextElementsTest$CodeTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.elements.tests.CodeBlockTest$BuilderTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.182Z" hostname="NRNOTEBOOK" time="0.003">
+  <properties/>
+  <testcase name="buildCodeBlockWithAddCode()" classname="ru.nsu.romanenko.elements.tests.CodeBlockTest$BuilderTests" time="0.001"/>
+  <testcase name="buildCodeBlockWithAddLines()" classname="ru.nsu.romanenko.elements.tests.CodeBlockTest$BuilderTests" time="0.001"/>
+  <testcase name="handleNullInBuilderMethods()" classname="ru.nsu.romanenko.elements.tests.CodeBlockTest$BuilderTests" time="0.0"/>
+  <testcase name="buildCodeBlockWithBuilder()" classname="ru.nsu.romanenko.elements.tests.CodeBlockTest$BuilderTests" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

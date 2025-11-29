@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Table Builder Tests" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.447Z" hostname="NRNOTEBOOK" time="0.003">
+  <properties/>
+  <testcase name="Should build empty table" classname="ru.nsu.romanenko.elements.tests.TableTest$BuilderTest" time="0.0"/>
+  <testcase name="Should handle MarkdownElement cells directly" classname="ru.nsu.romanenko.elements.tests.TableTest$BuilderTest" time="0.0"/>
+  <testcase name="Should convert objects to Text elements" classname="ru.nsu.romanenko.elements.tests.TableTest$BuilderTest" time="0.001"/>
+  <testcase name="Should build table with alignments" classname="ru.nsu.romanenko.elements.tests.TableTest$BuilderTest" time="0.0"/>
+  <testcase name="Should build table with row limit" classname="ru.nsu.romanenko.elements.tests.TableTest$BuilderTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2025-10-22T17:12:10.681Z" hostname="NRNOTEBOOK" time="0.02">
+  <properties/>
+  <testcase name="testAddMultipleVertices()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testGraphEquality()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.002"/>
+  <testcase name="testRemoveVertexWithMultipleEdges()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testAddDuplicateVertex()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <testcase name="testPrintEmptyGraph()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <testcase name="testHashCodeConsistency()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <testcase name="testAddEdgeToNonExistentVertices()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testGraphEqualsWithSameObject()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <testcase name="testToStringMethods()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.002"/>
+  <testcase name="testGraphEqualsWithDifferentTypes()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testRemoveNonExistentEdge()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <testcase name="testGraphEqualsWithNull()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testHasEdgeWithNonExistentVertices()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testPrintNonEmptyGraph()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.002"/>
+  <testcase name="testGetNeighborsOfNonExistentVertex()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <testcase name="testRemoveNonExistentVertex()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testSelfLoop()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.0"/>
+  <testcase name="testAddDuplicateEdge()" classname="ru.nsu.romanenko.test.graphs.AdjacencyMatrixTest" time="0.001"/>
+  <system-out><![CDATA[
+    1  2  
+1 | 0  1  
+2 | 0  0  
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

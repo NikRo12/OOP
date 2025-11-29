@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="List Equality Tests" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.391Z" hostname="NRNOTEBOOK" time="0.006">
+  <properties/>
+  <testcase name="Should be equal when same type and elements" classname="ru.nsu.romanenko.elements.tests.ListTest$EqualityTest" time="0.003"/>
+  <testcase name="Should not be equal to null or different class" classname="ru.nsu.romanenko.elements.tests.ListTest$EqualityTest" time="0.001"/>
+  <testcase name="Should not be equal when different elements" classname="ru.nsu.romanenko.elements.tests.ListTest$EqualityTest" time="0.001"/>
+  <testcase name="Should not be equal when different types" classname="ru.nsu.romanenko.elements.tests.ListTest$EqualityTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

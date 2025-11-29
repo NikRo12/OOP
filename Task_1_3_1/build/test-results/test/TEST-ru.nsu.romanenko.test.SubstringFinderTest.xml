@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.romanenko.test.SubstringFinderTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2025-10-14T08:55:04.772Z" hostname="NRNOTEBOOK" time="0.371">
+  <properties/>
+  <testcase name="testSpecialCharacters()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.11"/>
+  <testcase name="testMultipleSameLine()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.012"/>
+  <testcase name="testUTF8Characters()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.011"/>
+  <testcase name="testFindInMultipleLines()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.007"/>
+  <testcase name="testSubstringAtEnd()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.01"/>
+  <testcase name="testSingleCharacterFile()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.01"/>
+  <testcase name="testEmptyFile()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.012"/>
+  <testcase name="testNonExistentResource()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.017"/>
+  <testcase name="testNullSubstring()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.01"/>
+  <testcase name="testSubstringLongerThanFile()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.016"/>
+  <testcase name="testWithDifferentEncodings()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.01"/>
+  <testcase name="testPartialOverlap()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.009"/>
+  <testcase name="testFindOverlapping()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.008"/>
+  <testcase name="testSubstringNotFound()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.012"/>
+  <testcase name="testMultipleEmptyLines()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.012"/>
+  <testcase name="testEmptySubstring()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.007"/>
+  <testcase name="testExactMatch()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.008"/>
+  <testcase name="testLargeFile()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.012"/>
+  <testcase name="testSubstringAtBeginning()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.007"/>
+  <testcase name="testSingleLineNoNewline()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.008"/>
+  <testcase name="testCaseSensitive()" classname="ru.nsu.romanenko.test.SubstringFinderTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[File not found: non_existent_file.txt
+]]></system-err>
+</testsuite>

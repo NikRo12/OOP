@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Quote Render Tests" tests="6" skipped="0" failures="0" errors="0" timestamp="2025-10-22T16:59:14.419Z" hostname="NRNOTEBOOK" time="0.004">
+  <properties/>
+  <testcase name="Should render empty quote" classname="ru.nsu.romanenko.elements.tests.QuoteTest$RenderTest" time="0.001"/>
+  <testcase name="Should render quote with formatted text" classname="ru.nsu.romanenko.elements.tests.QuoteTest$RenderTest" time="0.0"/>
+  <testcase name="Should render multi-line quote with proper formatting" classname="ru.nsu.romanenko.elements.tests.QuoteTest$RenderTest" time="0.0"/>
+  <testcase name="Should render single line quote correctly" classname="ru.nsu.romanenko.elements.tests.QuoteTest$RenderTest" time="0.0"/>
+  <testcase name="Should render quote with trailing newline" classname="ru.nsu.romanenko.elements.tests.QuoteTest$RenderTest" time="0.0"/>
+  <testcase name="Should render quote with multiple consecutive newlines" classname="ru.nsu.romanenko.elements.tests.QuoteTest$RenderTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
