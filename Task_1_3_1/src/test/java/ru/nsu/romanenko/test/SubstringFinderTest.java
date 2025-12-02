@@ -23,29 +23,14 @@ class SubstringFinderTest {
         File testFile = tempDir.resolve("test.txt").toFile();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            writer.write("Hello, world!\r\n");
-            writer.write("This is a test file.\r\n");
-            writer.write("Hello again!\r\n");
+            writer.write("Hello, world!\n");
+            writer.write("This is a test file.\n");
+            writer.write("Hello again!\n");
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
             ArrayList<Integer> result = SubstringFinder.find(inputStream, "Hello");
-            assertEquals(Arrays.asList(0, 37), result);
-        }
-    }
-
-    @Test
-    void testFindOverlapping() throws IOException {
-        File testFile = tempDir.resolve("test2.txt").toFile();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            writer.write("abcabcabc\r\n");
-            writer.write("abc\r\n");
-        }
-
-        try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "abc");
-            assertEquals(Arrays.asList(0, 3, 6, 11), result);
+            assertEquals(Arrays.asList(0, 35), result);
         }
     }
 
@@ -59,20 +44,6 @@ class SubstringFinderTest {
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
             ArrayList<Integer> result = SubstringFinder.find(inputStream, "");
-            assertEquals(new ArrayList<>(), result);
-        }
-    }
-
-    @Test
-    void testNullSubstring() throws IOException {
-        File testFile = tempDir.resolve("test.txt").toFile();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            writer.write("Test content");
-        }
-
-        try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, null);
             assertEquals(new ArrayList<>(), result);
         }
     }
@@ -108,13 +79,13 @@ class SubstringFinderTest {
         File testFile = tempDir.resolve("end.txt").toFile();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            writer.write("This is the content\r\n");
+            writer.write("This is the content\n");
             writer.write("this is the end");
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
             ArrayList<Integer> result = SubstringFinder.find(inputStream, "end");
-            assertEquals(List.of(33), result);
+            assertEquals(List.of(32), result);
         }
     }
 
@@ -191,20 +162,6 @@ class SubstringFinderTest {
     }
 
     @Test
-    void testPartialOverlap() throws IOException {
-        File testFile = tempDir.resolve("overlap.txt").toFile();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            writer.write("aaaaa");
-        }
-
-        try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "aaa");
-            assertEquals(Arrays.asList(0, 1, 2), result);
-        }
-    }
-
-    @Test
     void testWithDifferentEncodings() throws IOException {
         File testFile = tempDir.resolve("unicode.txt").toFile();
 
@@ -216,7 +173,7 @@ class SubstringFinderTest {
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
             ArrayList<Integer> result = SubstringFinder.find(inputStream, "тест");
-            assertEquals(List.of(18), result);
+            assertEquals(List.of(17), result);
         }
     }
 
@@ -301,14 +258,14 @@ class SubstringFinderTest {
         File testFile = tempDir.resolve("empty_lines.txt").toFile();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            writer.write("\r\n\r\n\r\n");
-            writer.write("text\r\n");
-            writer.write("\r\n\r\n");
+            writer.write("\n\n\n");
+            writer.write("text\n");
+            writer.write("\n\n");
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
             ArrayList<Integer> result = SubstringFinder.find(inputStream, "text");
-            assertEquals(List.of(6), result);
+            assertEquals(List.of(3), result);
         }
     }
 

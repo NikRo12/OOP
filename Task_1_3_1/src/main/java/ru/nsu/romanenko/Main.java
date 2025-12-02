@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args){
-       System.out.println(SubstringFinder.find("text.txt", "бра"));
+       System.out.println(SubstringFinder.find("text.txt", "字"));
     }
 }
