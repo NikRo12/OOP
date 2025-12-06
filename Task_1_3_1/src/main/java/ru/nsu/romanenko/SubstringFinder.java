@@ -31,6 +31,12 @@ public class SubstringFinder {
             throws IOException {
         ArrayList<Integer> result = new ArrayList<>();
 
+        if (substring.isEmpty()) {
+            return result;
+        }
+
+        int[] subCodePoints = substring.codePoints().toArray();
+
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 
@@ -38,31 +44,35 @@ public class SubstringFinder {
             String line;
 
             while ((line = reader.readLine()) != null) {
+                int lineLength = line.length();
+                int lineCodePointCount = line.codePointCount(0, lineLength);
 
-                int[] lineCodePoints = line.codePoints().toArray();
-                int[] subCodePoints = substring.codePoints().toArray();
-
-                if (subCodePoints.length == 0) {
+                if (lineCodePointCount < subCodePoints.length) {
+                    codePointPosition += lineCodePointCount + 1;
                     continue;
                 }
 
-                for (int i = 0; i <= lineCodePoints.length - subCodePoints.length; i++) {
+                for (int i = 0; i <= lineCodePointCount - subCodePoints.length; i++) {
                     boolean found = true;
+
+                    int lineIndex = line.offsetByCodePoints(0, i);
                     for (int j = 0; j < subCodePoints.length; j++) {
-                        if (lineCodePoints[i + j] != subCodePoints[j]) {
+                        int currentLineCodePoint = line.codePointAt(lineIndex);
+                        if (currentLineCodePoint != subCodePoints[j]) {
                             found = false;
                             break;
                         }
+                        lineIndex = line.offsetByCodePoints(lineIndex, 1);
                     }
+
                     if (found) {
                         result.add(codePointPosition + i);
                         i += subCodePoints.length - 1;
                     }
                 }
 
-                codePointPosition += lineCodePoints.length + 1;
+                codePointPosition += lineCodePointCount + 1;
             }
-
         }
 
         return result;
