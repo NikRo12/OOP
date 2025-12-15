@@ -29,8 +29,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "Hello");
-            assertEquals(Arrays.asList(0, 35), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "Hello");
+            assertEquals(Arrays.asList(0L, 35L), result);
         }
     }
 
@@ -43,7 +43,7 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "");
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "");
             assertEquals(new ArrayList<>(), result);
         }
     }
@@ -54,7 +54,7 @@ class SubstringFinderTest {
         testFile.createNewFile();
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "abc");
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "abc");
             assertEquals(new ArrayList<>(), result);
         }
     }
@@ -69,8 +69,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "start");
-            assertEquals(List.of(0), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "start");
+            assertEquals(List.of(0L), result);
         }
     }
 
@@ -84,8 +84,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "end");
-            assertEquals(List.of(32), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "end");
+            assertEquals(List.of(32L), result);
         }
     }
 
@@ -99,7 +99,7 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "nonexistent");
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "nonexistent");
             assertEquals(new ArrayList<>(), result);
         }
     }
@@ -114,8 +114,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "CASE");
-            assertEquals(List.of(5), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "CASE");
+            assertEquals(List.of(5L), result);
         }
     }
 
@@ -128,8 +128,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "\t");
-            assertEquals(Arrays.asList(14, 18), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "\t");
+            assertEquals(Arrays.asList(14L, 18L), result);
         }
     }
 
@@ -142,8 +142,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "test");
-            assertEquals(List.of(0), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "test");
+            assertEquals(List.of(0L), result);
         }
     }
 
@@ -156,8 +156,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "test");
-            assertEquals(Arrays.asList(0, 5, 10), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "test");
+            assertEquals(Arrays.asList(0L, 5L, 10L), result);
         }
     }
 
@@ -167,13 +167,13 @@ class SubstringFinderTest {
 
         try (OutputStreamWriter writer = new OutputStreamWriter(
                 new FileOutputStream(testFile), StandardCharsets.UTF_8)) {
-            writer.write("Привет, мир!\r\n");
-            writer.write("Это тестовый файл.\r\n");
+            writer.write("Привет, мир!\n");
+            writer.write("Это тестовый файл.\n");
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "тест");
-            assertEquals(List.of(17), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "тест");
+            assertEquals(List.of(17L), result);
         }
     }
 
@@ -187,8 +187,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "🎉");
-            assertEquals(List.of(7), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "🎉");
+            assertEquals(List.of(7L), result);
         }
     }
 
@@ -197,14 +197,14 @@ class SubstringFinderTest {
         File testFile = tempDir.resolve("large_file.txt").toFile();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
-            String pattern = "abc123XYZ\r\n";
+            String pattern = "abc123XYZ\n";
             for (int i = 0; i < 1000; i++) {
                 writer.write(pattern);
             }
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "123");
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "123");
             assertEquals(1000, result.size());
             assertEquals(3, result.get(0).intValue());
         }
@@ -219,8 +219,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "a");
-            assertEquals(List.of(0), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "a");
+            assertEquals(List.of(0L), result);
         }
     }
 
@@ -233,7 +233,7 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "abcdefgh");
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "abcdefgh");
             assertEquals(new ArrayList<>(), result);
         }
     }
@@ -248,8 +248,8 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, content);
-            assertEquals(List.of(0), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, content);
+            assertEquals(List.of(0L), result);
         }
     }
 
@@ -264,14 +264,14 @@ class SubstringFinderTest {
         }
 
         try (InputStream inputStream = new FileInputStream(testFile)) {
-            ArrayList<Integer> result = SubstringFinder.find(inputStream, "text");
-            assertEquals(List.of(3), result);
+            ArrayList<Long> result = SubstringFinder.find(inputStream, "text");
+            assertEquals(List.of(3L), result);
         }
     }
 
     @Test
     void testNonExistentResource() {
-        ArrayList<Integer> result = SubstringFinder.find("non_existent_file.txt", "test");
+        ArrayList<Long> result = SubstringFinder.find("non_existent_file.txt", "test");
         assertEquals(new ArrayList<>(), result);
     }
 }

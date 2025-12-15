@@ -3,11 +3,11 @@ package ru.nsu.romanenko;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubstringFinder {
 
-
-    public static ArrayList<Integer> find(String file, String substring) {
+    public static ArrayList<Long> find(String file, String substring) {
         if (substring == null || substring.isEmpty()) {
             return new ArrayList<>();
         }
@@ -27,54 +27,80 @@ public class SubstringFinder {
         }
     }
 
-    public static ArrayList<Integer> find(InputStream inputStream, String substring)
-            throws IOException {
-        ArrayList<Integer> result = new ArrayList<>();
+    public static ArrayList<Long> find(InputStream inputStream, String substring) throws IOException {
+        ArrayList<Long> result = new ArrayList<>();
 
-        if (substring.isEmpty()) {
+        if (substring == null || substring.isEmpty()) {
             return result;
         }
 
-        int[] subCodePoints = substring.codePoints().toArray();
+        int[] pattern = substring.codePoints().toArray();
+
+        int[] prefixTable = computeFailureFunction(pattern);
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 
-            int codePointPosition = 0;
-            String line;
+            int matchIndex = 0;
+            long globalIndex = 0;
 
-            while ((line = reader.readLine()) != null) {
-                int lineLength = line.length();
-                int lineCodePointCount = line.codePointCount(0, lineLength);
+            int highSurrogate = -1;
 
-                if (lineCodePointCount < subCodePoints.length) {
-                    codePointPosition += lineCodePointCount + 1;
+            int charVal;
+            while ((charVal = reader.read()) != -1) {
+                char ch = (char) charVal;
+                int currentCodePoint;
+
+                if (Character.isHighSurrogate(ch)) {
+                    highSurrogate = charVal;
                     continue;
+                } else if (Character.isLowSurrogate(ch)) {
+                    if (highSurrogate != -1) {
+                        currentCodePoint = Character.toCodePoint((char) highSurrogate, ch);
+                        highSurrogate = -1;
+                    } else {
+                        currentCodePoint = charVal;
+                    }
+                } else {
+                    if (highSurrogate != -1) {
+                        highSurrogate = -1;
+                    }
+                    currentCodePoint = charVal;
                 }
 
-                for (int i = 0; i <= lineCodePointCount - subCodePoints.length; i++) {
-                    boolean found = true;
-
-                    int lineIndex = line.offsetByCodePoints(0, i);
-                    for (int j = 0; j < subCodePoints.length; j++) {
-                        int currentLineCodePoint = line.codePointAt(lineIndex);
-                        if (currentLineCodePoint != subCodePoints[j]) {
-                            found = false;
-                            break;
-                        }
-                        lineIndex = line.offsetByCodePoints(lineIndex, 1);
-                    }
-
-                    if (found) {
-                        result.add(codePointPosition + i);
-                        i += subCodePoints.length - 1;
-                    }
+                while (matchIndex > 0 && currentCodePoint != pattern[matchIndex]) {
+                    matchIndex = prefixTable[matchIndex - 1];
                 }
 
-                codePointPosition += lineCodePointCount + 1;
+                if (currentCodePoint == pattern[matchIndex]) {
+                    matchIndex++;
+                }
+
+                if (matchIndex == pattern.length) {
+                    result.add(globalIndex - pattern.length + 1);
+                    matchIndex = prefixTable[matchIndex - 1];
+                    //return result;
+                }
+
+                globalIndex++;
             }
         }
 
         return result;
+    }
+
+    private static int[] computeFailureFunction(int[] pattern) {
+        int[] table = new int[pattern.length];
+        int k = 0;
+        for (int q = 1; q < pattern.length; q++) {
+            while (k > 0 && pattern[k] != pattern[q]) {
+                k = table[k - 1];
+            }
+            if (pattern[k] == pattern[q]) {
+                k++;
+            }
+            table[q] = k;
+        }
+        return table;
     }
 }
