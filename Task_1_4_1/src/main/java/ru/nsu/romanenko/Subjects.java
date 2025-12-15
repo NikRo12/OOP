@@ -1,5 +1,10 @@
 package ru.nsu.romanenko;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum Subjects {
     TASK("Task", false),
     CONTROL("Control", false),
@@ -12,18 +17,4 @@ public enum Subjects {
 
     private final String stringName;
     private final boolean examDiscipline;
-
-    Subjects(String stringName, boolean examDiscipline)
-    {
-        this.stringName = stringName;
-        this.examDiscipline = examDiscipline;
-    }
-
-    public String getStringName() {
-        return stringName;
-    }
-
-    public boolean isExamDiscipline() {
-        return examDiscipline;
-    }
 }

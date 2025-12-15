@@ -1,13 +1,26 @@
 package ru.nsu.romanenko;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IntSummaryStatistics;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class CreditBook {
+    @Getter
     private final String studentName;
+
+    @Getter
     private final boolean budget;
+
+    @Getter @Setter
     private int currentSemester;
+
+    @Getter
     private final Map<Integer, HashSet<Subject>> eachSemester;
 
     public CreditBook(String studentName, boolean budget) {
@@ -83,21 +96,14 @@ public class CreditBook {
     }
 
     public float getAverageScore() {
-        float totalSum = 0;
-        int totalMarksCount = 0;
+        IntSummaryStatistics stats = eachSemester.values().stream()
+                .flatMap(Collection::stream)
+                .filter(this::isSubjectExamDiscipline)
+                .flatMap(subject -> subject.getMarks().stream())
+                .mapToInt(Integer::intValue)
+                .summaryStatistics();
 
-        for (HashSet<Subject> semesterSubjects : eachSemester.values()) {
-            for (Subject subject : semesterSubjects) {
-                if (isSubjectExamDiscipline(subject)) {
-                    for (int mark : subject.getMarks()) {
-                        totalSum += mark;
-                        totalMarksCount++;
-                    }
-                }
-            }
-        }
-
-        return totalMarksCount > 0 ? totalSum / totalMarksCount : 0;
+        return stats.getCount() > 0 ? (float) stats.getAverage() : 0;
     }
 
     public boolean canTransferToBudget() {
@@ -109,48 +115,43 @@ public class CreditBook {
             return false;
         }
 
-        for (int i = currentSemester; i >= currentSemester - 1; i--) {
-            for (Subject subject : eachSemester.get(i)) {
-                if ((isSubjectExamDiscipline(subject) ||
-                        subject.getName() == Subjects.CREDIT) && hasUnsatisfactoryMarks(subject)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return IntStream.rangeClosed(currentSemester - 1, currentSemester)
+                .mapToObj(eachSemester::get)
+                .flatMap(Collection::stream)
+                .noneMatch(subject ->
+                        (isSubjectExamDiscipline(subject) || subject.getName() == Subjects.CREDIT)
+                                && hasUnsatisfactoryMarks(subject)
+                );
     }
 
     public boolean canGetRedDiploma() {
-        int marksCount = 0;
-        int marksExcellent = 0;
+        HashSet<Subject> subjects = eachSemester.get(currentSemester);
 
-        for (Subject subject : eachSemester.get(currentSemester)) {
-            if((isSubjectExamDiscipline(subject) ||
-                    subject.getName() == Subjects.CREDIT) && hasUnsatisfactoryMarks(subject) ||
-                    (subject.getName() == Subjects.DIFFERENTIATED && subject.getMarks().contains(3)))
-            {
-                return false;
-            }
-
+        boolean hasBadMarks = subjects.stream().anyMatch(subject -> {
             if (subject.getName() == Subjects.COURSE) {
-                if (!subject.getMarks().contains(5) && !subject.getMarks().isEmpty()) {
-                    return false;
-                }
-            } else if (isSubjectExamDiscipline(subject)) {
-                for(int mark : subject.getMarks())
-                {
-                    marksCount++;
-                    if(mark == 5)
-                    {
-                        marksExcellent++;
-                    }
-                }
+                return !subject.getMarks().isEmpty() && !subject.getMarks().contains(5);
             }
-        }
+            if ((isSubjectExamDiscipline(subject) || subject.getName() == Subjects.CREDIT)
+                    && hasUnsatisfactoryMarks(subject)) {
+                return true;
+            }
+            return subject.getName() == Subjects.DIFFERENTIATED && subject.getMarks().contains(3);
+        });
 
-        return marksCount > 0 &&
-                (double) marksExcellent / marksCount >= 0.75;
+        if (hasBadMarks) return false;
+
+        long totalExamMarks = subjects.stream()
+                .filter(this::isSubjectExamDiscipline)
+                .mapToLong(subject -> subject.getMarks().size())
+                .sum();
+
+        long excellentMarks = subjects.stream()
+                .filter(this::isSubjectExamDiscipline)
+                .flatMap(subject -> subject.getMarks().stream())
+                .filter(mark -> mark == 5)
+                .count();
+
+        return totalExamMarks > 0 && ((double) excellentMarks / totalExamMarks >= 0.75);
     }
 
     public boolean canGetIncreasedScholarship() {
@@ -158,30 +159,20 @@ public class CreditBook {
             return false;
         }
 
-        int previousSemester = currentSemester - 1;
-
-        for (Subject subject : eachSemester.get(previousSemester)) {
-            if(subject.getName() == Subjects.CREDIT && hasUnsatisfactoryMarks(subject))
-            {
-                return false;
-            }
-
-            else if(isSubjectExamDiscipline(subject) && !fullExcellentSubject(subject))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return eachSemester.get(currentSemester - 1).stream()
+                .allMatch(subject -> {
+                    if (subject.getName() == Subjects.CREDIT && hasUnsatisfactoryMarks(subject)) {
+                        return false;
+                    }
+                    return !isSubjectExamDiscipline(subject) || fullExcellentSubject(subject);
+                });
     }
 
     public void addMark(int semester, Subjects subjectName, int mark) {
-        for (Subject subject : eachSemester.get(semester)) {
-            if (subject.getName() == subjectName) {
-                subject.addMark(mark);
-                return;
-            }
-        }
+        eachSemester.get(semester).stream()
+                .filter(subject -> subject.getName() == subjectName)
+                .findFirst()
+                .ifPresent(subject -> subject.addMark(mark));
     }
 
     public void evaluateSemester() {
@@ -190,21 +181,6 @@ public class CreditBook {
         }
     }
 
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public boolean isBudget() {
-        return budget;
-    }
-
-    public int getCurrentSemester() {
-        return currentSemester;
-    }
-
-    public Map<Integer, HashSet<Subject>> getEachSemester() {
-        return eachSemester;
-    }
 
     private boolean isSubjectExamDiscipline(Subject subject) {
         return subject.getName().isExamDiscipline();
@@ -213,17 +189,16 @@ public class CreditBook {
     private boolean hasUnsatisfactoryMarks(Subject subject) {
         if (subject.getName() == Subjects.CREDIT) {
             return subject.getMarks().contains(0);
-        } else if (subject.getName() == Subjects.EXAM) {
-            return subject.getMarks().contains(3) || subject.getMarks().contains(2);
-        } else if (subject.getName() == Subjects.DIFFERENTIATED) {
-            return subject.getMarks().contains(2);
         }
+        if (subject.getMarks().contains(2)) return true;
 
-        return subject.getMarks().contains(3) || subject.getMarks().contains(2);
+        if (subject.getName() == Subjects.DIFFERENTIATED) {
+            return false;
+        }
+        return subject.getMarks().contains(3);
     }
 
-    private boolean fullExcellentSubject(Subject subject)
-    {
+    private boolean fullExcellentSubject(Subject subject) {
         return subject.getMarks().stream().allMatch(mark -> mark == 5);
     }
 }
