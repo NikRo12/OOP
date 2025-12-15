@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.romanenko","l":"Main"},{"p":"ru.nsu.romanenko","l":"SubstringFinder"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.romanenko","l":"Generator"},{"p":"ru.nsu.romanenko","l":"Main"},{"p":"ru.nsu.romanenko","l":"SubstringFinder"}];updateSearchResults();
