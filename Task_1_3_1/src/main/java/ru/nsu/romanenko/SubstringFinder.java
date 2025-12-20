@@ -3,7 +3,6 @@ package ru.nsu.romanenko;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SubstringFinder {
 

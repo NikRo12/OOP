@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class Generator {
-    private static final long TARGET_SIZE_BYTES = 5L * 1024 * 1024 * 1024;
+    private static final long TARGET_SIZE_BYTES = 5L * 1024 * 1024 * 1024 * 2;
     private static final String FILENAME = "huge_utf8_test.txt";
     private static final String SUBSTRING_TO_EMBED = "\uD83E\uDD23\uD83E\uDD23";
 
