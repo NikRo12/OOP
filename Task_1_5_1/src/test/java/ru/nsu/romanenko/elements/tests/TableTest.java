@@ -124,4 +124,48 @@ class TableTest {
 
         assertTrue(output.contains("|   x    |"));
     }
+
+    @Test
+    @DisplayName("Полная проверка большой таблицы со всеми механиками")
+    void testFullBigTableRender() {
+        Table table = new Table.Builder()
+                .withAlignments(Table.Alignment.LEFT, Table.Alignment.CENTER, Table.Alignment.RIGHT)
+                .withRowLimit(4)
+                .addRow("ID", "Description", "Status")
+                .addRow(1, new Bold("Bold Text"), "OK")
+                .addRow(2, new Italics("Longer description text"), "FAIL")
+                .addRow(3, new Code("System.exit(0)"), "DONE")
+                .addRow(4, "This should be ignored", "LIMIT")
+                .build();
+
+        String expected =
+                "| ID  |        Description        | Status |\n" +
+                        "| :-- | :-----------------------: | -----: |\n" +
+                        "| 1   |       **Bold Text**       |     OK |\n" +
+                        "| 2   | _Longer description text_ |   FAIL |\n" +
+                        "| 3   |     `System.exit(0)`      |   DONE |\n";
+
+        System.out.println(table.render());
+
+        assertEquals(expected, table.render());
+    }
+
+    @Test
+    @DisplayName("Прямая проверка пустых ячеек и типов в большой таблице")
+    void testBigTableWithEmptyAndNulls() {
+        Table table = new Table.Builder()
+                .withAlignments(Table.Alignment.LEFT, Table.Alignment.RIGHT)
+                .addRow("Col1", "Col2")
+                .addRow("Data", null)
+                .addRow("", 100)
+                .build();
+
+        String expected =
+                "| Col1 | Col2 |\n" +
+                        "| :--- | ---: |\n" +
+                        "| Data |      |\n" +
+                        "|      |  100 |\n";
+
+        assertEquals(expected, table.render());
+    }
 }
