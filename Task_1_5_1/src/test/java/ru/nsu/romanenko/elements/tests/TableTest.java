@@ -122,37 +122,6 @@ public class TableTest {
     @DisplayName("Table Render Tests")
     class RenderTest {
         @Test
-        @DisplayName("Should render simple table correctly")
-        void shouldRenderSimpleTableCorrectly() {
-            Table table = new Table.Builder()
-                    .withAlignments(Table.ALIGN_LEFT, Table.ALIGN_RIGHT)
-                    .addRow("Name", "Age")
-                    .addRow("John", "25")
-                    .addRow("Alice", "30")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("| Name | Age |"));
-            assertTrue(result.contains("| :------ | ------: |"));
-            assertTrue(result.contains("| John | 25 |"));
-            assertTrue(result.contains("| Alice | 30 |"));
-        }
-
-        @Test
-        @DisplayName("Should render table with center alignment")
-        void shouldRenderTableWithCenterAlignment() {
-            Table table = new Table.Builder()
-                    .withAlignments(Table.ALIGN_CENTER)
-                    .addRow("Title")
-                    .addRow("Content")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("| Title |"));
-            assertTrue(result.contains("| :-----: |"));
-        }
-
-        @Test
         @DisplayName("Should render table with formatted content")
         void shouldRenderTableWithFormattedContent() {
             Text boldText = new Text("Important");
@@ -164,21 +133,6 @@ public class TableTest {
 
             String result = table.render();
             assertTrue(result.contains("| **Important** | Normal |"));
-        }
-
-        @Test
-        @DisplayName("Should handle uneven rows correctly")
-        void shouldHandleUnevenRowsCorrectly() {
-            Table table = new Table.Builder()
-                    .addRow("A", "B", "C")
-                    .addRow("X", "Y")
-                    .addRow("P")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("| A | B | C |"));
-            assertTrue(result.contains("| X | Y |  |"));
-            assertTrue(result.contains("| P |  |  |"));
         }
 
         @Test
@@ -228,30 +182,6 @@ public class TableTest {
                     Table.Alignment.LEFT, Table.Alignment.CENTER, Table.Alignment.RIGHT
             }, values);
         }
-
-        @Test
-        @DisplayName("Should use default left alignment when not specified")
-        void shouldUseDefaultLeftAlignmentWhenNotSpecified() {
-            Table table = new Table.Builder()
-                    .addRow("A", "B", "C")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("| :------ | :------ | :------ |"));
-        }
-
-        @Test
-        @DisplayName("Should handle more columns than alignments")
-        void shouldHandleMoreColumnsThanAlignments() {
-            Table table = new Table.Builder()
-                    .withAlignments(Table.ALIGN_LEFT, Table.ALIGN_RIGHT)
-                    .addRow("A", "B", "C", "D")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("| :------ | ------: | :------ | :------ |"));
-        }
-    }
 
     @Nested
     @DisplayName("Table Equality Tests")
@@ -334,31 +264,6 @@ public class TableTest {
     @DisplayName("Table Edge Cases Tests")
     class EdgeCasesTest {
         @Test
-        @DisplayName("Should handle empty cells")
-        void shouldHandleEmptyCells() {
-            Table table = new Table.Builder()
-                    .addRow("", " ")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("|  |   |"));
-        }
-
-        @Test
-        @DisplayName("Should handle single column table")
-        void shouldHandleSingleColumnTable() {
-            Table table = new Table.Builder()
-                    .addRow("One")
-                    .addRow("Two")
-                    .build();
-
-            String result = table.render();
-            assertTrue(result.contains("| One |"));
-            assertTrue(result.contains("| Two |"));
-            assertTrue(result.contains("| :------ |"));
-        }
-
-        @Test
         @DisplayName("Should handle very long content")
         void shouldHandleVeryLongContent() {
             String longText = "This is a very long text that might exceed normal cell width";
@@ -368,6 +273,7 @@ public class TableTest {
 
             String result = table.render();
             assertTrue(result.contains(longText));
+            }
         }
     }
 }

@@ -3,7 +3,9 @@ package elements;
 import elements.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Table extends MarkdownElement {
     private final List<Alignment> alignments;
@@ -36,8 +38,8 @@ public class Table extends MarkdownElement {
             for (Object cell : cells) {
                 if (cell instanceof MarkdownElement) {
                     row.add((MarkdownElement) cell);
-                } else{
-                    row.add(new Text(cell.toString()));
+                } else {
+                    row.add(new Text(cell != null ? cell.toString() : ""));
                 }
             }
             rows.add(row);
@@ -53,68 +55,48 @@ public class Table extends MarkdownElement {
         }
     }
 
-    public List<Alignment> getAlignments() {
-        return alignments;
+    public List<List<MarkdownElement>> getRows() {
+        return rows;
     }
 
     public int getRowLimit() {
         return rowLimit;
     }
 
-    public List<List<MarkdownElement>> getRows() {
-        return rows;
-    }
-
-    private void renderRow(StringBuilder sb, List<MarkdownElement> row) {
-        sb.append("|");
-        for (int i = 0; i < getColumnCount(); i++) {
-            String content = i < row.size() ? row.get(i).render() : "";
-            sb.append(" ").append(content).append(" |");
-        }
-        sb.append("\n");
-    }
-
-    private int getColumnCount() {
-        int maxColumns = 0;
-        for (List<MarkdownElement> row : rows) {
-            if (row.size() > maxColumns) {
-                maxColumns = row.size();
-            }
-        }
-        return maxColumns;
+    public List<Alignment> getAlignments() {
+        return alignments;
     }
 
     public enum Alignment {
-        LEFT,
-        CENTER,
-        RIGHT
+        LEFT, CENTER, RIGHT
     }
 
     public static final Alignment ALIGN_LEFT = Alignment.LEFT;
     public static final Alignment ALIGN_CENTER = Alignment.CENTER;
     public static final Alignment ALIGN_RIGHT = Alignment.RIGHT;
 
-
     @Override
     public String render() {
         if (rows.isEmpty()) return "";
+
+        List<List<String>> renderedRows = rows.stream()
+                .map(row -> row.stream()
+                        .map(MarkdownElement::render)
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
+
+        int columnCount = getColumnCount(renderedRows);
+
+        int[] colWidths = calculateColumnWidths(renderedRows, columnCount);
+
         StringBuilder sb = new StringBuilder();
-        renderRow(sb, rows.get(0));
 
-        sb.append("|");
-        for (int i = 0; i < getColumnCount(); i++) {
-            Alignment align = i < alignments.size() ? alignments.get(i) : Alignment.LEFT;
-            switch (align) {
-                case LEFT -> sb.append(" :------ |");
-                case RIGHT -> sb.append(" ------: |");
-                case CENTER -> sb.append(" :-----: |");
-                default -> sb.append(" ------ |");
-            }
-        }
-        sb.append("\n");
+        renderRow(sb, renderedRows.get(0), colWidths);
 
-        for (int i = 1; i < rows.size(); i++) {
-            renderRow(sb, rows.get(i));
+        renderSeparator(sb, colWidths);
+
+        for (int i = 1; i < renderedRows.size(); i++) {
+            renderRow(sb, renderedRows.get(i), colWidths);
         }
 
         return sb.toString();
@@ -139,5 +121,88 @@ public class Table extends MarkdownElement {
         result = 31 * result + rowLimit;
         result = 31 * result + rows.hashCode();
         return result;
+    }
+
+    private int getColumnCount(List<List<String>> renderedRows) {
+        int max = 0;
+        for (List<String> row : renderedRows) {
+            max = Math.max(max, row.size());
+        }
+        return max;
+    }
+
+    private int[] calculateColumnWidths(List<List<String>> renderedRows, int columnCount) {
+        int[] widths = new int[columnCount];
+
+        Arrays.fill(widths, 3);
+
+        for (List<String> row : renderedRows) {
+            for (int i = 0; i < row.size(); i++) {
+                if (row.get(i) != null) {
+                    widths[i] = Math.max(widths[i], row.get(i).length());
+                }
+            }
+        }
+        return widths;
+    }
+
+    private void renderRow(StringBuilder sb, List<String> row, int[] colWidths) {
+        sb.append("|");
+        for (int i = 0; i < colWidths.length; i++) {
+            String content = i < row.size() ? row.get(i) : "";
+            Alignment align = getAlignmentForColumn(i);
+            int width = colWidths[i];
+
+            sb.append(" ");
+            sb.append(padString(content, width, align));
+            sb.append(" |");
+        }
+        sb.append("\n");
+    }
+
+    private void renderSeparator(StringBuilder sb, int[] colWidths) {
+        sb.append("|");
+        for (int i = 0; i < colWidths.length; i++) {
+            Alignment align = getAlignmentForColumn(i);
+            int width = colWidths[i];
+
+            sb.append(" ");
+            sb.append(generateSeparatorLine(width, align));
+            sb.append(" |");
+        }
+        sb.append("\n");
+    }
+
+    private String padString(String content, int width, Alignment align) {
+        int length = content.length();
+        int padding = width - length;
+        if (padding <= 0) return content;
+
+        return switch (align) {
+            case RIGHT -> " ".repeat(padding) + content;
+            case CENTER -> {
+                int leftPad = padding / 2;
+                int rightPad = padding - leftPad;
+                yield " ".repeat(leftPad) + content + " ".repeat(rightPad);
+            }
+            default -> content + " ".repeat(padding);
+        };
+    }
+
+    private String generateSeparatorLine(int width, Alignment align) {
+        int effectiveWidth = Math.max(width, 3);
+
+        return switch (align) {
+            case LEFT -> ":" + "-".repeat(effectiveWidth - 1);
+            case RIGHT -> "-".repeat(effectiveWidth - 1) + ":";
+            case CENTER -> ":" + "-".repeat(effectiveWidth - 2) + ":";
+        };
+    }
+
+    private Alignment getAlignmentForColumn(int index) {
+        if (index < alignments.size()) {
+            return alignments.get(index);
+        }
+        return Alignment.LEFT;
     }
 }
