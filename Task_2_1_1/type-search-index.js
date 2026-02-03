@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.romanenko","l":"Main"},{"p":"ru.nsu.romanenko","l":"Solution"},{"p":"ru.nsu.romanenko","l":"Visualization"}];updateSearchResults();
