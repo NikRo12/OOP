@@ -11,47 +11,47 @@ class SolutionTest {
 
     @Test
     @DisplayName("Должен возвращать false, если массив состоит только из простых чисел")
-    void testAllPrimes() throws InterruptedException {
+    void testAllPrimes() {
         int[] primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
 
-        assertFalse(Solution.consistently(primes));
-        assertFalse(Solution.concurrentThread(primes, 4));
-        assertFalse(Solution.concurrencyStream(primes));
+        assertFalse(new Consistently().answer(primes));
+        assertFalse(new ConcurrentThread(4).answer(primes));
+        assertFalse(new ConcurrencyStream().answer(primes));
     }
 
     @Test
     @DisplayName("Должен возвращать true, если в массиве есть составное число")
-    void testContainsNotPrime() throws InterruptedException {
+    void testContainsNotPrime() {
         int[] mixed = {2, 3, 5, 8, 11};
 
-        assertTrue(Solution.consistently(mixed));
-        assertTrue(Solution.concurrentThread(mixed, 2));
-        assertTrue(Solution.concurrencyStream(mixed));
+        assertTrue(new Consistently().answer(mixed));
+        assertTrue(new ConcurrentThread(2).answer(mixed));
+        assertTrue(new ConcurrencyStream().answer(mixed));
     }
 
     @Test
     @DisplayName("Крайний случай: составное число в самом конце")
-    void testNotPrimeAtEnd() throws InterruptedException {
+    void testNotPrimeAtEnd() {
         int[] arr = {2, 3, 5, 7, 9};
 
-        assertTrue(Solution.concurrentThread(arr, 3));
+        assertTrue(new ConcurrentThread(3).answer(arr));
     }
 
     @Test
     @DisplayName("Крайний случай: пустой массив")
-    void testEmptyArray() throws InterruptedException {
+    void testEmptyArray() {
         int[] empty = {};
 
-        assertFalse(Solution.consistently(empty));
-        assertFalse(Solution.concurrentThread(empty, 4));
-        assertFalse(Solution.concurrencyStream(empty));
+        assertFalse(new Consistently().answer(empty));
+        assertFalse(new ConcurrentThread(4).answer(empty));
+        assertFalse(new ConcurrencyStream().answer(empty));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 4, 8, 100})
     @DisplayName("Проверка разного количества потоков")
-    void testThreadCounts(int threads) throws InterruptedException {
+    void testThreadCounts(int threads) {
         int[] arr = {2, 3, 5, 7, 10, 11};
-        assertTrue(Solution.concurrentThread(arr, threads));
+        assertTrue(new ConcurrentThread(threads).answer(arr));
     }
 }

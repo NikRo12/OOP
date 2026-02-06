@@ -7,7 +7,7 @@ import java.util.Arrays;
 import org.knowm.xchart.*;
 
 public class Visualization {
-    public static void visualize() throws InterruptedException {
+    public static void visualize() {
         int size = 100000;
         int[] arr = createTestArray(size);
 
@@ -15,16 +15,17 @@ public class Visualization {
         double[] executionTimes = new double[threadCounts.length + 2];
 
         Instant start = Instant.now();
-        boolean seqResult = Solution.consistently(arr);
+        boolean seqResult = new Consistently().answer(arr);
         Instant end = Instant.now();
         executionTimes[0] = Duration.between(start, end).toNanos() / 1_000_000.0;
 
         for (int i = 0; i < threadCounts.length; i++) {
             int threads = threadCounts[i];
-            Solution.concurrentThread(arr, threads);
+            Solution concThread = new ConcurrentThread(threads);
+            concThread.answer(arr);
 
             start = Instant.now();
-            boolean threadResult = Solution.concurrentThread(arr, threads);
+            boolean threadResult = concThread.answer(arr);
             end = Instant.now();
 
             if (threadResult != seqResult) {
@@ -34,10 +35,11 @@ public class Visualization {
             executionTimes[i + 1] = Duration.between(start, end).toNanos() / 1_000_000.0;
         }
 
-        Solution.concurrencyStream(arr);
+        Solution concStream = new ConcurrencyStream();
+        concStream.answer(arr);
 
         start = Instant.now();
-        boolean streamResult = Solution.concurrencyStream(arr);
+        boolean streamResult = concStream.answer(arr);
         end = Instant.now();
 
         if (streamResult != seqResult) {
