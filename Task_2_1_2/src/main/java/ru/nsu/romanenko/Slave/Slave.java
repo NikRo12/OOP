@@ -2,7 +2,11 @@ package ru.nsu.romanenko.Slave;
 
 import java.io.*;
 import java.net.*;
+
+import ru.nsu.romanenko.Protocol.Result;
+import ru.nsu.romanenko.Protocol.SlaveHandShake;
 import ru.nsu.romanenko.Protocol.Task;
+import ru.nsu.romanenko.Solution.Solution;
 
 public class Slave {
     private final String masterHost;
@@ -17,38 +21,20 @@ public class Slave {
 
     public void startSlave() {
         try (Socket masterSocket = new Socket(masterHost, masterPort)) {
-            masterSocket.getOutputStream().write(slaveID);
-            masterSocket.getOutputStream().flush();
+            System.out.println("Connection with master completed");
 
-            int responseByte = masterSocket.getInputStream().read();
+            ObjectOutputStream outputStream = new ObjectOutputStream(masterSocket.getOutputStream());
+            outputStream.flush();
+            ObjectInputStream inputStream = new ObjectInputStream(masterSocket.getInputStream());
+            outputStream.writeObject(new SlaveHandShake(slaveID));
 
-            if (responseByte == -1) {
-                System.err.println("Мастер закрыл соединение");
+            while (true) {
+                Task task = (Task) inputStream.readObject();
+                Result result = new Result(Solution.consistently(task.numbers()), task.taskID());
+                outputStream.writeObject(result);
             }
 
-            int response = (byte) responseByte;
-
-            if (response >= 0) {
-                System.out.println("Получен положительный ответ: " + response);
-
-                ObjectOutputStream outputStream = new ObjectOutputStream(masterSocket.getOutputStream());
-                outputStream.flush();
-                ObjectInputStream inputStream = new ObjectInputStream(masterSocket.getInputStream());
-
-                while (true){
-                    try {
-                        Task task = (Task) inputStream.readObject();
-
-                    } catch (ClassNotFoundException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-
-            } else {
-                System.err.println("Получен отрицательный ответ: " + response);
-            }
-
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
