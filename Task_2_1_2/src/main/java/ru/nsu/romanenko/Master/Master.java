@@ -124,8 +124,7 @@ public class Master {
                         continue;
                     }
 
-                    currentTask = taskQueue.poll(1, TimeUnit.SECONDS);
-                    if (currentTask == null) continue;
+                    currentTask = taskQueue.take();
                     out.writeObject(currentTask);
                     Result result = (Result) in.readObject();
 

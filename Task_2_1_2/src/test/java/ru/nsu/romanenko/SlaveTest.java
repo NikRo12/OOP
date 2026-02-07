@@ -45,7 +45,7 @@ class SlaveTest {
             Result result = (Result) response;
 
             assertEquals(1, result.taskID());
-            assertTrue(result.foundNotPrime(), "Слейв должен был найти составное число 4");
+            assertTrue(result.foundNotPrime());
 
             slaveSocket.close();
             slaveFuture.cancel(true);
