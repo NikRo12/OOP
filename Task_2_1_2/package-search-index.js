@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.romanenko.Client"},{"l":"ru.nsu.romanenko.Master"},{"l":"ru.nsu.romanenko.Protocol"},{"l":"ru.nsu.romanenko.Slave"},{"l":"ru.nsu.romanenko.Solution"}];updateSearchResults();
