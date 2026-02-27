@@ -1,5 +1,7 @@
 {
   "bakersCount": 3,
+  "bakersSpeed": 3000,
   "couriersCount": 3,
+  "couriersCapacity": 2,
   "warehouseCapacity": 20
 }

@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.Abstractions.Logger;
 import ru.nsu.romanenko.Simulation.Storage.OrderQueue;
 import ru.nsu.romanenko.Simulation.Storage.Warehouse;
-import ru.nsu.romanenko.Simulation.Structures.Order;
-import ru.nsu.romanenko.Simulation.Structures.Pizza;
+import ru.nsu.romanenko.Simulation.Models.Order;
+import ru.nsu.romanenko.Simulation.Models.Pizza;
 import ru.nsu.romanenko.Simulation.Workers.Baker;
 import ru.nsu.romanenko.System.SimpleLogger;
 

@@ -9,7 +9,8 @@ public class Simulate {
     public static void main(String[] args) throws InterruptedException {
         SimpleLogger logger = new SimpleLogger();
         Config config = JsonReader.read();
-        Pizzeria pizzeria = new Pizzeria(config.bakersCount(), config.couriersCount(), config.warehouseCapacity(), logger);
+        Pizzeria pizzeria = new Pizzeria(config.bakersCount(), config.bakersSpeed(),
+                config.couriersCount(), config.couriersCapacity(), config.warehouseCapacity(), logger);
 
         pizzeria.open();
         Thread.sleep(60_000);

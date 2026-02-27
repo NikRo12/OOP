@@ -54,7 +54,7 @@ public abstract class BlockingQueue<T> implements Storage<T>{
         }
     }
 
-    public void signalAll() {
+    public void stop() {
         lock.lock();
         try {
             isShutdown = true;

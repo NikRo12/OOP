@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 public class JsonReader {
     static public Config read() {
-        try (InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("config.json")) {
+        try (InputStream inputStream = Main.class.getClassLoader().
+                getResourceAsStream("config.json")) {
             String jsonString = new BufferedReader(new InputStreamReader(inputStream))
                     .lines()
                     .collect(Collectors.joining("\n"));
@@ -21,6 +22,7 @@ public class JsonReader {
             System.err.println(ex.getMessage());
         }
 
-        return new Config(1, 1, 1);
+        return new Config(1, 3000, 1,
+                2,  1);
     }
 }

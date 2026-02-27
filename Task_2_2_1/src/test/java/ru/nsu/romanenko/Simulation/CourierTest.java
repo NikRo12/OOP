@@ -3,8 +3,8 @@ package ru.nsu.romanenko.Simulation;
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.Abstractions.Logger;
 import ru.nsu.romanenko.Simulation.Storage.Warehouse;
-import ru.nsu.romanenko.Simulation.Structures.Order;
-import ru.nsu.romanenko.Simulation.Structures.Pizza;
+import ru.nsu.romanenko.Simulation.Models.Order;
+import ru.nsu.romanenko.Simulation.Models.Pizza;
 import ru.nsu.romanenko.Simulation.Workers.Courier;
 
 import java.util.concurrent.atomic.AtomicBoolean;

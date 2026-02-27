@@ -4,28 +4,32 @@ import ru.nsu.romanenko.Abstractions.Logger;
 import ru.nsu.romanenko.Abstractions.Worker;
 import ru.nsu.romanenko.Simulation.Storage.OrderQueue;
 import ru.nsu.romanenko.Simulation.Storage.Warehouse;
-import ru.nsu.romanenko.Simulation.Structures.Order;
-import ru.nsu.romanenko.Simulation.Structures.Pizza;
+import ru.nsu.romanenko.Simulation.Models.Order;
+import ru.nsu.romanenko.Simulation.Models.Pizza;
 import ru.nsu.romanenko.Simulation.Workers.Baker;
 import ru.nsu.romanenko.Simulation.Workers.Courier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pizzeria {
     private final OrderQueue orderQueue;
     private final Warehouse warehouse;
-    private final ArrayList<Worker> bakers;
-    private final ArrayList<Worker> couriers;
+    private final List<Worker> bakers;
+    private final List<Worker> couriers;
 
-    private final ArrayList<Thread> bakersThreads;
-    private final ArrayList<Thread> couriersThreads;
+    private final List<Thread> bakersThreads;
+    private final List<Thread> couriersThreads;
 
-    private final int backerCount;
-    private final int courierCount;
+    private final int backersCount;
+    private final int backersSpeed;
+    private final int couriersCount;
+    private final int couriersCapacity;
 
     private final Logger logger;
 
-    public Pizzeria(int N, int M, int T, Logger logger) {
+    public Pizzeria(int N, int bakersSpeed, int M, int couriersCapacity,
+                    int T, Logger logger) {
         this.orderQueue = new OrderQueue(20);
         this.warehouse = new Warehouse(T);
         this.bakers = new ArrayList<>();
@@ -33,8 +37,10 @@ public class Pizzeria {
         this.bakersThreads = new ArrayList<>();
         this.couriersThreads = new ArrayList<>();
 
-        this.backerCount = N;
-        this.courierCount = M;
+        this.backersCount = N;
+        this.backersSpeed = bakersSpeed;
+        this.couriersCount = M;
+        this.couriersCapacity = couriersCapacity;
 
         this.logger = logger;
     }
@@ -50,7 +56,8 @@ public class Pizzeria {
 
         for (int i = 1; i <= 15; i++) {
             try {
-                orderQueue.put(new Order(i, new Pizza(true, 16, 799), "Novosibirsk"));
+                orderQueue.put(new Order(i, new Pizza(true, 16, 799),
+                        "Novosibirsk"));
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 logger.systemLog(ex.getMessage());
@@ -79,13 +86,13 @@ public class Pizzeria {
     }
 
     private void hire() {
-        for (int i = 0; i < backerCount; i++) {
-            Baker baker = new Baker(3000, orderQueue, warehouse, logger);
+        for (int i = 0; i < backersCount; i++) {
+            Baker baker = new Baker(backersSpeed, orderQueue, warehouse, logger);
             bakers.add(baker);
         }
 
-        for (int i = 0; i < courierCount; i++) {
-            Courier courier = new Courier(2, warehouse, logger);
+        for (int i = 0; i < couriersCount; i++) {
+            Courier courier = new Courier(couriersCapacity, warehouse, logger);
             couriers.add(courier);
         }
     }

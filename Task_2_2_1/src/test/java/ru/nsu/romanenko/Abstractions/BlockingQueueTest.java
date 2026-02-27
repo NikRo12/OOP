@@ -68,7 +68,7 @@ class BlockingQueueTest {
     }
 
     @Test
-    void testSignalAllReturnsNullForGet() throws InterruptedException {
+    void testStopReturnsNullForGet() throws InterruptedException {
         Thread consumer = new Thread(() -> {
             try {
                 assertNull(queue.get());
@@ -76,13 +76,13 @@ class BlockingQueueTest {
         });
 
         consumer.start();
-        queue.signalAll();
+        queue.stop();
         consumer.join(500);
     }
 
     @Test
-    void testSignalAllStopsPut() throws InterruptedException {
-        queue.signalAll();
+    void testStopStopsPut() throws InterruptedException {
+        queue.stop();
         queue.put(10);
         assertNull(queue.get());
     }

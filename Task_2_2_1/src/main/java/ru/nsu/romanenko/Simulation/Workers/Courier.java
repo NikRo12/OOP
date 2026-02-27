@@ -3,19 +3,21 @@ package ru.nsu.romanenko.Simulation.Workers;
 import ru.nsu.romanenko.Abstractions.Logger;
 import ru.nsu.romanenko.Abstractions.Storage;
 import ru.nsu.romanenko.Abstractions.Worker;
-import ru.nsu.romanenko.Simulation.Structures.Order;
+import ru.nsu.romanenko.Simulation.Models.Order;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Courier implements Worker, Runnable{
     private final int capacity;
     private final Storage<Order> warehouse;
-    private final ArrayList<Order> orders;
+    private final List<Order> orders;
     private final Logger logger;
 
     private boolean isClosing = false;
 
-    public Courier(int capacity, Storage<Order> warehouse, Logger logger) {
+    public Courier(int capacity, Storage<Order> warehouse,
+                   Logger logger) {
         this.capacity = capacity;
         this.warehouse = warehouse;
         this.logger = logger;

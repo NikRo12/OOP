@@ -3,7 +3,7 @@ package ru.nsu.romanenko.Simulation.Workers;
 import ru.nsu.romanenko.Abstractions.Logger;
 import ru.nsu.romanenko.Abstractions.Storage;
 import ru.nsu.romanenko.Abstractions.Worker;
-import ru.nsu.romanenko.Simulation.Structures.Order;
+import ru.nsu.romanenko.Simulation.Models.Order;
 
 public class Baker implements Worker, Runnable{
     private final int speed;
@@ -13,7 +13,8 @@ public class Baker implements Worker, Runnable{
 
     private Order currOrder = null;
 
-    public Baker(int speed, Storage<Order> orderQueue, Storage<Order> warehouse, Logger logger) {
+    public Baker(int speed, Storage<Order> orderQueue,
+                 Storage<Order> warehouse, Logger logger) {
         this.speed = speed;
         this.orderQueue = orderQueue;
         this.warehouse = warehouse;
