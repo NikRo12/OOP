@@ -1,7 +1,7 @@
 {
-  "bakersCount": 3,
-  "bakersSpeed": 3000,
+  "bakersCount": 2,
+  "bakersSpeed": [3000, 1],
   "couriersCount": 3,
-  "couriersCapacity": 2,
+  "couriersCapacity": [2, 3, 4],
   "warehouseCapacity": 20
 }

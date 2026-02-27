@@ -7,8 +7,4 @@ public class Warehouse extends BlockingQueue<Order> {
     public Warehouse(int capacity) {
         super(capacity);
     }
-
-    public void close() {
-        super.stop();
-    }
 }

@@ -20,9 +20,7 @@ public class JsonReader {
             return new Gson().fromJson(jsonString, Config.class);
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
+            return null;
         }
-
-        return new Config(1, 3000, 1,
-                2,  1);
     }
 }

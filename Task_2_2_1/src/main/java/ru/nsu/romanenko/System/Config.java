@@ -1,3 +1,6 @@
 package ru.nsu.romanenko.System;
-public record Config(int bakersCount, int bakersSpeed, int couriersCount,
-                     int couriersCapacity, int warehouseCapacity) {}
+
+import java.util.ArrayList;
+
+public record Config(int bakersCount, ArrayList<Integer> bakersSpeed, int couriersCount,
+                     ArrayList<Integer> couriersCapacity, int warehouseCapacity) {}

@@ -7,8 +7,4 @@ public class OrderQueue extends BlockingQueue<Order> {
     public OrderQueue(int capacity) {
         super(capacity);
     }
-
-    public void close() {
-        super.stop();
-    }
 }
