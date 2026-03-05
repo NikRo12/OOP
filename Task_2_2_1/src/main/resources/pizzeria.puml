@@ -1,0 +1,199 @@
+@startuml Pizzeria
+
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+skinparam class {
+    BackgroundColor #FFF8F0
+    BorderColor #CC6600
+    HeaderBackgroundColor #FF9933
+    HeaderFontColor #FFFFFF
+    ArrowColor #CC6600
+}
+skinparam package {
+    BackgroundColor #FFF3E0
+    BorderColor #FF9933
+}
+
+title Pizzeria — Class Diagram (SOLID refactoring)
+
+' ─────────────────────────────────────────
+' Package: Abstractions
+' ─────────────────────────────────────────
+package "Abstractions" #FFF3E0 {
+
+    interface Logger as "Logger" {
+        + log(id: int, state: String): void
+        + systemLog(message: String): void
+    }
+
+    interface Worker as "Worker" {
+        + work(): void
+    }
+
+    interface Storage as "Storage<T>" {
+        + put(item: T): void
+        + get(): T
+        + stop(): void
+    }
+
+    abstract class BlockingQueue as "BlockingQueue<T>" {
+        - capacity: int
+        - items: Queue<T>
+        - lock: ReentrantLock
+        - notEmpty: Condition
+        - notFull: Condition
+        - isShutdown: boolean
+        + BlockingQueue(capacity: int)
+        + put(item: T): void
+        + get(): T
+        + stop(): void
+    }
+
+    Storage <|.. BlockingQueue
+}
+
+' ─────────────────────────────────────────
+' Package: System
+' ─────────────────────────────────────────
+package "System" #F0FFF3 {
+
+    class SimpleLogger {
+        + log(id: int, state: String): void
+        + systemLog(message: String): void
+    }
+
+    class JsonReader {
+        + {static} read(): Config
+    }
+
+    class Config <<record>> {
+        + bakersCount: int
+        + bakersSpeed: ArrayList<Integer>
+        + couriersCount: int
+        + couriersCapacity: ArrayList<Integer>
+        + warehouseCapacity: int
+    }
+
+    Logger <|.. SimpleLogger
+}
+
+' ─────────────────────────────────────────
+' Package: Simulation.Models
+' ─────────────────────────────────────────
+package "Simulation.Models" #F0F4FF {
+
+    class Order <<record>> {
+        + id: int
+        + pizza: Pizza
+        + address: String
+    }
+
+    class Pizza <<record>> {
+        + isTesty: boolean
+        + size: int
+        + price: int
+    }
+
+    Order *-- Pizza : contains
+}
+
+' ─────────────────────────────────────────
+' Package: Simulation.Storage
+' ─────────────────────────────────────────
+package "Simulation.Storage" #FFF0F4 {
+
+    class OrderQueue {
+        + OrderQueue(capacity: int)
+    }
+
+    class Warehouse {
+        + Warehouse(capacity: int)
+    }
+
+    BlockingQueue <|-- OrderQueue
+    BlockingQueue <|-- Warehouse
+}
+
+' ─────────────────────────────────────────
+' Package: Simulation.Workers
+' ─────────────────────────────────────────
+package "Simulation.Workers" #F5F0FF {
+
+    class Baker {
+        - speed: int
+        - orderQueue: Storage<Order>
+        - warehouse: Storage<Order>
+        - logger: Logger
+        - currOrder: Order
+        + Baker(speed, orderQueue, warehouse, logger)
+        + work(): void
+        + run(): void
+    }
+
+    class Courier {
+        - capacity: int
+        - warehouse: Storage<Order>
+        - orders: List<Order>
+        - logger: Logger
+        - isClosing: boolean
+        + Courier(capacity, warehouse, logger)
+        + work(): void
+        + run(): void
+    }
+
+    Worker   <|.. Baker
+    Runnable <|.. Baker
+    Worker   <|.. Courier
+    Runnable <|.. Courier
+}
+
+' ─────────────────────────────────────────
+' Package: Simulation
+' ─────────────────────────────────────────
+package "Simulation" #FFFFF0 {
+
+    class Pizzeria {
+        - orderQueue: Storage<Order>
+        - warehouse: Storage<Order>
+        - bakers: List<Worker>
+        - couriers: List<Worker>
+        - bakersThreads: List<Thread>
+        - couriersThreads: List<Thread>
+        - backersCount: int
+        - backersSpeed: List<Integer>
+        - couriersCount: int
+        - couriersCapacity: List<Integer>
+        - logger: Logger
+        + Pizzeria(orderQueue: Storage<Order>, warehouse: Storage<Order>,\n  N: int, bakersSpeed: List<Integer>,\n  M: int, couriersCapacity: List<Integer>, logger: Logger)
+        + open(): void
+        + close(): void
+        - hire(): void
+    }
+}
+
+' ─────────────────────────────────────────
+' Entry Point
+' ─────────────────────────────────────────
+class Simulate {
+    + {static} main(args: String[]): void
+}
+
+Simulate  -->  Pizzeria     : creates & configures
+Simulate  ..>  OrderQueue   : <<creates>>
+Simulate  ..>  Warehouse    : <<creates>>
+Simulate  ..>  SimpleLogger : <<creates>>
+Simulate  -->  JsonReader   : uses
+JsonReader -->  Config       : produces
+
+Pizzeria  -->  Storage      : depends on
+Pizzeria  -->  Logger       : depends on
+Pizzeria  ..>  Baker        : <<creates>>
+Pizzeria  ..>  Courier      : <<creates>>
+
+Baker     -->  Storage      : depends on
+Baker     -->  Logger       : depends on
+
+Courier   -->  Storage      : depends on
+Courier   -->  Logger       : depends on
+
+@enduml

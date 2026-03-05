@@ -1,11 +1,8 @@
 package ru.nsu.romanenko.Simulation;
 
-import ru.nsu.romanenko.Abstractions.BlockingQueue;
 import ru.nsu.romanenko.Abstractions.Logger;
 import ru.nsu.romanenko.Abstractions.Storage;
 import ru.nsu.romanenko.Abstractions.Worker;
-import ru.nsu.romanenko.Simulation.Storage.OrderQueue;
-import ru.nsu.romanenko.Simulation.Storage.Warehouse;
 import ru.nsu.romanenko.Simulation.Models.Order;
 import ru.nsu.romanenko.Simulation.Models.Pizza;
 import ru.nsu.romanenko.Simulation.Workers.Baker;
@@ -30,10 +27,11 @@ public class Pizzeria {
 
     private final Logger logger;
 
-    public Pizzeria(int N, ArrayList<Integer> bakersSpeed, int M, ArrayList<Integer> couriersCapacity,
-                    int T, Logger logger) {
-        this.orderQueue = new OrderQueue(20);
-        this.warehouse = new Warehouse(T);
+    public Pizzeria(Storage<Order> orderQueue, Storage<Order> warehouse, int N, List<Integer> bakersSpeed,
+                    int M, List<Integer> couriersCapacity, Logger logger) {
+
+        this.orderQueue = orderQueue;
+        this.warehouse = warehouse;
         this.bakers = new ArrayList<>();
         this.couriers = new ArrayList<>();
         this.bakersThreads = new ArrayList<>();
