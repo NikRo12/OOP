@@ -127,7 +127,7 @@ class BakerTest {
 
         queue.put(order);
 
-        queue.close();
+        queue.stop();
 
         baker.work();
 
