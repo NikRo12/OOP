@@ -1,0 +1,10 @@
+{
+  "fieldSizeN": 20,
+  "fieldSizeM": 20,
+  "foodCount": 5,
+  "winCells": 10,
+  "startSpeed": 200,
+  "obstacleRatio": 0.05,
+  "botCount": 2,
+  "cellSize": 30
+}
