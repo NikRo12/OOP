@@ -1,0 +1,8 @@
+module:ru.nsu.romanenko
+ru.nsu.romanenko
+ru.nsu.romanenko.controller
+ru.nsu.romanenko.model
+ru.nsu.romanenko.model.food
+ru.nsu.romanenko.model.obstacle
+ru.nsu.romanenko.model.strategy
+ru.nsu.romanenko.view
