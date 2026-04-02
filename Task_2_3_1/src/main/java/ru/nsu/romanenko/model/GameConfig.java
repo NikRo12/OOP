@@ -6,6 +6,5 @@ public record GameConfig(
         int foodCount,
         double obstacleRatio,
         int winCells,
-        int startSpeed,
-        int cellSize
+        int startSpeed
 ) {}

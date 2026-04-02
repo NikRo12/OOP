@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.Direction;
 import ru.nsu.romanenko.model.GameConfig;
 import ru.nsu.romanenko.model.GameState;
+import ru.nsu.romanenko.model.Snake;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,8 @@ public class GameControllerTest {
 
     @BeforeEach
     void setUp() {
-        config = new GameConfig(10, 10, 2, 0.0, 5, 200, 30);
+        config = new GameConfig
+                (10, 10, 2, 0.0, 5, 200);
     }
 
     @Test
@@ -44,8 +46,49 @@ public class GameControllerTest {
     }
 
     @Test
-    void stopDoesNotThrowBeforeStart() {
+    void testGameLostOnSelfCollision() {
+        GameConfig config = new GameConfig
+                (10, 10, 0, 0.0, 100, 200);
         GameController controller = new GameController(config);
-        assertDoesNotThrow(controller::stop);
+
+        controller.handleSpace();
+
+        Snake snake = controller.getField().getSnake();
+
+        snake.growUp(4);
+        for(int i = 0; i < 4; i++) {
+            snake.move();
+        }
+
+        snake.setDirection(Direction.LEFT);
+        snake.move();
+        snake.setDirection(Direction.UP);
+        snake.move();
+        snake.setDirection(Direction.RIGHT);
+
+        controller.tick();
+
+        assertEquals(GameState.LOST, controller.getState(),
+                "Змейка должна врезаться в себя");
+    }
+
+    @Test
+    void testGameWon() {
+        GameConfig winConfig = new GameConfig
+                (10, 10, 0, 0.0, 2, 200);
+        GameController controller = new GameController(winConfig);
+
+        controller.handleSpace();
+
+        Snake snake = controller.getField().getSnake();
+
+        snake.growUp(1);
+
+        snake.move();
+
+        controller.tick();
+
+        assertEquals(GameState.WON, controller.getState(),
+                "Состояние должно быть WON при достижении лимита");
     }
 }

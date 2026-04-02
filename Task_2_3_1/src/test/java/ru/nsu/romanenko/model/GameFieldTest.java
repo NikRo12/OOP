@@ -3,7 +3,6 @@ package ru.nsu.romanenko.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.model.food.Apple;
-import ru.nsu.romanenko.model.food.Food;
 import ru.nsu.romanenko.model.food.GoldenApple;
 
 import java.util.List;
@@ -18,7 +17,8 @@ public class GameFieldTest {
 
     @BeforeEach
     void setUp() {
-        config = new GameConfig(10, 10, 3, 0.0, 20, 200, 30);
+        config = new GameConfig
+                (10, 10, 3, 0.0, 20, 200);
         snake = new Snake(new Position(5, 5), Direction.DOWN);
         field = new GameField(config, List.of(new Apple(), new GoldenApple()), snake);
         field.init();
@@ -45,15 +45,16 @@ public class GameFieldTest {
     void initNoFoodWithinTwoCellsOfHead() {
         Position head = snake.getHead();
         for (Position p : field.getFoods().keySet()) {
-            int dist = Math.abs(p.getHorizontal() - head.getHorizontal())
-                     + Math.abs(p.getVertical() - head.getVertical());
+            int dist = Math.abs(p.horizontal() - head.horizontal())
+                     + Math.abs(p.vertical() - head.vertical());
             assertTrue(dist > 2, "Food too close to head: " + p);
         }
     }
 
     @Test
     void isObstacleReturnsTrueAfterInit() {
-        GameConfig configWithObstacles = new GameConfig(10, 10, 1, 0.1, 20, 200, 30);
+        GameConfig configWithObstacles = new GameConfig
+                (10, 10, 1, 0.1, 20, 200);
         Snake s2 = new Snake(new Position(5, 5), Direction.DOWN);
         GameField f2 = new GameField(configWithObstacles, List.of(new Apple()), s2);
         f2.init();
@@ -70,7 +71,8 @@ public class GameFieldTest {
 
     @Test
     void isFoodReturnsFalseForEmptyCell() {
-        assertFalse(field.isFood(new Position(5, 5)));
+        assertFalse
+                (field.isFood(new Position(5, 5)));
     }
 
     @Test

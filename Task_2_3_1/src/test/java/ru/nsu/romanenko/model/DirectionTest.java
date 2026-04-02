@@ -27,22 +27,30 @@ public class DirectionTest {
 
     @Test
     void nextUp() {
-        assertEquals(new Position(5, 4), Direction.UP.next(new Position(5, 5)));
+        assertEquals(
+                new Position(5, 4),
+                Direction.UP.next(new Position(5, 5)));
     }
 
     @Test
     void nextDown() {
-        assertEquals(new Position(5, 6), Direction.DOWN.next(new Position(5, 5)));
+        assertEquals(
+                new Position(5, 6),
+                Direction.DOWN.next(new Position(5, 5)));
     }
 
     @Test
     void nextRight() {
-        assertEquals(new Position(6, 5), Direction.RIGHT.next(new Position(5, 5)));
+        assertEquals(
+                new Position(6, 5),
+                Direction.RIGHT.next(new Position(5, 5)));
     }
 
     @Test
     void nextLeft() {
-        assertEquals(new Position(4, 5), Direction.LEFT.next(new Position(5, 5)));
+        assertEquals(
+                new Position(4, 5),
+                Direction.LEFT.next(new Position(5, 5)));
     }
 
     @Test

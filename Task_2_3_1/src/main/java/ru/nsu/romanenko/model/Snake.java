@@ -8,17 +8,25 @@ import java.util.List;
 public class Snake {
     private final Deque<Position> body;
     private Direction direction;
+    private final Deque<Direction> inputQueue;
 
     private int pendingGrowth = 0;
-
 
     public Snake(Position startPosition, Direction startDirection) {
         this.body = new ArrayDeque<>();
         this.body.addFirst(startPosition);
         this.direction = startDirection;
+        this.inputQueue = new ArrayDeque<>();
     }
 
     public void move() {
+        if (!inputQueue.isEmpty()) {
+            Direction nextDir = inputQueue.poll();
+            if (nextDir != this.direction.opposite()) {
+                this.direction = nextDir;
+            }
+        }
+
         this.body.addFirst(this.direction.next(this.body.getFirst()));
         if (pendingGrowth > 0) {
             pendingGrowth--;
@@ -27,17 +35,18 @@ public class Snake {
         }
     }
 
-
     public void wrapHead(int fieldWidth, int fieldHeight) {
         Position head = this.body.removeFirst();
-        int x = ((head.getHorizontal() % fieldWidth) + fieldWidth) % fieldWidth;
-        int y = ((head.getVertical() % fieldHeight) + fieldHeight) % fieldHeight;
+        int x = ((head.horizontal() % fieldWidth) + fieldWidth) % fieldWidth;
+        int y = ((head.vertical() % fieldHeight) + fieldHeight) % fieldHeight;
         this.body.addFirst(new Position(x, y));
     }
 
     public void setDirection(Direction direction) {
-        if (!direction.equals(this.direction.opposite())) {
-            this.direction = direction;
+        Direction lastInQueue = inputQueue.isEmpty() ? this.direction : inputQueue.peekLast();
+
+        if (direction != lastInQueue && direction != lastInQueue.opposite() && inputQueue.size() < 3) {
+            inputQueue.addLast(direction);
         }
     }
 

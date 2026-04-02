@@ -23,10 +23,11 @@ public class FxmlController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameConfig config = ConfigReader.read();
 
-        gameCanvas.setWidth(config.fieldSizeN() * config.cellSize());
-        gameCanvas.setHeight(config.fieldSizeM() * config.cellSize());
+        gameCanvas.setWidth(800);
+        gameCanvas.setHeight(600);
 
         gameController = new GameController(config);
+
         GameView view = new GameView(gameCanvas, config.fieldSizeN(), config.fieldSizeM());
         inputController = new InputController(gameController);
 

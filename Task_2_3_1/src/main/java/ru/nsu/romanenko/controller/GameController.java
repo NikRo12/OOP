@@ -20,13 +20,13 @@ public class GameController {
     private GameView view;
 
     private Snake playerSnake;
-    private int startSpeed;
-    private int speed;
-    private static final int CONST_SPEED_UP = -100;
+    private int currentSpeed;
+    private boolean isTicking = false;
 
     public GameController(GameConfig config) {
         this.config = config;
         this.state = GameState.WAITING;
+        this.currentSpeed = config.startSpeed();
         initSnakeAndField();
     }
 
@@ -40,125 +40,99 @@ public class GameController {
                 Direction.DOWN
         );
         field = new GameField(config, foodTypes, playerSnake);
-
-        this.startSpeed = config.startSpeed();
-        this.speed = startSpeed;
     }
 
     public void start() {
         field.init();
-        setSpeed(speed);
-        if (view != null) {
-            view.render(field, state);
+        updateTimeline();
+        if (view != null) view.render(field, state);
+    }
+
+    private void updateTimeline() {
+        if (timeline != null) timeline.stop();
+
+        try {
+            timeline = new Timeline(new KeyFrame(Duration.millis(currentSpeed), e -> tick()));
+            timeline.setCycleCount(Timeline.INDEFINITE);
+        } catch (Exception | Error e) {
+            timeline = null;
         }
     }
 
     public void handleSpace() {
         if (state == GameState.WAITING) {
             state = GameState.RUNNING;
-            timeline.play();
+            if (timeline != null) timeline.play();
         } else if (state == GameState.LOST || state == GameState.WON) {
-            stop();
-            initSnakeAndField();
-
             if (state == GameState.WON) {
-                speed += CONST_SPEED_UP;
+                currentSpeed = Math.max(40, (int) (currentSpeed * 0.8));
+            } else {
+                currentSpeed = config.startSpeed();
             }
 
-            if (state == GameState.LOST) {
-                speed = startSpeed;
-            }
+            initSnakeAndField();
+            start();
 
-            state = GameState.WAITING;
-            field.init();
-            setSpeed(speed);
+            state = GameState.RUNNING;
+            if (timeline != null) timeline.play();
+        }
+    }
+
+    void tick() {
+        if (isTicking || state != GameState.RUNNING) return;
+        isTicking = true;
+
+        try {
+            playerSnake.move();
+            playerSnake.wrapHead(field.getHorizontalSize(), field.getVerticalSize());
+            checkCollisions();
+
             if (view != null) {
                 view.render(field, state);
             }
+        } finally {
+            isTicking = false;
         }
     }
 
-    public void stop() {
-        if (timeline != null) {
-            timeline.stop();
-        }
-    }
-
-    private void tick() {
-        if (state != GameState.RUNNING) {
-            stop();
-            return;
-        }
-
-        playerSnake.move();
-        playerSnake.wrapHead(field.getHorizontalSize(), field.getVerticalSize());
-        handleCollision(playerSnake);
-
-        if (view != null) {
-            view.render(field, state);
-        }
-
-        if (state != GameState.RUNNING) {
-            stop();
-        }
-    }
-
-    private void handleCollision(Snake snake) {
-        Position head = snake.getHead();
+    private void checkCollisions() {
+        Position head = playerSnake.getHead();
 
         if (field.isObstacle(head)) {
-            resolveSnakeDeath(snake);
+            state = GameState.LOST;
+            if (timeline != null) timeline.stop();
             return;
         }
 
         List<Position> body = playerSnake.getBody();
-        int startIndex = (playerSnake == snake) ? 1 : 0;
-        for (int i = startIndex; i < body.size(); i++) {
+        for (int i = 1; i < body.size(); i++) {
             if (head.equals(body.get(i))) {
-                resolveSnakeDeath(snake);
+                state = GameState.LOST;
+                if (timeline != null) timeline.stop();
                 return;
             }
         }
 
         if (field.isFood(head)) {
             Food food = field.getFoodAt(head);
-            food.apply(snake);
+            food.apply(playerSnake);
             field.replaceFood(head);
-
-            if (snake == playerSnake && snake.getSize() >= config.winCells()) {
-                state = GameState.WON;
-            }
-        }
-    }
-
-    private void resolveSnakeDeath(Snake snake) {
-        if (snake == playerSnake) {
-            state = GameState.LOST;
-        }
-    }
-
-    private void setSpeed(int millisPerTick) {
-        boolean wasRunning = timeline != null
-                && timeline.getStatus() == Timeline.Status.RUNNING;
-        if (timeline != null) {
-            timeline.stop();
         }
 
-        timeline = new Timeline(
-                new KeyFrame(Duration.millis(millisPerTick), event -> tick())
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-
-        if (wasRunning) {
-            timeline.play();
+        if (playerSnake.getSize() >= config.winCells()) {
+            state = GameState.WON;
+            if (timeline != null) timeline.stop();
         }
     }
 
     public void handleInput(Direction direction) {
-        if (state != GameState.RUNNING) {
-            return;
+        if (state == GameState.RUNNING) {
+            playerSnake.setDirection(direction);
         }
-        playerSnake.setDirection(direction);
+    }
+
+    public void setView(GameView view) {
+        this.view = view;
     }
 
     public GameState getState() {
@@ -167,9 +141,5 @@ public class GameController {
 
     public GameField getField() {
         return field;
-    }
-
-    public void setView(GameView view) {
-        this.view = view;
     }
 }

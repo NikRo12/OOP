@@ -125,4 +125,32 @@ public class SnakeTest {
         snake.getBody().clear();
         assertEquals(1, snake.getSize());
     }
+
+    @Test
+    void setDirectionIgnoredOpposite() {
+        // Змейка смотрит ВНИЗ
+        Snake snake = new Snake(new Position(5, 5), Direction.DOWN);
+
+        // Пытаемся развернуть ВВЕРХ
+        snake.setDirection(Direction.UP);
+
+        // Проверяем, что направление осталось DOWN
+        snake.move();
+        assertEquals(new Position(5, 6), snake.getHead(),
+                "Змейка не должна разворачиваться на 180 градусов");
+    }
+
+    @Test
+    void wrapAroundHorizontal() {
+        int width = 10;
+        int height = 10;
+        // Голова на самом краю (x=9), едем направо
+        Snake snake = new Snake(new Position(9, 5), Direction.RIGHT);
+
+        snake.move(); // Станет (10, 5)
+        snake.wrapHead(width, height); // Должно стать (0, 5)
+
+        assertEquals(new Position(0, 5), snake.getHead(),
+                "Змейка должна появиться с противоположной стороны поля");
+    }
 }

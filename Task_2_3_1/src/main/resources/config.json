@@ -1,6 +1,6 @@
 {
   "fieldSizeN": 20,
-  "fieldSizeM": 20,
+  "fieldSizeM": 15,
   "foodCount": 5,
   "winCells": 10,
   "startSpeed": 200,

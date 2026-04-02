@@ -37,7 +37,8 @@ public class GameField {
         for (int dx = -2; dx <= 2; dx++) {
             for (int dy = -2; dy <= 2; dy++) {
                 if (Math.abs(dx) + Math.abs(dy) <= 2) {
-                    occupied.add(new Position(head.getHorizontal() + dx, head.getVertical() + dy));
+                    occupied.add(new Position(head.horizontal() + dx,
+                            head.vertical() + dy));
                 }
             }
         }
