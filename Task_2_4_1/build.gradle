@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'groovy'
+    id 'jacoco'
 }
 
 group = 'ru.nsu'
@@ -41,6 +42,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
 jar {
