@@ -85,7 +85,6 @@ class ScoreCalculatorTest {
 
         calc.calculate(r, task, gradeConfig);
 
-        // 7/10 = 70% of 1 = 0.7 base, no deadline penalty
         assertTrue(r.getScore() > 0.6 && r.getScore() <= 0.8,
             "Partial score expected: " + r.getScore());
     }

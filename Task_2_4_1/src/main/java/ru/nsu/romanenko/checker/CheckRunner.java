@@ -6,6 +6,7 @@ import ru.nsu.romanenko.model.*;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 public class CheckRunner {
@@ -15,86 +16,55 @@ public class CheckRunner {
     private final OopCheckerConfig config;
     private final GitManager gitManager;
     private final BuildManager buildManager;
-    private final ScoreCalculator scoreCalculator;
+    private final StudentProcessor studentProcessor;
 
-    private final Map<String, StudentResult> results = new LinkedHashMap<>();
+    private final Map<String, StudentResult> results = new ConcurrentHashMap<>();
 
     public CheckRunner(OopCheckerConfig config) {
         Path workDir = Paths.get(System.getProperty("user.dir"), "repos");
+        ProcessExecutor executor = new ProcessExecutor();
         this.config = config;
-        this.gitManager = new GitManager(workDir);
+        this.gitManager = new GitManager(workDir, executor);
         this.buildManager = new BuildManager(
-            config.getGradeConfig().getTestTimeoutSeconds(), gitManager);
-        this.scoreCalculator = new ScoreCalculator();
+            config.getGradeConfig().getTestTimeoutSeconds(), executor);
+        this.studentProcessor = new StudentProcessor(config, gitManager, buildManager, new ScoreCalculator());
     }
 
     public void run() throws IOException {
         if (!gitManager.isGitAvailable()) {
-            log.severe("git is not available or is not configured. Please ensure git is installed.");
+            log.severe("git is not available. Please ensure git is installed.");
         }
+        Files.createDirectories(gitManager.getWorkDir());
+        try {
+            processStudentsInParallel(buildStudentTaskMap());
+        } finally {
+            buildManager.shutdown();
+        }
+    }
 
-        Path reposDir = gitManager.getWorkDir();
-        Files.createDirectories(reposDir);
+    private void processStudentsInParallel(Map<String, Set<String>> studentTasks) {
+        int threads = Math.max(1, Math.min(studentTasks.size(),
+            Runtime.getRuntime().availableProcessors()));
+        ExecutorService pool = Executors.newFixedThreadPool(threads);
 
-        Map<String, Set<String>> studentTasks = buildStudentTaskMap();
+        List<Future<?>> futures = new ArrayList<>();
+        for (Map.Entry<String, Set<String>> e : studentTasks.entrySet()) {
+            futures.add(pool.submit(() -> {
+                StudentResult sr = studentProcessor.process(e.getKey(), e.getValue());
+                if (sr != null) results.put(e.getKey(), sr);
+            }));
+        }
+        pool.shutdown();
 
-        for (Map.Entry<String, Set<String>> entry : studentTasks.entrySet()) {
-            String github = entry.getKey();
-            Set<String> taskIds = entry.getValue();
-
-            Student student = config.findStudent(github);
-            if (student == null) {
-                log.warning("Student not found in config: " + github);
-                continue;
-            }
-
-            StudentResult studentResult = new StudentResult(student);
-            results.put(github, studentResult);
-
-            Path repoPath = null;
+        for (Future<?> f : futures) {
             try {
-                repoPath = gitManager.cloneOrUpdate(student.getRepoUrl(), github, taskIds);
-                studentResult.setRepoCloned(true);
-                log.info("Repository ready for " + github);
-            } catch (IOException e) {
-                studentResult.setRepoCloned(false);
-                studentResult.setRepoCloneError(e.getMessage());
-                log.warning("Could not clone/update repo for " + github + ": " + e.getMessage());
-            }
-
-            for (String taskId : taskIds) {
-                TaskResult taskResult = new TaskResult(taskId);
-
-                if (repoPath == null) {
-                    taskResult.setStatus(TaskResult.Status.NOT_CHECKED);
-                    taskResult.setErrorMessage("Repository unavailable");
-                } else {
-                    checkTask(repoPath, taskId, taskResult);
-                }
-
-                int bonus = config.getGradeConfig().getBonus(github, taskId);
-                taskResult.setBonusScore(bonus);
-
-                Task task = config.getTask(taskId);
-                if (task != null) {
-                    scoreCalculator.calculate(taskResult, task, config.getGradeConfig());
-                }
-
-                studentResult.addTaskResult(taskResult);
-
-                log.info(String.format("  [%s] %s: status=%s, score=%.1f",
-                    github, taskId, taskResult.getStatus(), taskResult.getTotalScore()));
+                f.get();
+            } catch (ExecutionException | InterruptedException e) {
+                log.warning("Student processing error: " + e.getMessage());
             }
         }
     }
 
-    private void checkTask(Path repoPath, String taskId, TaskResult taskResult) {
-        Path taskDir = gitManager.findTaskDir(repoPath, taskId);
-
-        taskResult.setLastCommitDate(gitManager.getLastCommitDate(repoPath, taskId));
-        buildManager.runPipeline(taskDir, taskResult);
-    }
-    
     private Map<String, Set<String>> buildStudentTaskMap() {
         Map<String, Set<String>> map = new LinkedHashMap<>();
         for (AssignmentEntry entry : config.getAssignments()) {

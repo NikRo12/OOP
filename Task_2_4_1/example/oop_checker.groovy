@@ -3,7 +3,7 @@ include 'semester.groovy'
 assignments {
     assign {
         students = ['NikRo12', 'ivanov-ivan', 'petrov-petr']
-        tasks    = ['Task_2_1_1', 'Task_2_1_2', 'Task_2_2_1', 'Task_2_3_1', 'Task_2_4_1']
+        tasks    = ['Task_2_1_1']
     }
 }
 

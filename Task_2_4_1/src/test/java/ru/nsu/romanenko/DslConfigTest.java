@@ -198,8 +198,6 @@ class DslConfigTest {
         assertFalse(petrovTasks.contains("Task_2_1_1"));
     }
 
-    // -------------------------------------------------------------------------
-
     private OopCheckerConfig loadScript(String script) throws IOException {
         Path scriptFile = tempDir.resolve("oop_checker.groovy");
         Files.writeString(scriptFile, script);

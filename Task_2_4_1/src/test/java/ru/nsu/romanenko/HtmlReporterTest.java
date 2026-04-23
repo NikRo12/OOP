@@ -66,8 +66,6 @@ class HtmlReporterTest {
         assertTrue(html.contains("1.0"), "Score should appear in report");
     }
 
-    // -------------------------------------------------------------------------
-
     private OopCheckerConfig buildConfig() {
         OopCheckerConfig config = new OopCheckerConfig();
 

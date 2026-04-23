@@ -11,6 +11,7 @@ import java.io.IOException;
 public class ConfigLoader {
 
     public static final String DEFAULT_SCRIPT_NAME = "oop_checker.groovy";
+
     public OopCheckerConfig load(File scriptFile) throws IOException {
         OopCheckerConfig config = new OopCheckerConfig();
         OopCheckerDslDelegate delegate = new OopCheckerDslDelegate(config, scriptFile.getParentFile());

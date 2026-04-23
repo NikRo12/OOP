@@ -9,19 +9,22 @@ import java.util.logging.Logger;
 public class GitManager {
 
     private static final Logger log = Logger.getLogger(GitManager.class.getName());
-    private final Path workDir;
 
-    public GitManager(Path workDir) {
+    private final Path workDir;
+    private final ProcessRunner processRunner;
+
+    public GitManager(Path workDir, ProcessRunner processRunner) {
         this.workDir = workDir;
+        this.processRunner = processRunner;
     }
 
     public Path getWorkDir() { return workDir; }
 
     public boolean isGitAvailable() {
         try {
-            File dir = new File(System.getProperty("user.dir"));
-            ProcessResult result = runProcess(dir, "git", "--version");
-            return result.exitCode == 0;
+            ProcessResult result = processRunner.run(
+                new File(System.getProperty("user.dir")), "git", "--version");
+            return result.isSuccess();
         } catch (Exception e) {
             return false;
         }
@@ -30,7 +33,6 @@ public class GitManager {
     public Path cloneOrUpdate(String repoUrl, String github,
                               java.util.Set<String> taskIds) throws IOException {
         Path repoPath = workDir.resolve(github);
-
         if (Files.exists(repoPath.resolve(".git"))) {
             log.info("Repository exists for " + github + ", pulling latest changes...");
             return pull(repoPath, github, taskIds);
@@ -44,21 +46,19 @@ public class GitManager {
                        java.util.Set<String> taskIds) throws IOException {
         Files.createDirectories(workDir);
 
-        ProcessResult result = runProcess(workDir.toFile(),
+        ProcessResult result = processRunner.run(workDir.toFile(),
             "git", "clone", "--filter=blob:none", "--no-checkout", repoUrl, github);
-        if (result.exitCode != 0) {
-            throw new IOException("git clone failed for " + github + ":\n" + result.stderr);
+        if (!result.isSuccess()) {
+            throw new IOException("git clone failed for " + github + ":\n" + result.stderr());
         }
 
-        runProcess(repoPath.toFile(), "git", "sparse-checkout", "init", "--cone");
-
-        String[] sparseCmd = buildSparseSetCmd(taskIds);
-        runProcess(repoPath.toFile(), sparseCmd);
+        processRunner.run(repoPath.toFile(), "git", "sparse-checkout", "init", "--cone");
+        processRunner.run(repoPath.toFile(), buildSparseSetCmd(taskIds));
 
         String branch = detectDefaultBranch(repoPath);
-        ProcessResult checkoutResult = runProcess(repoPath.toFile(), "git", "checkout", branch);
-        if (checkoutResult.exitCode != 0) {
-            throw new IOException("git checkout failed for " + github + ":\n" + checkoutResult.stderr);
+        ProcessResult checkout = processRunner.run(repoPath.toFile(), "git", "checkout", branch);
+        if (!checkout.isSuccess()) {
+            throw new IOException("git checkout failed for " + github + ":\n" + checkout.stderr());
         }
 
         log.info("Sparse clone done for " + github + " (tasks: " + taskIds + ")");
@@ -67,57 +67,45 @@ public class GitManager {
 
     private Path pull(Path repoPath, String github,
                       java.util.Set<String> taskIds) throws IOException {
-        runProcess(repoPath.toFile(), buildSparseSetCmd(taskIds));
+        processRunner.run(repoPath.toFile(), buildSparseSetCmd(taskIds));
 
-        ProcessResult fetchResult = runProcess(repoPath.toFile(), "git", "fetch", "--all");
-        if (fetchResult.exitCode != 0) {
-            log.warning("git fetch warning for " + github + ": " + fetchResult.stderr);
+        ProcessResult fetch = processRunner.run(repoPath.toFile(), "git", "fetch", "--all");
+        if (!fetch.isSuccess()) {
+            log.warning("git fetch warning for " + github + ": " + fetch.stderr());
         }
 
-        String branch = detectDefaultBranch(repoPath);
-        runProcess(repoPath.toFile(), "git", "checkout", branch);
+        processRunner.run(repoPath.toFile(), "git", "checkout", detectDefaultBranch(repoPath));
 
-        ProcessResult pullResult = runProcess(repoPath.toFile(), "git", "pull", "--ff-only");
-        if (pullResult.exitCode != 0) {
-            log.warning("git pull warning for " + github + ": " + pullResult.stderr);
+        ProcessResult pull = processRunner.run(repoPath.toFile(), "git", "pull", "--ff-only");
+        if (!pull.isSuccess()) {
+            log.warning("git pull warning for " + github + ": " + pull.stderr());
         }
 
         return repoPath;
     }
 
-    private String[] buildSparseSetCmd(java.util.Set<String> taskIds) {
-        java.util.List<String> cmd = new java.util.ArrayList<>();
-        cmd.add("git");
-        cmd.add("sparse-checkout");
-        cmd.add("set");
-        cmd.addAll(taskIds);
-        return cmd.toArray(new String[0]);
-    }
-
     public String detectDefaultBranch(Path repoPath) {
         try {
-            ProcessResult result = runProcess(repoPath.toFile(),
-                "git", "branch", "-r");
-            if (result.exitCode == 0) {
-                if (result.stdout.contains("origin/main")) return "main";
-                if (result.stdout.contains("origin/master")) return "master";
+            ProcessResult result = processRunner.run(repoPath.toFile(), "git", "branch", "-r");
+            if (result.isSuccess()) {
+                if (result.stdout().contains("origin/main"))   return "main";
+                if (result.stdout().contains("origin/master")) return "master";
             }
         } catch (Exception ignored) {}
-        return "main"; // default fallback
+        return "main";
     }
 
     public LocalDate getLastCommitDate(Path repoPath, String taskId) {
         try {
-            // Find task directory
             Path taskDir = findTaskDir(repoPath, taskId);
             String pathArg = taskDir != null ? repoPath.relativize(taskDir).toString() : ".";
 
-            ProcessResult result = runProcess(repoPath.toFile(),
+            ProcessResult result = processRunner.run(repoPath.toFile(),
                 "git", "log", "-1", "--format=%ci", "--", pathArg);
 
-            if (result.exitCode == 0 && !result.stdout.isBlank()) {
-                String dateStr = result.stdout.trim().substring(0, 10);
-                return LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+            if (result.isSuccess() && !result.stdout().isBlank()) {
+                return LocalDate.parse(
+                    result.stdout().trim().substring(0, 10), DateTimeFormatter.ISO_LOCAL_DATE);
             }
         } catch (Exception e) {
             log.warning("Could not get last commit date for task " + taskId + ": " + e.getMessage());
@@ -139,49 +127,12 @@ public class GitManager {
         }
     }
 
-    public ProcessResult runProcess(File workDir, String... command) throws IOException {
-        ProcessBuilder pb = new ProcessBuilder(command);
-        pb.directory(workDir);
-        pb.redirectErrorStream(false);
-
-        Process process = pb.start();
-
-        StringBuilder stdout = new StringBuilder();
-        StringBuilder stderr = new StringBuilder();
-
-        Thread outThread = new Thread(() -> {
-            try (BufferedReader r = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = r.readLine()) != null) stdout.append(line).append('\n');
-            } catch (IOException ignored) {}
-        });
-        Thread errThread = new Thread(() -> {
-            try (BufferedReader r = new BufferedReader(
-                    new InputStreamReader(process.getErrorStream()))) {
-                String line;
-                while ((line = r.readLine()) != null) stderr.append(line).append('\n');
-            } catch (IOException ignored) {}
-        });
-
-        outThread.start();
-        errThread.start();
-
-        int exitCode;
-        try {
-            exitCode = process.waitFor();
-            outThread.join(5000);
-            errThread.join(5000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            process.destroyForcibly();
-            throw new IOException("Process interrupted", e);
-        }
-
-        return new ProcessResult(exitCode, stdout.toString(), stderr.toString());
-    }
-
-    public record ProcessResult(int exitCode, String stdout, String stderr) {
-        public boolean isSuccess() { return exitCode == 0; }
+    private String[] buildSparseSetCmd(java.util.Set<String> taskIds) {
+        java.util.List<String> cmd = new java.util.ArrayList<>();
+        cmd.add("git");
+        cmd.add("sparse-checkout");
+        cmd.add("set");
+        cmd.addAll(taskIds);
+        return cmd.toArray(new String[0]);
     }
 }
