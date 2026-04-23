@@ -4,13 +4,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.Master.Master;
-import ru.nsu.romanenko.Protocol.*;
+import ru.nsu.romanenko.Protocol.ClientHandShake;
+import ru.nsu.romanenko.Protocol.Result;
 import ru.nsu.romanenko.Slave.Slave;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,16 +24,20 @@ class MasterTest {
     private int port;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         serverExecutor = Executors.newSingleThreadExecutor();
         slaveExecutor = Executors.newCachedThreadPool();
-        port = 8099;
+        try (ServerSocket s = new ServerSocket(0)) {
+            port = s.getLocalPort();
+        }
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws InterruptedException {
         serverExecutor.shutdownNow();
         slaveExecutor.shutdownNow();
+        serverExecutor.awaitTermination(2, TimeUnit.SECONDS);
+        slaveExecutor.awaitTermination(2, TimeUnit.SECONDS);
     }
 
     @Test
@@ -72,7 +79,6 @@ class MasterTest {
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
             int[] data = {3, 5, 7, 11, 13};
-
             out.writeObject(new ClientHandShake(data));
 
             Object response = in.readObject();

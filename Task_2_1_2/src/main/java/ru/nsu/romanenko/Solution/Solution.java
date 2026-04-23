@@ -1,14 +1,16 @@
 package ru.nsu.romanenko.Solution;
 
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Solution {
+    private static final ConcurrentHashMap<Integer, Boolean> primeCache = new ConcurrentHashMap<>();
+
     public static boolean consistently(int[] arr) {
         for (int num : arr) {
-            if (!isPrime(num)) {
-                return true;
-            }
+            boolean prime = primeCache.computeIfAbsent(num, Solution::isPrime);
+            if (!prime) return true;
         }
         return false;
     }
@@ -29,10 +31,9 @@ public class Solution {
 
             threads[i] = new Thread(() -> {
                 for (int j = start; j < end; j++) {
-                    if (foundNotPrime.get() || Thread.currentThread().isInterrupted()) {
-                        return;
-                    }
-                    if (!isPrime(arr[j])) {
+                    if (foundNotPrime.get() || Thread.currentThread().isInterrupted()) return;
+                    boolean prime = primeCache.computeIfAbsent(arr[j], Solution::isPrime);
+                    if (!prime) {
                         foundNotPrime.set(true);
                         for (int k = 0; k < threads.length; k++) {
                             if (k != threadId && threads[k] != null && threads[k].isAlive()) {
@@ -47,9 +48,7 @@ public class Solution {
         }
 
         for (Thread t : threads) {
-            if (t != null) {
-                t.join();
-            }
+            if (t != null) t.join();
         }
 
         return foundNotPrime.get();
@@ -58,7 +57,7 @@ public class Solution {
     public static boolean concurrencyStream(int[] arr) {
         return Arrays.stream(arr)
                 .parallel()
-                .anyMatch(n -> !isPrime(n));
+                .anyMatch(n -> !primeCache.computeIfAbsent(n, Solution::isPrime));
     }
 
     private static boolean isPrime(int n) {
@@ -67,9 +66,7 @@ public class Solution {
         if (n % 2 == 0 || n % 3 == 0) return false;
 
         for (int i = 5; i * i <= n; i += 6) {
-            if (n % i == 0 || n % (i + 2) == 0) {
-                return false;
-            }
+            if (n % i == 0 || n % (i + 2) == 0) return false;
         }
         return true;
     }

@@ -1,17 +1,18 @@
 package ru.nsu.romanenko.Slave;
 
-import java.io.*;
-import java.net.*;
-
 import ru.nsu.romanenko.Protocol.Result;
 import ru.nsu.romanenko.Protocol.SlaveHandShake;
 import ru.nsu.romanenko.Protocol.Task;
 import ru.nsu.romanenko.Solution.Solution;
 
+import java.io.*;
+import java.net.Socket;
+
 public class Slave {
     private final String masterHost;
     private final int masterPort;
     private final int slaveID;
+    private static final int RECONNECT_DELAY_MS = 3000;
 
     public Slave(String masterHost, int masterPort, int slaveID) {
         this.masterHost = masterHost;
@@ -20,22 +21,35 @@ public class Slave {
     }
 
     public void startSlave() {
-        try (Socket masterSocket = new Socket(masterHost, masterPort)) {
-            System.out.println("Connection with master completed");
-
-            ObjectOutputStream outputStream = new ObjectOutputStream(masterSocket.getOutputStream());
-            outputStream.flush();
-            ObjectInputStream inputStream = new ObjectInputStream(masterSocket.getInputStream());
-            outputStream.writeObject(new SlaveHandShake(slaveID));
-
-            while (true) {
-                Task task = (Task) inputStream.readObject();
-                Result result = new Result(Solution.consistently(task.numbers()), task.taskID());
-                outputStream.writeObject(result);
+        while (!Thread.currentThread().isInterrupted()) {
+            try (Socket socket = new Socket(masterHost, masterPort)) {
+                System.out.println("Slave " + slaveID + " connected to master at " + masterHost + ":" + masterPort);
+                runSession(socket);
+            } catch (IOException | ClassNotFoundException ex) {
+                if (Thread.currentThread().isInterrupted()) break;
+                System.err.println("Slave " + slaveID + " error: " + ex.getMessage()
+                        + ". Reconnecting in " + RECONNECT_DELAY_MS + "ms...");
+                try {
+                    Thread.sleep(RECONNECT_DELAY_MS);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
             }
+        }
+    }
 
-        } catch (IOException | ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
+    private void runSession(Socket socket) throws IOException, ClassNotFoundException {
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        out.writeObject(new SlaveHandShake(slaveID));
+
+        while (true) {
+            Task task = (Task) in.readObject();
+            Result result = new Result(Solution.consistently(task.numbers()), task.taskID());
+            out.writeObject(result);
+            out.reset();
         }
     }
 }

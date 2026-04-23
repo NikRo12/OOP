@@ -1,8 +1,11 @@
 package ru.nsu.romanenko.Client;
 
-import ru.nsu.romanenko.Protocol.*;
+import ru.nsu.romanenko.Protocol.ClientHandShake;
+import ru.nsu.romanenko.Protocol.Result;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 
 public class Client {
     public static void main(String[] args) {
@@ -11,11 +14,16 @@ public class Client {
             out.flush();
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            int[] data = new int[100];
-            for(int i=0; i<100; i++) data[i] = 13;
-            data[50] = 4;
+            // Small range [2..101] so numbers repeat across tasks — demonstrates cache hits
+            Random random = new Random();
+            int[] data = new int[500];
+            for (int i = 0; i < data.length; i++) {
+                data[i] = random.nextInt(100) + 2;
+            }
+            // Guarantee at least one composite number
+            data[random.nextInt(data.length)] = 4;
 
-            System.out.println("Sending request to Master...");
+            System.out.println("Sending " + data.length + " random numbers to Master...");
             out.writeObject(new ClientHandShake(data));
 
             Result response = (Result) in.readObject();
