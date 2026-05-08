@@ -83,6 +83,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/BuildManager.html#%3Cinit%3E(int,ru.nsu.romanenko.checker.ProcessRunner)" class="member-name-link">BuildManager(int, ProcessRunner)</a> - Constructor for class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/BuildManager.html" title="class in ru.nsu.romanenko.checker">BuildManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/BuildPipeline.html" class="type-name-link" title="class in ru.nsu.romanenko.checker">BuildPipeline</a> - Class in <a href="ru/nsu/romanenko/checker/package-summary.html">ru.nsu.romanenko.checker</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/BuildPipeline.html#%3Cinit%3E(ru.nsu.romanenko.checker.ProcessRunner,ru.nsu.romanenko.checker.BuildCommandFactory,ru.nsu.romanenko.checker.TestResultParser,ru.nsu.romanenko.checker.BuildTool)" class="member-name-link">BuildPipeline(ProcessRunner, BuildCommandFactory, TestResultParser, BuildTool)</a> - Constructor for class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/BuildPipeline.html" title="class in ru.nsu.romanenko.checker">BuildPipeline</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/BuildTool.html" class="type-name-link" title="enum class in ru.nsu.romanenko.checker">BuildTool</a> - Enum Class in <a href="ru/nsu/romanenko/checker/package-summary.html">ru.nsu.romanenko.checker</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -395,7 +399,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/ProcessRunner.html#run(java.io.File,java.lang.String...)" class="member-name-link">run(File, String...)</a> - Method in interface ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/ProcessRunner.html" title="interface in ru.nsu.romanenko.checker">ProcessRunner</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/TimedProcessRunner.html#run(java.io.File,java.lang.String...)" class="member-name-link">run(File, String...)</a> - Method in class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/TimedProcessRunner.html" title="class in ru.nsu.romanenko.checker">TimedProcessRunner</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/OopCheckerApp.html#run(java.lang.String%5B%5D)" class="member-name-link">run(String[])</a> - Method in class ru.nsu.romanenko.<a href="ru/nsu/romanenko/OopCheckerApp.html" title="class in ru.nsu.romanenko">OopCheckerApp</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/BuildPipeline.html#run(java.nio.file.Path,ru.nsu.romanenko.model.TaskResult)" class="member-name-link">run(Path, TaskResult)</a> - Method in class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/BuildPipeline.html" title="class in ru.nsu.romanenko.checker">BuildPipeline</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/BuildManager.html#runPipeline(java.nio.file.Path,ru.nsu.romanenko.model.TaskResult)" class="member-name-link">runPipeline(Path, TaskResult)</a> - Method in class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/BuildManager.html" title="class in ru.nsu.romanenko.checker">BuildManager</a></dt>
 <dd>&nbsp;</dd>
@@ -472,6 +480,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/BuildManager.html#shutdown()" class="member-name-link">shutdown()</a> - Method in class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/BuildManager.html" title="class in ru.nsu.romanenko.checker">BuildManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/TimedProcessRunner.html#shutdown()" class="member-name-link">shutdown()</a> - Method in class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/TimedProcessRunner.html" title="class in ru.nsu.romanenko.checker">TimedProcessRunner</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/ProcessResult.html#stderr()" class="member-name-link">stderr()</a> - Method in record class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/ProcessResult.html" title="class in ru.nsu.romanenko.checker">ProcessResult</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>stderr</code> record component.</div>
@@ -522,6 +532,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="ru/nsu/romanenko/checker/TestResultParser.html#%3Cinit%3E()" class="member-name-link">TestResultParser()</a> - Constructor for class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/TestResultParser.html" title="class in ru.nsu.romanenko.checker">TestResultParser</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/model/TaskResult.Status.html#TESTS_FAILED" class="member-name-link">TESTS_FAILED</a> - Enum constant in enum class ru.nsu.romanenko.model.<a href="ru/nsu/romanenko/model/TaskResult.Status.html" title="enum class in ru.nsu.romanenko.model">TaskResult.Status</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/TimedProcessRunner.html" class="type-name-link" title="class in ru.nsu.romanenko.checker">TimedProcessRunner</a> - Class in <a href="ru/nsu/romanenko/checker/package-summary.html">ru.nsu.romanenko.checker</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="ru/nsu/romanenko/checker/TimedProcessRunner.html#%3Cinit%3E(ru.nsu.romanenko.checker.ProcessRunner,int)" class="member-name-link">TimedProcessRunner(ProcessRunner, int)</a> - Constructor for class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/TimedProcessRunner.html" title="class in ru.nsu.romanenko.checker">TimedProcessRunner</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="ru/nsu/romanenko/checker/ProcessResult.html#toString()" class="member-name-link">toString()</a> - Method in record class ru.nsu.romanenko.checker.<a href="ru/nsu/romanenko/checker/ProcessResult.html" title="class in ru.nsu.romanenko.checker">ProcessResult</a></dt>
 <dd>
