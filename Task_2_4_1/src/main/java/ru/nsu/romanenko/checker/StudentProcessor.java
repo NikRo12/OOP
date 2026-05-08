@@ -5,7 +5,12 @@ import ru.nsu.romanenko.model.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 public class StudentProcessor {
@@ -16,13 +21,16 @@ public class StudentProcessor {
     private final GitManager gitManager;
     private final BuildManager buildManager;
     private final ScoreCalculator scoreCalculator;
+    private final ExecutorService taskExecutor;
 
     public StudentProcessor(OopCheckerConfig config, GitManager gitManager,
-                            BuildManager buildManager, ScoreCalculator scoreCalculator) {
+                            BuildManager buildManager, ScoreCalculator scoreCalculator,
+                            ExecutorService taskExecutor) {
         this.config = config;
         this.gitManager = gitManager;
         this.buildManager = buildManager;
         this.scoreCalculator = scoreCalculator;
+        this.taskExecutor = taskExecutor;
     }
 
     public StudentResult process(String github, Set<String> taskIds) {
@@ -35,11 +43,22 @@ public class StudentProcessor {
         StudentResult studentResult = new StudentResult(student);
         Path repoPath = cloneRepo(student, github, taskIds, studentResult);
 
+        List<Future<TaskResult>> futures = new ArrayList<>();
         for (String taskId : taskIds) {
-            TaskResult taskResult = buildTaskResult(repoPath, taskId, github);
-            studentResult.addTaskResult(taskResult);
-            log.info(String.format("  [%s] %s: status=%s, score=%.1f",
-                github, taskId, taskResult.getStatus(), taskResult.getTotalScore()));
+            futures.add(taskExecutor.submit(() -> {
+                TaskResult tr = buildTaskResult(repoPath, taskId, github);
+                log.info(String.format("  [%s] %s: status=%s, score=%.1f",
+                    github, taskId, tr.getStatus(), tr.getTotalScore()));
+                return tr;
+            }));
+        }
+
+        for (Future<TaskResult> f : futures) {
+            try {
+                studentResult.addTaskResult(f.get());
+            } catch (ExecutionException | InterruptedException e) {
+                log.warning("Task processing error for " + github + ": " + e.getMessage());
+            }
         }
 
         return studentResult;

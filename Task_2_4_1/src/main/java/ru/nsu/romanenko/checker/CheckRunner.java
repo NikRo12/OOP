@@ -17,6 +17,7 @@ public class CheckRunner {
     private final GitManager gitManager;
     private final BuildManager buildManager;
     private final StudentProcessor studentProcessor;
+    private final ExecutorService taskExecutor;
 
     private final Map<String, StudentResult> results = new ConcurrentHashMap<>();
 
@@ -27,7 +28,8 @@ public class CheckRunner {
         this.gitManager = new GitManager(workDir, executor);
         this.buildManager = new BuildManager(
             config.getGradeConfig().getTestTimeoutSeconds(), executor);
-        this.studentProcessor = new StudentProcessor(config, gitManager, buildManager, new ScoreCalculator());
+        this.taskExecutor = Executors.newCachedThreadPool();
+        this.studentProcessor = new StudentProcessor(config, gitManager, buildManager, new ScoreCalculator(), taskExecutor);
     }
 
     public void run() throws IOException {
@@ -39,6 +41,7 @@ public class CheckRunner {
             processStudentsInParallel(buildStudentTaskMap());
         } finally {
             buildManager.shutdown();
+            taskExecutor.shutdown();
         }
     }
 
