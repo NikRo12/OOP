@@ -1,16 +1,19 @@
 package ru.nsu.romanenko;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.io.TempDir;
 import ru.nsu.romanenko.checker.CheckRunner;
 import ru.nsu.romanenko.dsl.ConfigLoader;
 import ru.nsu.romanenko.dsl.OopCheckerConfig;
 import ru.nsu.romanenko.model.StudentResult;
+import ru.nsu.romanenko.model.TaskResult;
 import ru.nsu.romanenko.report.HtmlReporter;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,5 +77,62 @@ class IntegrationTest {
         assertTrue(html.contains("T1"),         "Report must contain task id");
         assertTrue(html.contains("T2"),         "Report must contain task id");
         assertTrue(html.contains("CP1"),        "Report must contain checkpoint name");
+    }
+
+    @Test
+    @Timeout(value = 5, unit = TimeUnit.MINUTES)
+    void nikro12RepoIsClonedAndTask2_1_1IsChecked() throws IOException {
+        String script = """
+                tasks {
+                    task('Task_2_1_1') {
+                        title        = 'Simple'
+                        maxScore     = 1
+                        softDeadline = '2026-02-14'
+                        hardDeadline = '2026-02-21'
+                    }
+                }
+                groups {
+                    group('24214') {
+                        student {
+                            github = 'NikRo12'
+                            name   = 'Romanenko Nikita'
+                            repo   = 'https://github.com/NikRo12/OOP'
+                        }
+                    }
+                }
+                assignments {
+                    assign { students = ['NikRo12']; tasks = ['Task_2_1_1'] }
+                }
+                settings {
+                    testTimeout = 120
+                    gradeThresholds { excellent = 85; good = 70; satisfactory = 55 }
+                }
+                """;
+
+        Path scriptFile = tempDir.resolve("oop_checker.groovy");
+        Files.writeString(scriptFile, script);
+
+        OopCheckerConfig config = new ConfigLoader().load(scriptFile.toFile());
+        CheckRunner runner = new CheckRunner(config);
+        runner.run();
+
+        Map<String, StudentResult> results = runner.getResults();
+        assertTrue(results.containsKey("NikRo12"), "NikRo12 must be in results");
+
+        StudentResult sr = results.get("NikRo12");
+        assertTrue(sr.isRepoCloned(),
+            "NikRo12 repo must be cloned/pulled; error: " + sr.getRepoCloneError());
+
+        TaskResult tr = sr.getTaskResult("Task_2_1_1");
+        assertNotNull(tr, "Task_2_1_1 result must exist");
+        assertTrue(tr.isCompiled(),
+            "Task_2_1_1 must compile; error: " + tr.getErrorMessage());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        new HtmlReporter(config, results).generate(new PrintStream(baos));
+        String html = baos.toString();
+        assertTrue(html.contains("Romanenko Nikita"), "Report must contain student name");
+        assertTrue(html.contains("NikRo12"),          "Report must contain student github");
+        assertTrue(html.contains("Task_2_1_1"),       "Report must contain task id");
     }
 }
