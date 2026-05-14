@@ -43,6 +43,10 @@ public class StudentProcessor {
         StudentResult studentResult = new StudentResult(student);
         Path repoPath = cloneRepo(student, github, taskIds, studentResult);
 
+        if (repoPath == null) {
+            return studentResult;
+        }
+
         List<Future<TaskResult>> futures = new ArrayList<>();
         for (String taskId : taskIds) {
             futures.add(taskExecutor.submit(() -> {
@@ -82,13 +86,8 @@ public class StudentProcessor {
     private TaskResult buildTaskResult(Path repoPath, String taskId, String github) {
         TaskResult taskResult = new TaskResult(taskId);
 
-        if (repoPath == null) {
-            taskResult.setStatus(TaskResult.Status.NOT_CHECKED);
-            taskResult.setErrorMessage("Repository unavailable");
-        } else {
-            taskResult.setLastCommitDate(gitManager.getLastCommitDate(repoPath, taskId));
-            buildManager.runPipeline(gitManager.findTaskDir(repoPath, taskId), taskResult);
-        }
+        taskResult.setLastCommitDate(gitManager.getLastCommitDate(repoPath, taskId));
+        buildManager.runPipeline(gitManager.findTaskDir(repoPath, taskId), taskResult);
 
         taskResult.setBonusScore(config.getGradeConfig().getBonus(github, taskId));
 

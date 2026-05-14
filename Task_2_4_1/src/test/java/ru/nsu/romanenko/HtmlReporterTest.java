@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import ru.nsu.romanenko.dsl.OopCheckerConfig;
 import ru.nsu.romanenko.model.*;
 import ru.nsu.romanenko.report.HtmlReporter;
+import ru.nsu.romanenko.report.ReportModelBuilder;
+import ru.nsu.romanenko.report.ReportViewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -17,12 +19,10 @@ class HtmlReporterTest {
     @Test
     void reportContainsStudentNames() {
         OopCheckerConfig config = buildConfig();
-        Map<String, StudentResult> results = buildResults(config);
-
-        String html = generateHtml(config, results);
+        String html = generateHtml(config, buildResults(config));
 
         assertTrue(html.contains("John Doe"), "Report should contain student full name");
-        assertTrue(html.contains("ivanov"),       "Report should contain github login");
+        assertTrue(html.contains("ivanov"),   "Report should contain github login");
     }
 
     @Test
@@ -56,11 +56,11 @@ class HtmlReporterTest {
     void reportContainsScores() {
         OopCheckerConfig config = buildConfig();
         Map<String, StudentResult> results = buildResults(config);
-        StudentResult sr = results.get("ivanov");
+
         TaskResult tr = new TaskResult("Task_1_1_1");
         tr.setStatus(TaskResult.Status.SUCCESS);
         tr.setScore(1.0);
-        sr.addTaskResult(tr);
+        results.get("ivanov").addTaskResult(tr);
 
         String html = generateHtml(config, results);
         assertTrue(html.contains("1.0"), "Score should appear in report");
@@ -88,14 +88,14 @@ class HtmlReporterTest {
         Student s = config.findStudent("ivanov");
         StudentResult sr = new StudentResult(s);
         sr.setRepoCloned(true);
-        return Map.of("ivanov", sr);
+        return new java.util.HashMap<>(Map.of("ivanov", sr));
     }
 
     private String generateHtml(OopCheckerConfig config,
-                                  Map<String, StudentResult> results) {
+                                 Map<String, StudentResult> results) {
+        ReportViewModel model = new ReportModelBuilder().build(config, results);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        new HtmlReporter(config, results).generate(ps);
+        new HtmlReporter(model).generate(new PrintStream(baos));
         return baos.toString();
     }
 }

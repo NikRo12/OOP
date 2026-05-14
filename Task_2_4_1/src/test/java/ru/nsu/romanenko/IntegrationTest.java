@@ -3,12 +3,8 @@ package ru.nsu.romanenko;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.io.TempDir;
-import ru.nsu.romanenko.checker.CheckRunner;
-import ru.nsu.romanenko.dsl.ConfigLoader;
-import ru.nsu.romanenko.dsl.OopCheckerConfig;
 import ru.nsu.romanenko.model.StudentResult;
 import ru.nsu.romanenko.model.TaskResult;
-import ru.nsu.romanenko.report.HtmlReporter;
 
 import java.io.*;
 import java.nio.file.*;
@@ -21,6 +17,19 @@ class IntegrationTest {
 
     @TempDir
     Path tempDir;
+
+    private String runApp(OopCheckerApp app, Path configFile) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream captured = new PrintStream(baos);
+        PrintStream original = System.out;
+        System.setOut(captured);
+        try {
+            app.run(new String[]{configFile.toAbsolutePath().toString()});
+        } finally {
+            System.setOut(original);
+        }
+        return baos.toString();
+    }
 
     @Test
     void fullPipelineProducesReportWithAllStudents() throws IOException {
@@ -51,23 +60,13 @@ class IntegrationTest {
         Path scriptFile = tempDir.resolve("oop_checker.groovy");
         Files.writeString(scriptFile, script);
 
-        OopCheckerConfig config = new ConfigLoader().load(scriptFile.toFile());
+        OopCheckerApp app = new OopCheckerApp();
+        String html = runApp(app, scriptFile);
 
-        assertEquals(2, config.getTasks().size());
-        assertEquals(2, config.getGroups().size());
-        assertEquals(1, config.getCheckPoints().size());
-
-        CheckRunner runner = new CheckRunner(config);
-        runner.run();
-
-        Map<String, StudentResult> results = runner.getResults();
+        Map<String, StudentResult> results = app.getLastResults();
         assertEquals(2, results.size(), "Both students should have results");
         assertFalse(results.get("alice").isRepoCloned(), "Non-existent repo should fail to clone");
         assertFalse(results.get("bob").isRepoCloned());
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        new HtmlReporter(config, results).generate(new PrintStream(baos));
-        String html = baos.toString();
 
         assertTrue(html.startsWith("<!DOCTYPE html>"), "Report must be valid HTML");
         assertTrue(html.contains("Alice Test"), "Report must contain student name");
@@ -112,11 +111,10 @@ class IntegrationTest {
         Path scriptFile = tempDir.resolve("oop_checker.groovy");
         Files.writeString(scriptFile, script);
 
-        OopCheckerConfig config = new ConfigLoader().load(scriptFile.toFile());
-        CheckRunner runner = new CheckRunner(config);
-        runner.run();
+        OopCheckerApp app = new OopCheckerApp();
+        String html = runApp(app, scriptFile);
 
-        Map<String, StudentResult> results = runner.getResults();
+        Map<String, StudentResult> results = app.getLastResults();
         assertTrue(results.containsKey("NikRo12"), "NikRo12 must be in results");
 
         StudentResult sr = results.get("NikRo12");
@@ -128,9 +126,6 @@ class IntegrationTest {
         assertTrue(tr.isCompiled(),
             "Task_2_1_1 must compile; error: " + tr.getErrorMessage());
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        new HtmlReporter(config, results).generate(new PrintStream(baos));
-        String html = baos.toString();
         assertTrue(html.contains("Romanenko Nikita"), "Report must contain student name");
         assertTrue(html.contains("NikRo12"),          "Report must contain student github");
         assertTrue(html.contains("Task_2_1_1"),       "Report must contain task id");

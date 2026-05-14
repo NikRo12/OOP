@@ -1,18 +1,17 @@
 package ru.nsu.romanenko;
 
 import ru.nsu.romanenko.checker.CheckRunner;
-import ru.nsu.romanenko.checker.GitManager;
-import ru.nsu.romanenko.checker.ProcessExecutor;
 import ru.nsu.romanenko.dsl.ConfigLoader;
 import ru.nsu.romanenko.dsl.OopCheckerConfig;
 import ru.nsu.romanenko.model.StudentResult;
 import ru.nsu.romanenko.report.HtmlReporter;
+import ru.nsu.romanenko.report.ReportModelBuilder;
+import ru.nsu.romanenko.report.ReportViewModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -20,12 +19,35 @@ public class OopCheckerApp {
 
     private static final Logger log = Logger.getLogger(OopCheckerApp.class.getName());
 
+    private Map<String, StudentResult> lastResults;
+
     public void run(String[] args) {
         File configFile = resolveConfigFile(args);
-        OopCheckerConfig config = loadConfig(configFile);
-        warnIfGitUnavailable();
-        Map<String, StudentResult> results = runChecks(config);
-        generateReport(config, results);
+        try (PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8)) {
+            execute(configFile, out);
+        } catch (IOException e) {
+            System.err.println("ERROR: Check run failed: " + e.getMessage());
+            e.printStackTrace(System.err);
+            System.exit(3);
+        }
+        log.info("Done. Redirect stdout to a .html file to save the report.");
+    }
+
+    public void execute(File configFile, PrintStream out) throws IOException {
+        OopCheckerConfig config = new ConfigLoader().load(configFile);
+        log.info(String.format("Config loaded: %d tasks, %d groups, %d checkpoints",
+            config.getTasks().size(), config.getGroups().size(), config.getCheckPoints().size()));
+
+        CheckRunner runner = new CheckRunner(config);
+        runner.run();
+        this.lastResults = runner.getResults();
+
+        ReportViewModel model = new ReportModelBuilder().build(config, lastResults);
+        new HtmlReporter(model).generate(out);
+    }
+
+    public Map<String, StudentResult> getLastResults() {
+        return lastResults;
     }
 
     private File resolveConfigFile(String[] args) {
@@ -40,46 +62,5 @@ public class OopCheckerApp {
             System.exit(1);
         }
         return f;
-    }
-
-    private OopCheckerConfig loadConfig(File configFile) {
-        log.info("Loading configuration from: " + configFile.getAbsolutePath());
-        try {
-            OopCheckerConfig config = new ConfigLoader().load(configFile);
-            log.info(String.format("Config loaded: %d tasks, %d groups, %d checkpoints",
-                config.getTasks().size(), config.getGroups().size(), config.getCheckPoints().size()));
-            return config;
-        } catch (IOException e) {
-            System.err.println("ERROR: Failed to load configuration: " + e.getMessage());
-            e.printStackTrace(System.err);
-            System.exit(2);
-            return null;
-        }
-    }
-
-    private void warnIfGitUnavailable() {
-        GitManager git = new GitManager(Paths.get(System.getProperty("user.dir"), "repos"), new ProcessExecutor());
-        if (!git.isGitAvailable()) {
-            System.err.println("WARNING: git does not appear to be available. Repository operations will fail.");
-        }
-    }
-
-    private Map<String, StudentResult> runChecks(OopCheckerConfig config) {
-        CheckRunner runner = new CheckRunner(config);
-        try {
-            runner.run();
-        } catch (IOException e) {
-            System.err.println("ERROR: Check run failed: " + e.getMessage());
-            e.printStackTrace(System.err);
-            System.exit(3);
-        }
-        return runner.getResults();
-    }
-
-    private void generateReport(OopCheckerConfig config, Map<String, StudentResult> results) {
-        try (PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8)) {
-            new HtmlReporter(config, results).generate(out);
-        }
-        log.info("Done. Redirect stdout to a .html file to save the report.");
     }
 }
