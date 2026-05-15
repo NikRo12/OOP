@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'jacoco'
+}
+
+group = 'ru.nsu'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+// Joint compilation: all Java sources are compiled by the Groovy compiler
+// so that Java classes can reference Groovy classes (e.g. OopCheckerDslDelegate)
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy', 'src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+    test {
+        groovy {
+            srcDirs = ['src/test/groovy', 'src/test/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy-all:4.0.15'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+jar {
+    archiveFileName = 'oop-checker.jar'
+    manifest {
+        attributes 'Main-Class': 'ru.nsu.romanenko.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
