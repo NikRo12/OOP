@@ -119,16 +119,23 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reportResult(ru.nsu.romanenko.Protocol.Result)" class="member-name-link">reportResult</a><wbr>(<a href="../Protocol/Result.html" title="class in ru.nsu.romanenko.Protocol">Result</a>&nbsp;result)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerActiveHandler(ru.nsu.romanenko.Master.SlaveHandler)" class="member-name-link">registerActiveHandler</a><wbr>(<a href="SlaveHandler.html" title="class in ru.nsu.romanenko.Master">SlaveHandler</a>&nbsp;handler)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#returnTask(ru.nsu.romanenko.Protocol.Task)" class="member-name-link">returnTask</a><wbr>(<a href="../Protocol/Task.html" title="class in ru.nsu.romanenko.Protocol">Task</a>&nbsp;task)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reportResult(ru.nsu.romanenko.Protocol.Result,ru.nsu.romanenko.Master.SlaveHandler)" class="member-name-link">reportResult</a><wbr>(<a href="../Protocol/Result.html" title="class in ru.nsu.romanenko.Protocol">Result</a>&nbsp;result,
+ <a href="SlaveHandler.html" title="class in ru.nsu.romanenko.Master">SlaveHandler</a>&nbsp;reporter)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startSession(int%5B%5D)" class="member-name-link">startSession</a><wbr>(int[]&nbsp;data)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#returnTask(ru.nsu.romanenko.Protocol.Task)" class="member-name-link">returnTask</a><wbr>(<a href="../Protocol/Task.html" title="class in ru.nsu.romanenko.Protocol">Task</a>&nbsp;task)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Protocol/Task.html" title="class in ru.nsu.romanenko.Protocol">Task</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#takeTask()" class="member-name-link">takeTask</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startSession(int%5B%5D)" class="member-name-link">startSession</a><wbr>(int[]&nbsp;data)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Protocol/Task.html" title="class in ru.nsu.romanenko.Protocol">Task</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#takeTask()" class="member-name-link">takeTask</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregisterActiveHandler(ru.nsu.romanenko.Master.SlaveHandler)" class="member-name-link">unregisterActiveHandler</a><wbr>(<a href="SlaveHandler.html" title="class in ru.nsu.romanenko.Master">SlaveHandler</a>&nbsp;handler)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -185,9 +192,22 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="reportResult(ru.nsu.romanenko.Protocol.Result)">
+<section class="detail" id="registerActiveHandler(ru.nsu.romanenko.Master.SlaveHandler)">
+<h3>registerActiveHandler</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerActiveHandler</span><wbr><span class="parameters">(<a href="SlaveHandler.html" title="class in ru.nsu.romanenko.Master">SlaveHandler</a>&nbsp;handler)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="unregisterActiveHandler(ru.nsu.romanenko.Master.SlaveHandler)">
+<h3>unregisterActiveHandler</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unregisterActiveHandler</span><wbr><span class="parameters">(<a href="SlaveHandler.html" title="class in ru.nsu.romanenko.Master">SlaveHandler</a>&nbsp;handler)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="reportResult(ru.nsu.romanenko.Protocol.Result,ru.nsu.romanenko.Master.SlaveHandler)">
 <h3>reportResult</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">reportResult</span><wbr><span class="parameters">(<a href="../Protocol/Result.html" title="class in ru.nsu.romanenko.Protocol">Result</a>&nbsp;result)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">reportResult</span><wbr><span class="parameters">(<a href="../Protocol/Result.html" title="class in ru.nsu.romanenko.Protocol">Result</a>&nbsp;result,
+ <a href="SlaveHandler.html" title="class in ru.nsu.romanenko.Master">SlaveHandler</a>&nbsp;reporter)</span></div>
 </section>
 </li>
 </ul>
