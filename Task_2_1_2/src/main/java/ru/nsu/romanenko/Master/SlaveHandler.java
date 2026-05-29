@@ -1,5 +1,6 @@
 package ru.nsu.romanenko.Master;
 
+import ru.nsu.romanenko.Protocol.CancelTask;
 import ru.nsu.romanenko.Protocol.Result;
 import ru.nsu.romanenko.Protocol.Task;
 
@@ -22,19 +23,34 @@ public class SlaveHandler implements Runnable {
         this.sessionManager = sessionManager;
     }
 
+    public synchronized void sendCancel() {
+        try {
+            out.writeObject(new CancelTask());
+            out.reset();
+        } catch (IOException ignored) {}
+    }
+
     @Override
     public void run() {
         Task currentTask = null;
         try {
             while (!socket.isClosed()) {
                 currentTask = sessionManager.takeTask();
-                out.writeObject(currentTask);
-                out.reset();
+                synchronized (this) {
+                    out.writeObject(currentTask);
+                    out.reset();
+                }
+                sessionManager.registerActiveHandler(this);
                 Result result = (Result) in.readObject();
-                sessionManager.reportResult(result);
+                sessionManager.unregisterActiveHandler(this);
+
+                if (result.taskID() != -1) {
+                    sessionManager.reportResult(result, this);
+                }
                 currentTask = null;
             }
         } catch (Exception e) {
+            sessionManager.unregisterActiveHandler(this);
             System.err.println("Slave " + slaveId + " disconnected: " + e.getMessage());
             if (currentTask != null) {
                 System.out.println("Returning task " + currentTask.taskID() + " to queue.");

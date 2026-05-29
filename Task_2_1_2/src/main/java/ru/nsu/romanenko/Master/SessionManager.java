@@ -5,15 +5,14 @@ import ru.nsu.romanenko.Protocol.Task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SessionManager {
     private final BlockingQueue<Task> taskQueue = new LinkedBlockingQueue<>();
     private volatile Session currentSession;
     private static final int PARTS_COUNT = 10;
+    private final CopyOnWriteArrayList<SlaveHandler> activeHandlers = new CopyOnWriteArrayList<>();
 
     private static class Session {
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
@@ -26,6 +25,9 @@ public class SessionManager {
 
     public synchronized CompletableFuture<Boolean> startSession(int[] data) {
         List<Task> tasks = splitToTasks(data, PARTS_COUNT);
+        if (tasks.isEmpty()) {
+            return CompletableFuture.completedFuture(false);
+        }
         Session session = new Session(tasks.size());
         taskQueue.clear();
         taskQueue.addAll(tasks);
@@ -42,17 +44,34 @@ public class SessionManager {
         taskQueue.add(task);
     }
 
-    public void reportResult(Result result) {
+    public void registerActiveHandler(SlaveHandler handler) {
+        activeHandlers.add(handler);
+    }
+
+    public void unregisterActiveHandler(SlaveHandler handler) {
+        activeHandlers.remove(handler);
+    }
+
+    public void reportResult(Result result, SlaveHandler reporter) {
         Session session = currentSession;
         if (session == null || session.future.isDone()) return;
 
         if (result.foundNotPrime()) {
             if (session.future.complete(true)) {
                 taskQueue.clear();
+                cancelOtherSlaves(reporter);
             }
         } else {
             if (session.remaining.decrementAndGet() == 0) {
                 session.future.complete(false);
+            }
+        }
+    }
+
+    private void cancelOtherSlaves(SlaveHandler except) {
+        for (SlaveHandler handler : activeHandlers) {
+            if (handler != except) {
+                handler.sendCancel();
             }
         }
     }

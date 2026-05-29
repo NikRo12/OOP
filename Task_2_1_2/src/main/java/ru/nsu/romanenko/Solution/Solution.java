@@ -8,7 +8,12 @@ public class Solution {
     private static final ConcurrentHashMap<Integer, Boolean> primeCache = new ConcurrentHashMap<>();
 
     public static boolean consistently(int[] arr) {
+        return consistently(arr, new AtomicBoolean(false));
+    }
+
+    public static boolean consistently(int[] arr, AtomicBoolean cancelled) {
         for (int num : arr) {
+            if (cancelled.get()) return false;
             boolean prime = primeCache.computeIfAbsent(num, Solution::isPrime);
             if (!prime) return true;
         }

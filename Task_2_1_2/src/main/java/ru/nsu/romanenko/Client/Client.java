@@ -14,13 +14,12 @@ public class Client {
             out.flush();
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            // Small range [2..101] so numbers repeat across tasks — demonstrates cache hits
             Random random = new Random();
             int[] data = new int[500];
             for (int i = 0; i < data.length; i++) {
                 data[i] = random.nextInt(100) + 2;
             }
-            // Guarantee at least one composite number
+
             data[random.nextInt(data.length)] = 4;
 
             System.out.println("Sending " + data.length + " random numbers to Master...");
