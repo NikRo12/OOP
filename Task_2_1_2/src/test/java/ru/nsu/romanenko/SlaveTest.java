@@ -83,6 +83,8 @@ class SlaveTest {
             executor.submit(() -> new Slave("localhost", port, 103).startSlave());
 
             try (Socket first = fakeMaster.accept()) {
+                ObjectOutputStream out = new ObjectOutputStream(first.getOutputStream());
+                out.flush();
                 ObjectInputStream in = new ObjectInputStream(first.getInputStream());
                 in.readObject();
             }
