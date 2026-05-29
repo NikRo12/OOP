@@ -8,7 +8,8 @@ import ru.nsu.romanenko.Solution.Solution;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -56,16 +57,19 @@ public class Slave {
         AtomicReference<AtomicBoolean> currentCancelled = new AtomicReference<>(new AtomicBoolean(false));
         Thread reader = startReader(in, taskQueue, currentCancelled);
 
-        ExecutorService computeExecutor = Executors.newSingleThreadExecutor();
         try {
             while (!Thread.currentThread().isInterrupted()) {
-                processTask(taskQueue.take(), currentCancelled, out, computeExecutor);
+                Task task = taskQueue.take();
+                AtomicBoolean cancelled = new AtomicBoolean(false);
+                currentCancelled.set(cancelled);
+
+                boolean found = Solution.consistently(task.numbers(), cancelled);
+
+                out.writeObject(cancelled.get() ? new Result(false, -1) : new Result(found, task.taskID()));
+                out.reset();
             }
-        } catch (ExecutionException e) {
-            throw new IOException("Computation failed", e);
         } finally {
             reader.interrupt();
-            computeExecutor.shutdownNow();
         }
     }
 
@@ -88,18 +92,5 @@ public class Slave {
         reader.setDaemon(true);
         reader.start();
         return reader;
-    }
-
-    private void processTask(Task task, AtomicReference<AtomicBoolean> currentCancelled,
-                             ObjectOutputStream out, ExecutorService computeExecutor)
-            throws ExecutionException, InterruptedException, IOException {
-        AtomicBoolean cancelled = new AtomicBoolean(false);
-        currentCancelled.set(cancelled);
-
-        boolean found = computeExecutor.submit(
-                () -> Solution.consistently(task.numbers(), cancelled)).get();
-
-        out.writeObject(cancelled.get() ? new Result(false, -1) : new Result(found, task.taskID()));
-        out.reset();
     }
 }
