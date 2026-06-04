@@ -13,26 +13,40 @@ public class SessionManager {
     private volatile Session currentSession;
     private static final int PARTS_COUNT = 10;
     private final CopyOnWriteArrayList<SlaveHandler> activeHandlers = new CopyOnWriteArrayList<>();
+    private final AtomicInteger sessionCounter = new AtomicInteger(0);
 
     private static class Session {
+        final int id;
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
         final AtomicInteger remaining;
 
-        Session(int taskCount) {
+        Session(int id, int taskCount) {
+            this.id = id;
             this.remaining = new AtomicInteger(taskCount);
         }
     }
 
     public synchronized CompletableFuture<Boolean> startSession(int[] data) {
-        List<Task> tasks = splitToTasks(data, PARTS_COUNT);
+        Session old = currentSession;
+        if (old != null && !old.future.isDone()) {
+            old.future.completeExceptionally(
+                    new IllegalStateException("Session superseded by a new client request"));
+        }
+
+        for (SlaveHandler handler : activeHandlers) {
+            handler.sendCancel();
+        }
+
+        int sessionId = sessionCounter.incrementAndGet();
+        List<Task> tasks = splitToTasks(data, sessionId, PARTS_COUNT);
         if (tasks.isEmpty()) {
             return CompletableFuture.completedFuture(false);
         }
-        Session session = new Session(tasks.size());
+        Session session = new Session(sessionId, tasks.size());
         taskQueue.clear();
         taskQueue.addAll(tasks);
         currentSession = session;
-        System.out.println("Session started: " + tasks.size() + " tasks.");
+        System.out.println("Session " + sessionId + " started: " + tasks.size() + " tasks.");
         return session.future;
     }
 
@@ -41,7 +55,13 @@ public class SessionManager {
     }
 
     public void returnTask(Task task) {
-        taskQueue.add(task);
+        Session session = currentSession;
+        if (session != null && task.sessionId() == session.id) {
+            taskQueue.add(task);
+        } else {
+            System.out.println("Discarding stale task " + task.taskID()
+                    + " from session " + task.sessionId());
+        }
     }
 
     public void registerActiveHandler(SlaveHandler handler) {
@@ -52,9 +72,9 @@ public class SessionManager {
         activeHandlers.remove(handler);
     }
 
-    public void reportResult(Result result, SlaveHandler reporter) {
+    public void reportResult(Result result, SlaveHandler reporter, int taskSessionId) {
         Session session = currentSession;
-        if (session == null || session.future.isDone()) return;
+        if (session == null || session.future.isDone() || session.id != taskSessionId) return;
 
         if (result.foundNotPrime()) {
             if (session.future.complete(true)) {
@@ -76,7 +96,7 @@ public class SessionManager {
         }
     }
 
-    private List<Task> splitToTasks(int[] array, int count) {
+    private List<Task> splitToTasks(int[] array, int sessionId, int count) {
         List<Task> tasks = new ArrayList<>();
         int len = array.length;
         if (len == 0) return tasks;
@@ -87,7 +107,7 @@ public class SessionManager {
             int end = Math.min(len, start + chunkSize);
             int[] chunk = new int[end - start];
             System.arraycopy(array, start, chunk, 0, chunk.length);
-            tasks.add(new Task(chunk, id++));
+            tasks.add(new Task(chunk, id++, sessionId));
             start = end;
         }
         return tasks;

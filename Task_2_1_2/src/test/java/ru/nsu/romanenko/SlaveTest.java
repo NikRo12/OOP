@@ -35,7 +35,7 @@ class SlaveTest {
                 assertTrue(handshake instanceof SlaveHandShake);
                 assertEquals(101, ((SlaveHandShake) handshake).slaveID());
 
-                out.writeObject(new Task(new int[]{3, 4, 5}, 1));
+                out.writeObject(new Task(new int[]{3, 4, 5}, 1, 1));
 
                 Result result = (Result) in.readObject();
                 assertEquals(1, result.taskID());
@@ -62,7 +62,7 @@ class SlaveTest {
 
                 in.readObject();
 
-                out.writeObject(new Task(new int[]{3, 5, 7, 11, 13}, 2));
+                out.writeObject(new Task(new int[]{3, 5, 7, 11, 13}, 2, 1));
 
                 Result result = (Result) in.readObject();
                 assertEquals(2, result.taskID());
@@ -98,7 +98,7 @@ class SlaveTest {
                 assertTrue(handshake instanceof SlaveHandShake);
                 assertEquals(103, ((SlaveHandShake) handshake).slaveID());
 
-                out.writeObject(new Task(new int[]{7, 11}, 3));
+                out.writeObject(new Task(new int[]{7, 11}, 3, 1));
                 Result result = (Result) in.readObject();
                 assertFalse(result.foundNotPrime());
             }

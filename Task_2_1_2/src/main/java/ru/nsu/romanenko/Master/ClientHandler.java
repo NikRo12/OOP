@@ -29,7 +29,9 @@ public class ClientHandler implements Runnable {
             boolean result = future.get();
             out.writeObject(new Result(result, -1));
             System.out.println("Job finished. Result sent: " + result);
-        } catch (InterruptedException | ExecutionException | IOException e) {
+        } catch (ExecutionException e) {
+            System.err.println("Session superseded, closing client: " + e.getCause().getMessage());
+        } catch (InterruptedException | IOException e) {
             System.err.println("Client handler error: " + e.getMessage());
         } finally {
             try { socket.close(); } catch (IOException ignored) {}

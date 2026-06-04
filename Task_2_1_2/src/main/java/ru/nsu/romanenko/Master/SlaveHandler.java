@@ -36,16 +36,18 @@ public class SlaveHandler implements Runnable {
         try {
             while (!socket.isClosed()) {
                 currentTask = sessionManager.takeTask();
+
+                sessionManager.registerActiveHandler(this);
                 synchronized (this) {
                     out.writeObject(currentTask);
                     out.reset();
                 }
-                sessionManager.registerActiveHandler(this);
+
                 Result result = (Result) in.readObject();
                 sessionManager.unregisterActiveHandler(this);
 
                 if (result.taskID() != -1) {
-                    sessionManager.reportResult(result, this);
+                    sessionManager.reportResult(result, this, currentTask.sessionId());
                 }
                 currentTask = null;
             }
